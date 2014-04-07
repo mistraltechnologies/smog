@@ -27,6 +27,12 @@ public abstract class CompositePropertyMatcher<T> extends PathAwareDiagnosingMat
         this.matchedObjectDescription = matchedObjectDescription;
     }
 
+    /**
+     * Register one or more PropertyMatcher instances. Registered property matchers are used
+     * to generate the describeTo text.
+     *
+     * @param matchers the PropertyMatcher instances
+     */
     protected void addPropertyMatchers(PropertyMatcher... matchers) {
         Collections.addAll(propertyMatcherList, matchers);
     }
