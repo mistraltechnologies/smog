@@ -13,13 +13,6 @@ public final class MatchAccumulator {
     private boolean matches = true;
     private Description mismatchDescription;
 
-    /**
-     * Constructor.
-     *
-     * @param mismatchDescription the description object used for recording the mismatch description
-     * @param currentlyMatching a flag to indicate if, in the case that this instance is participating as
-     * a sub-scope of a larger matching process, the larger matching process is already failing.
-     */
     private MatchAccumulator(Description mismatchDescription, boolean currentlyMatching) {
         this.mismatchDescription = mismatchDescription;
         this.matches = currentlyMatching;
@@ -29,10 +22,24 @@ public final class MatchAccumulator {
         this(mismatchDescription, true);
     }
 
+    /**
+     * Factory method for use by non-inheriting matchers.
+     *
+     * @param mismatchDescription the description object used for recording the mismatch description
+     * @return a new MatchAccumulator instance
+     */
     public static MatchAccumulator matchAccumulator(Description mismatchDescription) {
         return new MatchAccumulator(mismatchDescription);
     }
 
+    /**
+     * Factory method for use by non-inheriting matchers.
+     *
+     * @param mismatchDescription the description object used for recording the mismatch description
+     * @param currentlyMatching a flag to indicate if, in the case that this instance is participating as
+     * a sub-scope of a larger matching process, the larger matching process is already failing.
+     * @return a new MatchAccumulator instance
+     */
     public static MatchAccumulator matchAccumulator(Description mismatchDescription, boolean currentlyMatching) {
         return new MatchAccumulator(mismatchDescription, currentlyMatching);
     }
