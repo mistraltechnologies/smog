@@ -6,7 +6,7 @@ import org.hamcrest.StringDescription;
  * A type of Description that substitutes parts of the description matching a regular expression
  * with some other text.
  */
-public class TextSubstitutingDescription extends StringDescription
+class TextSubstitutingDescription extends StringDescription
 {
     final String regex;
     final String replacement;

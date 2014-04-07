@@ -21,7 +21,7 @@ import org.slf4j.LoggerFactory;
  *
  * @param <T> the type of object we expect to be matching against
  */
-public abstract class PathAwareDiagnosingMatcher<T> extends BaseMatcher<T> implements PathAware, PathProvider {
+abstract class PathAwareDiagnosingMatcher<T> extends BaseMatcher<T> implements PathAware, PathProvider {
     private static final Logger LOGGER = LoggerFactory.getLogger(PathAwareDiagnosingMatcher.class);
     private static final ReflectiveTypeFinder TYPE_FINDER = new ReflectiveTypeFinder("matchesSafely", 2, 0);
 
