@@ -23,7 +23,7 @@ public abstract class CompositePropertyMatcher<T> extends PathAwareDiagnosingMat
      * if this class will be used to match a Widget object, the description should be "a Widget". This is
      * required to generate a meaningful and readable describeTo message.
      */
-    public CompositePropertyMatcher(String matchedObjectDescription) {
+    protected CompositePropertyMatcher(String matchedObjectDescription) {
         this.matchedObjectDescription = matchedObjectDescription;
     }
 
