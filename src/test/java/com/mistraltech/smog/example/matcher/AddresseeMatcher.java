@@ -1,13 +1,13 @@
 package com.mistraltech.smog.example.matcher;
 
-import com.mistraltech.smog.CompositePropertyMatcher;
-import com.mistraltech.smog.PropertyMatcher;
+import com.mistraltech.smog.core.CompositePropertyMatcher;
+import com.mistraltech.smog.core.PropertyMatcher;
 import com.mistraltech.smog.example.model.Address;
 import com.mistraltech.smog.example.model.Addressee;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 
-import static com.mistraltech.smog.MatchAccumulator.matchAccumulator;
+import static com.mistraltech.smog.core.MatchAccumulator.matchAccumulator;
 import static org.hamcrest.CoreMatchers.equalTo;
 
 public abstract class AddresseeMatcher<R, T extends Addressee> extends CompositePropertyMatcher<T> {

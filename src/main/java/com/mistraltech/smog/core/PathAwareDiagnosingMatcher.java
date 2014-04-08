@@ -1,4 +1,4 @@
-package com.mistraltech.smog;
+package com.mistraltech.smog.core;
 
 import org.hamcrest.BaseMatcher;
 import org.hamcrest.Description;
