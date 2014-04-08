@@ -1,56 +1,46 @@
 package com.mistraltech.smog.example.model;
 
-public class Phone
-{
+public class Phone {
     String code;
     String number;
 
-    public Phone(String code, String number)
-    {
-        assert(number != null);
+    public Phone(String code, String number) {
+        assert (number != null);
         this.code = code;
         this.number = number;
     }
 
-    public String getCode()
-    {
+    public String getCode() {
         return code;
     }
 
-    public String getNumber()
-    {
+    public String getNumber() {
         return number;
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return "Phone{" +
-            "code='" + code + '\'' +
-            ", number='" + number + '\'' +
-            '}';
+                "code='" + code + '\'' +
+                ", number='" + number + '\'' +
+                '}';
     }
 
     @Override
-    public boolean equals(Object o)
-    {
-        if (this == o)
-        {
+    public boolean equals(Object o) {
+        if (this == o) {
             return true;
         }
-        if (o == null || getClass() != o.getClass())
-        {
+        if (o == null || getClass() != o.getClass()) {
             return false;
         }
 
         Phone phone = (Phone) o;
 
-        if (code != null ? !code.equals(phone.code) : phone.code != null)
-        {
+        if (code != null ? !code.equals(phone.code) : phone.code != null) {
             return false;
         }
-        if (!number.equals(phone.number))
-        {
+        if (!number.equals(phone.number)) {
             return false;
         }
 
@@ -58,8 +48,7 @@ public class Phone
     }
 
     @Override
-    public int hashCode()
-    {
+    public int hashCode() {
         int result = code != null ? code.hashCode() : 0;
         result = 31 * result + number.hashCode();
         return result;

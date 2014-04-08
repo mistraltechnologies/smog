@@ -1,7 +1,7 @@
 package com.mistraltech.smog.example.matcher;
 
-import com.mistraltech.smog.PropertyMatcher;
 import com.mistraltech.smog.CompositePropertyMatcher;
+import com.mistraltech.smog.PropertyMatcher;
 import com.mistraltech.smog.example.model.Address;
 import com.mistraltech.smog.example.model.PostCode;
 import org.hamcrest.Description;
