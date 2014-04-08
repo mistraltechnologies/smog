@@ -8,7 +8,7 @@ import org.hamcrest.Matcher;
  * coordinates the building of a cumulative mismatch description for those that fail.
  */
 public final class MatchAccumulator {
-    public static final String    MISMATCH_JOINING_STRING = "\n     and: ";
+    public static final String MISMATCH_JOINING_STRING = "\n     and: ";
 
     private boolean matches = true;
     private Description mismatchDescription;
