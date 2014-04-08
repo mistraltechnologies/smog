@@ -8,7 +8,7 @@ import org.hamcrest.Matcher;
  * coordinates the building of a cumulative mismatch description for those that fail.
  */
 public final class MatchAccumulator {
-    public static final String MISMATCH_JOINING_STRING = "\n     and: ";
+    public static final String MISMATCH_CONJUNCTIVE_ADVERB = "\n     and: ";
 
     private boolean matches = true;
     private Description mismatchDescription;
@@ -64,7 +64,7 @@ public final class MatchAccumulator {
         if (!localMatches) {
             if (!matches) // i.e. this is not the first failure
             {
-                mismatchDescription.appendText(MISMATCH_JOINING_STRING);
+                mismatchDescription.appendText(MISMATCH_CONJUNCTIVE_ADVERB);
             }
 
             matcher.describeMismatch(item, mismatchDescription);
