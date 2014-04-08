@@ -1,6 +1,6 @@
 package com.mistraltech.smog.example.matcher;
 
-import com.mistraltech.smog.PropertyMatcher;
+import com.mistraltech.smog.core.PropertyMatcher;
 import com.mistraltech.smog.example.model.Person;
 import com.mistraltech.smog.example.model.Phone;
 import org.hamcrest.Description;
@@ -8,7 +8,7 @@ import org.hamcrest.Matcher;
 
 import java.util.List;
 
-import static com.mistraltech.smog.MatchAccumulator.matchAccumulator;
+import static com.mistraltech.smog.core.MatchAccumulator.matchAccumulator;
 import static org.hamcrest.CoreMatchers.equalTo;
 
 public class PersonMatcher extends AddresseeMatcher<PersonMatcher, Person> {

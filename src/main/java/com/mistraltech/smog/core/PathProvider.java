@@ -1,4 +1,4 @@
-package com.mistraltech.smog;
+package com.mistraltech.smog.core;
 
 /**
  * Implemented by classes that are capable of providing a path.
