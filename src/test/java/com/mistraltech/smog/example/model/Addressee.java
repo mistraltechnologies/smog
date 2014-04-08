@@ -1,32 +1,27 @@
 package com.mistraltech.smog.example.model;
 
-public class Addressee
-{
+public class Addressee {
     private String name;
     private Address address;
 
-    public Addressee(String name, Address address)
-    {
+    public Addressee(String name, Address address) {
         this.name = name;
         this.address = address;
     }
 
-    public String getName()
-    {
+    public String getName() {
         return name;
     }
 
-    public Address getAddress()
-    {
+    public Address getAddress() {
         return address;
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return "Addressee{" +
-            "name='" + name + '\'' +
-            ", address=" + address +
-            '}';
+                "name='" + name + '\'' +
+                ", address=" + address +
+                '}';
     }
 }

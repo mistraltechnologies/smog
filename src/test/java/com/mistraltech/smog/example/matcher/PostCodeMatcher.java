@@ -1,7 +1,7 @@
 package com.mistraltech.smog.example.matcher;
 
-import com.mistraltech.smog.PropertyMatcher;
 import com.mistraltech.smog.CompositePropertyMatcher;
+import com.mistraltech.smog.PropertyMatcher;
 import com.mistraltech.smog.example.model.PostCode;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
@@ -9,40 +9,33 @@ import org.hamcrest.Matcher;
 import static com.mistraltech.smog.MatchAccumulator.matchAccumulator;
 import static org.hamcrest.CoreMatchers.equalTo;
 
-public class PostCodeMatcher extends CompositePropertyMatcher<PostCode>
-{
+public class PostCodeMatcher extends CompositePropertyMatcher<PostCode> {
     private PropertyMatcher<String> innerMatcher = new PropertyMatcher<String>("inner", this);
     private PropertyMatcher<String> outerMatcher = new PropertyMatcher<String>("outer", this);
 
-    private PostCodeMatcher()
-    {
+    private PostCodeMatcher() {
         super("a Postcode");
         addPropertyMatchers(outerMatcher, innerMatcher);
     }
 
-    public static PostCodeMatcher aPostCodeThat()
-    {
+    public static PostCodeMatcher aPostCodeThat() {
         return new PostCodeMatcher();
     }
 
-    public PostCodeMatcher hasInner(String inner)
-    {
+    public PostCodeMatcher hasInner(String inner) {
         return this.hasInner(equalTo(inner));
     }
 
-    public PostCodeMatcher hasInner(Matcher<? super String> innerMatcher)
-    {
+    public PostCodeMatcher hasInner(Matcher<? super String> innerMatcher) {
         this.innerMatcher.setMatcher(innerMatcher);
         return this;
     }
 
-    public PostCodeMatcher hasOuter(String outer)
-    {
+    public PostCodeMatcher hasOuter(String outer) {
         return this.hasOuter(equalTo(outer));
     }
 
-    public PostCodeMatcher hasOuter(Matcher<? super String> outerMatcher)
-    {
+    public PostCodeMatcher hasOuter(Matcher<? super String> outerMatcher) {
         this.outerMatcher.setMatcher(outerMatcher);
         return this;
     }
