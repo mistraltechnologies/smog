@@ -81,12 +81,15 @@ public class PropertyMatcher<T> extends BaseMatcher<T> implements PathProvider {
     }
 
     public void describeTo(Description description) {
-        description
-                .appendText("has ")
-                .appendText(propertyName)
-                .appendText(" (")
-                .appendDescriptionOf(matcher)
-                .appendText(")");
+        description.appendText("has ").appendText(propertyName).appendText(" (");
+
+        if (matcher != null) {
+            description.appendDescriptionOf(matcher);
+        } else {
+            description.appendText("<any>");
+        }
+
+        description.appendText(")");
     }
 
     public void describeMismatch(Object item, Description mismatchDescription) {
