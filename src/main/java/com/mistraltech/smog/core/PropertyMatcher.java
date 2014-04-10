@@ -15,7 +15,7 @@ import org.hamcrest.Matcher;
  *
  * @param <T>
  */
-public class PropertyMatcher<T> extends BaseMatcher<T> implements PathAware, PathProvider {
+public class PropertyMatcher<T> extends BaseMatcher<T> implements PathProvider {
     /**
      * A contained matcher for matching the property that this PropertyMatcher represents in
      * the target object.
@@ -48,7 +48,7 @@ public class PropertyMatcher<T> extends BaseMatcher<T> implements PathAware, Pat
      */
     public PropertyMatcher(String propertyName, PathProvider pathProvider) {
         this.propertyName = propertyName;
-        this.setPathProvider(pathProvider);
+        this.pathProvider = pathProvider;
     }
 
     /**
@@ -70,10 +70,6 @@ public class PropertyMatcher<T> extends BaseMatcher<T> implements PathAware, Pat
     public String getPath() {
         String pathContext = pathProvider.getPath();
         return pathContext + (pathContext.length() > 0 ? "." : "") + propertyName;
-    }
-
-    public void setPathProvider(PathProvider pathProvider) {
-        this.pathProvider = pathProvider;
     }
 
     public boolean matches(Object item) {
