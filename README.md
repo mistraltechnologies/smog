@@ -10,9 +10,9 @@ You are writing JUnit-style tests for operations that update an object graph in 
 
 Solution:
 
-You write a matcher for each class in the object graph based on the smog library, then compose instances of those matcher classes into a matcher object tree for each test. Each matcher tree matches just the properties you care about for that test.
+Write a matcher for each class in the object graph based on the smog library, then compose instances of those matcher classes into a matcher object tree for each test. Each matcher tree matches just the properties you care about for that test.
 
-You then add a single Hamcrest assertion to each of your tests asserting that the actual resulting object graph matches your expected object graph.
+Add a single Hamcrest assertion to each of your tests asserting that the actual resulting object graph matches your expected object graph.
 
 If any of the properties do not match, the assertion will fail with a message that allows you to easily identify which property or properties within the object graph didn't match and what their expected and actual values were.
 
@@ -27,7 +27,7 @@ public void canConstructPerson()
   assertThat(bob, is(aPersonThat().hasForename("bob").hasAge(23));
 }
 
-// ok, that was only a single object. How about this...
+// That was only a single object. How about this...
 
 @Test
 public void canAddTelephoneNumber()
@@ -45,13 +45,10 @@ java.lang.AssertionError
 Expected: is a Person that (has telephone (a Telephone that (has area code ("01234") and number ("567567"))))
      but: telephone.areaCode was "43210" (expected "01234")
 ```
-## Issues/Suggestions
-
-Smog currently depends on slf4j. It would be good to factor this out.
 
 ## Why do I need smog?
 
-Of course, you can easily write matcher classes that match the properties of an object without using smog. But what happens when the match fails? You may get a message containing a java object reference for the object that didn't match. If you're lucky (by which I mean you and your colleagues follow good coding practices) you instead get a toString() output of all the properties of an object. You are then left to work out which property caused the failure. This might not be too bad for an object with a couple of properties, but as the number of properties grows it can become a real headache.
+You can easily write matcher classes that match the properties of an object without using Smog. But what happens when the match fails? You may get a message containing a java object reference for the object that didn't match. If you're lucky (by which I mean you and your colleagues follow good coding practices) you instead get a toString() output of all the properties of an object. You are then left to work out which property caused the failure. This might not be too bad for an object with a couple of properties, but as the number of properties grows it can become a real headache.
 
 Smog tracks the path to each property so that, when a match fails, it can give you a message that describes exactly which properties didn't match and why. If multiple properties didn't match, it lists all of them. And it works within the Hamcrest framework, so if the original assertion reads well, the failure message should read well too.
 
@@ -67,7 +64,7 @@ You could write a separate assertion for each property you care about. But then,
 
 ## Is this style of testing a good idea?
 
-Not necessarily - opinions vary. Certainly it is possible to write complex test expectations that are hard to read and maintain. And it may lead to tests that do too much. Basically, it is up to you to use it wisely.
+Not necessarily! Certainly it is possible to write complex test expectations that are hard to read and maintain. And it may lead to tests that do too much; what Gerard Meszaros calls an Eager Test (xUnit Test Patterns). Basically, it is up to you to use it wisely :)
 
 ## I'm using matchers in mocks - how does smog help?
 
