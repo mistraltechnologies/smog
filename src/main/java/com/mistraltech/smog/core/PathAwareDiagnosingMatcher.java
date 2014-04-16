@@ -37,7 +37,7 @@ abstract class PathAwareDiagnosingMatcher<T> extends BaseMatcher<T> implements P
     public final boolean matches(Object item) {
         boolean matches = item != null
                 && expectedType.isInstance(item)
-                && matchesSafely((T) item, new Description.NullDescription());
+                && matchesSafely((T) item, Description.NONE);
 
         if (!matches && pathProvider == null) {
             logMismatch(item);
