@@ -24,6 +24,10 @@ public abstract class CompositePropertyMatcher<T> extends PathAwareDiagnosingMat
      * required to generate a meaningful and readable describeTo message.
      */
     protected CompositePropertyMatcher(String matchedObjectDescription) {
+        if (matchedObjectDescription == null) {
+            throw new IllegalArgumentException("matchedObjectDescription is required but was null");
+        }
+
         this.matchedObjectDescription = matchedObjectDescription;
     }
 

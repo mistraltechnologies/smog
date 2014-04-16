@@ -16,6 +16,7 @@ import org.hamcrest.internal.ReflectiveTypeFinder;
  */
 abstract class PathAwareDiagnosingMatcher<T> extends BaseMatcher<T> implements PathAware, PathProvider {
     private static final ReflectiveTypeFinder TYPE_FINDER = new ReflectiveTypeFinder("matchesSafely", 2, 0);
+    // TODO make logging conjunctive adverb a parameter
     private static final String LOGGING_CONJUNCTIVE_ADVERB = " and ";
 
     private final Class<?> expectedType;
@@ -46,6 +47,7 @@ abstract class PathAwareDiagnosingMatcher<T> extends BaseMatcher<T> implements P
     }
 
     protected void logMismatch(Object item) {
+        // TODO remove dependency on MatchAccumulator, make mismatch conjunctive adverb a parameter
         Description mismatchDescription = new TextSubstitutingDescription(
                 MatchAccumulator.MISMATCH_CONJUNCTIVE_ADVERB, LOGGING_CONJUNCTIVE_ADVERB);
         describeMismatch(item, mismatchDescription);
