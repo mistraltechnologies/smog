@@ -1,6 +1,7 @@
 package com.mistraltech.smog.example.matcher;
 
 import com.mistraltech.smog.core.CompositePropertyMatcher;
+import com.mistraltech.smog.core.MatchAccumulator;
 import com.mistraltech.smog.core.PropertyMatcher;
 import com.mistraltech.smog.example.model.Address;
 import com.mistraltech.smog.example.model.PostCode;
@@ -44,10 +45,9 @@ public class AddressMatcher extends CompositePropertyMatcher<Address> {
     }
 
     @Override
-    protected boolean matchesSafely(Address item, Description mismatchDescription) {
-        return matchAccumulator(mismatchDescription)
+    protected void matchesSafely(Address item, MatchAccumulator matchAccumulator) {
+        matchAccumulator
                 .matches(houseNumberMatcher, item.getHouseNumber())
-                .matches(postCodeMatcher, item.getPostCode())
-                .result();
+                .matches(postCodeMatcher, item.getPostCode());
     }
 }

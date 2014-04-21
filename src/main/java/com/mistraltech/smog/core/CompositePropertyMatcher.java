@@ -60,6 +60,16 @@ public abstract class CompositePropertyMatcher<T> extends PathAwareDiagnosingMat
         description.appendText(")");
     }
 
-    // TODO Make PropertyMatcher aware of the property accessor
-    // and move implementation of MatchesSafely into here.
+    @Override
+    protected final boolean matchesSafely(T item, Description mismatchDescription) {
+        MatchAccumulator matchAccumulator = createMatchAccumulator(mismatchDescription);
+        matchesSafely(item, matchAccumulator);
+        return matchAccumulator.result();
+    }
+
+    private MatchAccumulator createMatchAccumulator(Description mismatchDescription) {
+        return MatchAccumulator.matchAccumulator(mismatchDescription);
+    }
+
+    protected abstract void matchesSafely(T item, MatchAccumulator matchAccumulator);
 }

@@ -1,5 +1,6 @@
 package com.mistraltech.smog.example.matcher;
 
+import com.mistraltech.smog.core.MatchAccumulator;
 import com.mistraltech.smog.core.PropertyMatcher;
 import com.mistraltech.smog.example.model.Person;
 import com.mistraltech.smog.example.model.Phone;
@@ -39,10 +40,10 @@ public class PersonMatcher extends AddresseeMatcher<PersonMatcher, Person> {
         return this;
     }
 
-    protected boolean matchesSafely(Person item, Description mismatchDescription) {
-        return matchAccumulator(mismatchDescription, super.matchesSafely(item, mismatchDescription))
+    protected void matchesSafely(Person item, MatchAccumulator matchAccumulator) {
+        super.matchesSafely(item, matchAccumulator);
+        matchAccumulator
                 .matches(ageMatcher, item.getAge())
-                .matches(phoneListMatcher, item.getPhoneList())
-                .result();
+                .matches(phoneListMatcher, item.getPhoneList());
     }
 }

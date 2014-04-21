@@ -1,14 +1,13 @@
 package com.mistraltech.smog.core;
 
-import org.hamcrest.CoreMatchers;
-import org.hamcrest.Description;
-import org.hamcrest.StringDescription;
+import org.hamcrest.*;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.hamcrest.Matchers.startsWith;
 import static org.junit.Assert.*;
 
 public class CompositePropertyMatcherTest {
@@ -55,6 +54,7 @@ public class CompositePropertyMatcherTest {
         cpm.setMatchesSafelyResult(true);
 
         assertTrue(cpm.matches(new TargetItem() {
+            // Empty subclass
         }));
     }
 
@@ -69,7 +69,7 @@ public class CompositePropertyMatcherTest {
 
         String expectedLogMessage = String.format("%s didn't match - %s",
                 cpm.getClass().getName(),
-                TargetItemCompositePropertyMatcher.MISMATCH_DESCRIPTION);
+                FailingTargetItemMatcher.MISMATCH_DESCRIPTION);
 
         assertEquals("log message content", expectedLogMessage, cpm.getLogMessages().get(0));
     }
@@ -83,10 +83,7 @@ public class CompositePropertyMatcherTest {
 
         assertEquals("log message count", 1, cpm.getLogMessages().size());
 
-        String expectedLogMessage = String.format("message: %s",
-                TargetItemCompositePropertyMatcher.MISMATCH_DESCRIPTION);
-
-        assertEquals("log message content", expectedLogMessage, cpm.getLogMessages().get(0));
+        assertThat("log message content", cpm.getLogMessages().get(0), startsWith("message: "));
     }
 
     @Test
@@ -199,15 +196,13 @@ public class CompositePropertyMatcherTest {
 
         cpm.describeMismatch(new TargetItem(), description);
 
-        assertEquals(TargetItemCompositePropertyMatcher.MISMATCH_DESCRIPTION, description.toString());
+        assertEquals(FailingTargetItemMatcher.MISMATCH_DESCRIPTION, description.toString());
     }
 
     private static class TargetItem {
     }
 
     private static class TargetItemCompositePropertyMatcher extends CompositePropertyMatcher<TargetItem> {
-        public static final String MISMATCH_DESCRIPTION = "composite property matcher mismatch description";
-
         private List<String> logMessages = new ArrayList<String>();
         private Boolean matchesSafelyResult = null;
         private String overrideLoggingDescription;
@@ -217,16 +212,14 @@ public class CompositePropertyMatcherTest {
         }
 
         @Override
-        protected boolean matchesSafely(TargetItem item, Description mismatchDescription) {
+        protected void matchesSafely(TargetItem item, MatchAccumulator matchAccumulator) {
             if (matchesSafelyResult == null) {
                 throw new IllegalStateException("No result specified for matchesSafely");
             }
 
             if (!matchesSafelyResult) {
-                mismatchDescription.appendText(MISMATCH_DESCRIPTION);
+                matchAccumulator.matches(new FailingTargetItemMatcher(), item);
             }
-
-            return matchesSafelyResult;
         }
 
         public void setMatchesSafelyResult(boolean matchesSafelyResult) {
@@ -253,6 +246,21 @@ public class CompositePropertyMatcherTest {
 
         public void setOverrideLoggingDescription(String loggingDescription) {
             this.overrideLoggingDescription = loggingDescription;
+        }
+    }
+
+    private static class FailingTargetItemMatcher extends DiagnosingMatcher<TargetItem> {
+        public static final String MISMATCH_DESCRIPTION = "composite property matcher mismatch description";
+
+        @Override
+        protected boolean matches(Object item, Description mismatchDescription) {
+            mismatchDescription.appendText(MISMATCH_DESCRIPTION);
+            return false;
+        }
+
+        @Override
+        public void describeTo(Description description) {
+            description.appendText("to not match");
         }
     }
 
