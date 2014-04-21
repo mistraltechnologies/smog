@@ -75,6 +75,21 @@ public class CompositePropertyMatcherTest {
     }
 
     @Test
+    public void canOverrideDefaultLoggingDescriptionFactoryMethod() {
+        TargetItemCompositePropertyMatcher cpm = new TargetItemCompositePropertyMatcher("foo");
+        cpm.setMatchesSafelyResult(false);
+        cpm.setOverrideLoggingDescription("message: ");
+        cpm.matches(new TargetItem());
+
+        assertEquals("log message count", 1, cpm.getLogMessages().size());
+
+        String expectedLogMessage = String.format("message: %s",
+                TargetItemCompositePropertyMatcher.MISMATCH_DESCRIPTION);
+
+        assertEquals("log message content", expectedLogMessage, cpm.getLogMessages().get(0));
+    }
+
+    @Test
     public void mismatchesAreNotLoggedWhenSubordinateOfPathProvider() {
         TargetItemCompositePropertyMatcher cpm = new TargetItemCompositePropertyMatcher("foo");
         cpm.setMatchesSafelyResult(false);
@@ -195,6 +210,7 @@ public class CompositePropertyMatcherTest {
 
         private List<String> logMessages = new ArrayList<String>();
         private Boolean matchesSafelyResult = null;
+        private String overrideLoggingDescription;
 
         private TargetItemCompositePropertyMatcher(String matchedObjectDescription) {
             super(matchedObjectDescription);
@@ -218,12 +234,25 @@ public class CompositePropertyMatcherTest {
         }
 
         @Override
+        protected Description createLogMismatchDescription() {
+            if (overrideLoggingDescription == null) {
+                return super.createLogMismatchDescription();
+            } else {
+                return new StringDescription().appendText(overrideLoggingDescription);
+            }
+        }
+
+        @Override
         protected void writeLog(String text) {
             logMessages.add(text);
         }
 
         public List<String> getLogMessages() {
             return logMessages;
+        }
+
+        public void setOverrideLoggingDescription(String loggingDescription) {
+            this.overrideLoggingDescription = loggingDescription;
         }
     }
 

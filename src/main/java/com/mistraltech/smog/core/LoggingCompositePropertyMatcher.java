@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
  */
 public abstract class LoggingCompositePropertyMatcher<T> extends CompositePropertyMatcher<T> {
     private static final Logger LOGGER = LoggerFactory.getLogger(CompositePropertyMatcher.class);
+    private static final String LOGGING_CONJUNCTIVE_ADVERB = " and ";
 
     protected LoggingCompositePropertyMatcher(String matchedObjectDescription) {
         super(matchedObjectDescription);
