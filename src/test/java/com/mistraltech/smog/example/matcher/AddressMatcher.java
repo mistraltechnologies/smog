@@ -12,8 +12,8 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 
 public class AddressMatcher extends CompositePropertyMatcher<Address> {
-    private PropertyMatcher<Integer> houseNumberMatcher = new PropertyMatcher<Integer>("number", this);
-    private PropertyMatcher<PostCode> postCodeMatcher = new PropertyMatcher<PostCode>("postcode", this);
+    private PropertyMatcher<Integer> houseNumberMatcher = new PropertyMatcher<Integer>("houseNumber", this);
+    private PropertyMatcher<PostCode> postCodeMatcher = new PropertyMatcher<PostCode>("postCode", this);
 
     private AddressMatcher() {
         super("an Address");

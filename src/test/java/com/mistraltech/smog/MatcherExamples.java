@@ -53,10 +53,10 @@ public class MatcherExamples {
         Person input = new Person("bob", 36, new Address(21, new PostCode("out", "in")));
 
         assertDescription(matcher, "is a Person that (has name ('bob') and has address " +
-                "(an Address that (has number (<21>) and has postcode " +
+                "(an Address that (has houseNumber (<21>) and has postCode " +
                 "(a Postcode that (has outer (a string containing 'y'))))))");
 
-        assertMismatch(matcher, input, "address.postcode.outer was 'out' (expected a string containing 'y')");
+        assertMismatch(matcher, input, "address.postCode.outer was 'out' (expected a string containing 'y')");
     }
 
     @Test
@@ -73,9 +73,9 @@ public class MatcherExamples {
         Person input = new Person("bob", 36, new Address(22, new PostCode("out", "in")));
 
         String descriptionOfMismatch = "name was 'bob' (expected 'obo')\n" +
-                "     and: address.number was <22> (expected <21>)\n" +
-                "     and: address.postcode.outer was 'out' (expected a string containing 'y')\n" +
-                "     and: address.postcode.inner was 'in' (expected a string starting with 'x')";
+                "     and: address.houseNumber was <22> (expected <21>)\n" +
+                "     and: address.postCode.outer was 'out' (expected a string containing 'y')\n" +
+                "     and: address.postCode.inner was 'in' (expected a string starting with 'x')";
 
         assertMismatch(matcher, input, descriptionOfMismatch);
     }
