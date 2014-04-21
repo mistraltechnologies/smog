@@ -25,6 +25,13 @@ public class PropertyMatcherTest
     }
 
     @Test
+    public void canGetPropertyName() {
+        PropertyMatcher<String> propertyMatcher = new PropertyMatcher<String>("myProperty", mockPathProvider);
+
+        assertEquals("myProperty", propertyMatcher.getPropertyName());
+    }
+
+    @Test
     public void canGetPath() {
         PropertyMatcher<String> propertyMatcher = new PropertyMatcher<String>("myProperty", mockPathProvider);
 
