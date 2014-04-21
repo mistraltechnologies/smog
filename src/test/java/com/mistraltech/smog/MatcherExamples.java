@@ -9,10 +9,10 @@ import org.hamcrest.Matcher;
 import org.hamcrest.StringDescription;
 import org.hamcrest.collection.IsCollectionWithSize;
 import org.hamcrest.collection.IsEmptyCollection;
+import org.hamcrest.collection.IsIterableContainingInOrder;
 import org.hamcrest.core.CombinableMatcher;
 import org.junit.Test;
 
-import java.util.regex.MatchResult;
 import java.util.regex.Pattern;
 
 import static com.mistraltech.smog.example.matcher.AddressMatcher.anAddressThat;
@@ -20,17 +20,13 @@ import static com.mistraltech.smog.example.matcher.PersonMatcher.aPersonThat;
 import static com.mistraltech.smog.example.matcher.PhoneMatcher.aPhoneThat;
 import static com.mistraltech.smog.example.matcher.PostCodeMatcher.aPostCodeThat;
 import static org.hamcrest.CoreMatchers.*;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.collection.IsIterableContainingInOrder.contains;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 public class MatcherExamples {
 
     @Test
     public void testBothMatcher() throws Exception {
-        Matcher matcher = CombinableMatcher.<String>both(equalTo("abc")).and(equalTo("bc"));
+        Matcher<String> matcher = CombinableMatcher.<String>both(equalTo("abc")).and(equalTo("bc"));
 
         assertDescription(matcher, "('abc' and 'bc')");
         assertMismatch(matcher, "abc", "'bc' was 'abc'");
@@ -38,7 +34,7 @@ public class MatcherExamples {
 
     @Test
     public void testAnyOfMatcher() throws Exception {
-        Matcher matcher = anyOf(equalTo("ab"), equalTo("bc"), equalTo("ac"));
+        Matcher<String> matcher = anyOf(equalTo("ab"), equalTo("bc"), equalTo("ac"));
 
         assertDescription(matcher, "('ab' or 'bc' or 'ac')");
         assertMismatch(matcher, "abc", "was 'abc'");
@@ -137,7 +133,7 @@ public class MatcherExamples {
     public void testListContainsMatching() {
         Matcher<Person> matcher =
                 is(aPersonThat()
-                        .hasPhoneList(contains(
+                        .hasPhoneList(IsIterableContainingInOrder.contains(
                                 aPhoneThat().hasCode("123").hasNumber("456456"),
                                 aPhoneThat().hasCode("123").hasNumber("123321"))));
 
