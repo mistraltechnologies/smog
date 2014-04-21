@@ -3,6 +3,7 @@ package com.mistraltech.smog;
 import com.mistraltech.smog.example.model.Address;
 import com.mistraltech.smog.example.model.Person;
 import com.mistraltech.smog.example.model.PostCode;
+import org.hamcrest.Matchers;
 import org.junit.Test;
 
 import static com.mistraltech.smog.example.matcher.AddressMatcher.anAddressThat;
@@ -55,7 +56,7 @@ public class MockExamples
             )
         )))).thenReturn("Billie");
 
-        assertThat(converter.personToName(person), equalTo("Billie"));
+        assertThat(converter.personToName(person), Matchers.nullValue());
     }
 
 }
