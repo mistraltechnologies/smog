@@ -67,6 +67,10 @@ public class PropertyMatcher<T> extends BaseMatcher<T> implements PathProvider {
         }
     }
 
+    public String getPropertyName() {
+        return propertyName;
+    }
+
     public String getPath() {
         String pathContext = pathProvider.getPath();
         return pathContext + (pathContext.length() > 0 ? "." : "") + propertyName;
