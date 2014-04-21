@@ -17,7 +17,7 @@ import static org.mockito.Matchers.argThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-public class MockExamples
+public class MockExamplesTest
 {
     private class Converter
     {

@@ -22,7 +22,7 @@ import static com.mistraltech.smog.example.matcher.PostCodeMatcher.aPostCodeThat
 import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;
 
-public class MatcherExamples {
+public class MatcherExamplesTest {
 
     @Test
     public void testBothMatcher() throws Exception {
