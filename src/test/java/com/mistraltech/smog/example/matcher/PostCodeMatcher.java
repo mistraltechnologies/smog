@@ -1,6 +1,7 @@
 package com.mistraltech.smog.example.matcher;
 
 import com.mistraltech.smog.core.CompositePropertyMatcher;
+import com.mistraltech.smog.core.MatchAccumulator;
 import com.mistraltech.smog.core.PropertyMatcher;
 import com.mistraltech.smog.example.model.PostCode;
 import org.hamcrest.Description;
@@ -41,10 +42,9 @@ public class PostCodeMatcher extends CompositePropertyMatcher<PostCode> {
     }
 
     @Override
-    protected boolean matchesSafely(com.mistraltech.smog.example.model.PostCode item, Description mismatchDescription) {
-        return matchAccumulator(mismatchDescription)
+    protected void matchesSafely(PostCode item, MatchAccumulator matchAccumulator) {
+        matchAccumulator
                 .matches(outerMatcher, item.getOuter())
-                .matches(innerMatcher, item.getInner())
-                .result();
+                .matches(innerMatcher, item.getInner());
     }
 }

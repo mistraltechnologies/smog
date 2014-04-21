@@ -1,6 +1,7 @@
 package com.mistraltech.smog.example.matcher;
 
 import com.mistraltech.smog.core.CompositePropertyMatcher;
+import com.mistraltech.smog.core.MatchAccumulator;
 import com.mistraltech.smog.core.PropertyMatcher;
 import com.mistraltech.smog.example.model.Phone;
 import org.hamcrest.Description;
@@ -41,10 +42,9 @@ public class PhoneMatcher extends CompositePropertyMatcher<Phone> {
     }
 
     @Override
-    protected boolean matchesSafely(Phone item, Description mismatchDescription) {
-        return matchAccumulator(mismatchDescription)
+    protected void matchesSafely(Phone item, MatchAccumulator matchAccumulator) {
+        matchAccumulator
                 .matches(codeMatcher, item.getCode())
-                .matches(numberMatcher, item.getNumber())
-                .result();
+                .matches(numberMatcher, item.getNumber());
     }
 }
