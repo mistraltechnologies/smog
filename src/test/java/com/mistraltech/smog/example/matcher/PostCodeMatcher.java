@@ -9,8 +9,8 @@ import org.hamcrest.Matcher;
 import static org.hamcrest.CoreMatchers.equalTo;
 
 public class PostCodeMatcher extends CompositePropertyMatcher<PostCode> {
-    private PropertyMatcher<String> innerMatcher = new PropertyMatcher<String>("inner", this);
-    private PropertyMatcher<String> outerMatcher = new PropertyMatcher<String>("outer", this);
+    private PropertyMatcher<String> innerMatcher = new PropertyMatcher<String>("inner");
+    private PropertyMatcher<String> outerMatcher = new PropertyMatcher<String>("outer");
 
     private PostCodeMatcher() {
         super("a Postcode");

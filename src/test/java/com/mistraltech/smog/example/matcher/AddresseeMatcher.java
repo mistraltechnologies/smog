@@ -10,8 +10,8 @@ import org.hamcrest.Matcher;
 import static org.hamcrest.CoreMatchers.equalTo;
 
 public abstract class AddresseeMatcher<R, T extends Addressee> extends CompositePropertyMatcher<T> {
-    private PropertyMatcher<String> nameMatcher = new PropertyMatcher<String>("name", this);
-    private PropertyMatcher<Address> addressMatcher = new PropertyMatcher<Address>("address", this);
+    private PropertyMatcher<String> nameMatcher = new PropertyMatcher<String>("name");
+    private PropertyMatcher<Address> addressMatcher = new PropertyMatcher<Address>("address");
 
     protected AddresseeMatcher(String matchedObjectDescription) {
         super(matchedObjectDescription);
