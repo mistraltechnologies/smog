@@ -11,8 +11,8 @@ import java.util.List;
 import static org.hamcrest.CoreMatchers.equalTo;
 
 public class PersonMatcher extends AddresseeMatcher<PersonMatcher, Person> {
-    private PropertyMatcher<Integer> ageMatcher = new PropertyMatcher<Integer>("age", this);
-    private PropertyMatcher<List<Phone>> phoneListMatcher = new PropertyMatcher<List<Phone>>("phoneList", this);
+    private PropertyMatcher<Integer> ageMatcher = new PropertyMatcher<Integer>("age");
+    private PropertyMatcher<List<Phone>> phoneListMatcher = new PropertyMatcher<List<Phone>>("phoneList");
 
     private PersonMatcher() {
         super("a Person");
