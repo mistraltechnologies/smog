@@ -1,6 +1,9 @@
 package com.mistraltech.smog.core;
 
-import org.hamcrest.*;
+import org.hamcrest.CoreMatchers;
+import org.hamcrest.Description;
+import org.hamcrest.DiagnosingMatcher;
+import org.hamcrest.StringDescription;
 import org.junit.Before;
 import org.junit.Test;
 

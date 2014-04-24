@@ -4,10 +4,8 @@ import com.mistraltech.smog.core.CompositePropertyMatcher;
 import com.mistraltech.smog.core.MatchAccumulator;
 import com.mistraltech.smog.core.PropertyMatcher;
 import com.mistraltech.smog.example.model.Phone;
-import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 
-import static com.mistraltech.smog.core.MatchAccumulator.matchAccumulator;
 import static org.hamcrest.CoreMatchers.equalTo;
 
 public class PhoneMatcher extends CompositePropertyMatcher<Phone> {

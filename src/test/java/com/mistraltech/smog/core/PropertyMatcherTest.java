@@ -9,23 +9,19 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
-import static org.hamcrest.CoreMatchers.*;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertTrue;
+import static org.hamcrest.CoreMatchers.anything;
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.junit.Assert.*;
 
 
-public class PropertyMatcherTest
-{
+public class PropertyMatcherTest {
     private PathProvider mockPathProvider;
 
     @Rule
     public ExpectedException thrown = ExpectedException.none();
 
     @Before
-    public void setUp() throws Exception
-    {
+    public void setUp() throws Exception {
         mockPathProvider = new PathProviderStub("myPath");
     }
 
@@ -111,8 +107,7 @@ public class PropertyMatcherTest
     }
 
     @Test
-    public void describesWhenMatcherAssigned()
-    {
+    public void describesWhenMatcherAssigned() {
         PropertyMatcher<String> propertyMatcher = new PropertyMatcher<String>("myProperty", mockPathProvider);
         PathAwareMatcherStub<String> assignedMatcher = new PathAwareMatcherStub<String>();
         assignedMatcher.setDescriptionText("assigned matcher description text");
@@ -135,8 +130,7 @@ public class PropertyMatcherTest
     }
 
     @Test
-    public void describeMismatchDelegatesToAssignedPathAwareMatcher()
-    {
+    public void describeMismatchDelegatesToAssignedPathAwareMatcher() {
         PropertyMatcher<String> propertyMatcher = new PropertyMatcher<String>("myProperty", mockPathProvider);
         PathAwareMatcherStub<String> assignedMatcher = new PathAwareMatcherStub<String>();
         assignedMatcher.setMismatchDescriptionText("assigned matcher mismatch description");
@@ -162,14 +156,12 @@ public class PropertyMatcherTest
     private static class PathProviderStub implements PathProvider {
         private String path;
 
-        private PathProviderStub(String path)
-        {
+        private PathProviderStub(String path) {
             this.path = path;
         }
 
         @Override
-        public String getPath()
-        {
+        public String getPath() {
             return path;
         }
     }
@@ -180,47 +172,39 @@ public class PropertyMatcherTest
         private String mismatchDescriptionText = "";
 
         @Override
-        public boolean matches(Object item)
-        {
+        public boolean matches(Object item) {
             return false;
         }
 
         @Override
-        public void describeMismatch(Object item, Description mismatchDescription)
-        {
+        public void describeMismatch(Object item, Description mismatchDescription) {
             mismatchDescription.appendText(mismatchDescriptionText);
         }
 
         @Override
-        public void _dont_implement_Matcher___instead_extend_BaseMatcher_()
-        {
+        public void _dont_implement_Matcher___instead_extend_BaseMatcher_() {
             // ... unless its a test mock representing some arbitrary Matcher
         }
 
         @Override
-        public void setPathProvider(PathProvider pathProvider)
-        {
+        public void setPathProvider(PathProvider pathProvider) {
             this.pathProvider = pathProvider;
         }
 
         @Override
-        public void describeTo(Description description)
-        {
+        public void describeTo(Description description) {
             description.appendText(this.descriptionText);
         }
 
-        public PathProvider getPathProvider()
-        {
+        public PathProvider getPathProvider() {
             return pathProvider;
         }
 
-        public void setDescriptionText(String descriptionText)
-        {
+        public void setDescriptionText(String descriptionText) {
             this.descriptionText = descriptionText;
         }
 
-        public void setMismatchDescriptionText(String mismatchDescriptionText)
-        {
+        public void setMismatchDescriptionText(String mismatchDescriptionText) {
             this.mismatchDescriptionText = mismatchDescriptionText;
         }
     }

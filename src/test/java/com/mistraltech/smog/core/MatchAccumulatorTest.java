@@ -5,11 +5,10 @@ import org.hamcrest.StringDescription;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.hamcrest.CoreMatchers.*;
+import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.*;
 
-public class MatchAccumulatorTest
-{
+public class MatchAccumulatorTest {
     private StringDescription mismatchDescription;
 
     @Before
@@ -82,10 +81,10 @@ public class MatchAccumulatorTest
         matchAccumulator.matches(equalTo("E"), "E");
 
         String expectedMismatchDescription = "was \"a\""
-            + MatchAccumulator.MISMATCH_CONJUNCTIVE_ADVERB
-            + "was \"c\""
-            + MatchAccumulator.MISMATCH_CONJUNCTIVE_ADVERB
-            + "was \"d\"";
+                + MatchAccumulator.MISMATCH_CONJUNCTIVE_ADVERB
+                + "was \"c\""
+                + MatchAccumulator.MISMATCH_CONJUNCTIVE_ADVERB
+                + "was \"d\"";
 
         assertEquals(expectedMismatchDescription, mismatchDescription.toString());
     }

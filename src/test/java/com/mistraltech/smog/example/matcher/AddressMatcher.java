@@ -5,10 +5,8 @@ import com.mistraltech.smog.core.MatchAccumulator;
 import com.mistraltech.smog.core.PropertyMatcher;
 import com.mistraltech.smog.example.model.Address;
 import com.mistraltech.smog.example.model.PostCode;
-import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 
-import static com.mistraltech.smog.core.MatchAccumulator.matchAccumulator;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 
