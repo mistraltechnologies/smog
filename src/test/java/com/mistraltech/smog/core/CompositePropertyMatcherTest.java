@@ -202,6 +202,27 @@ public class CompositePropertyMatcherTest {
         assertEquals(FailingTargetItemMatcher.MISMATCH_DESCRIPTION, description.toString());
     }
 
+    @Test
+    public void assignsPathProviderToPropertyMatchersWithoutPathProvider() {
+        TargetItemCompositePropertyMatcher cpm = new TargetItemCompositePropertyMatcher("foo");
+        PropertyMatcher propertyMatcher = new PropertyMatcher("");
+
+        cpm.addPropertyMatchers(propertyMatcher);
+
+        assertSame(cpm, propertyMatcher.getPathProvider());
+    }
+
+    @Test
+    public void doesNotOverridePathProviderOnPropertyMatchers() {
+        TargetItemCompositePropertyMatcher cpm = new TargetItemCompositePropertyMatcher("foo");
+        PathProvider originalPathProvider = new StubPathProvider();
+        PropertyMatcher propertyMatcher = new PropertyMatcher("", originalPathProvider);
+
+        cpm.addPropertyMatchers(propertyMatcher);
+
+        assertSame(originalPathProvider, propertyMatcher.getPathProvider());
+    }
+
     private static class TargetItem {
     }
 

@@ -71,6 +71,15 @@ public class PropertyMatcher<T> extends BaseMatcher<T> implements PathProvider {
     }
 
     /**
+     * Gets the assigned path provider.
+     *
+     * @return the assigned PathProvider, or null if no PathProvider has been assigned
+     */
+    public PathProvider getPathProvider() {
+        return pathProvider;
+    }
+
+    /**
      * Sets the matcher that the property that this instance represents in the target object graph must match.
      * <p/>
      * If matcher is null, this PropertyMatcher will be ignored.
