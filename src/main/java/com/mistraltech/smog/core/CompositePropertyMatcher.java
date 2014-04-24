@@ -3,7 +3,6 @@ package com.mistraltech.smog.core;
 import org.hamcrest.Description;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -33,12 +32,19 @@ public abstract class CompositePropertyMatcher<T> extends PathAwareDiagnosingMat
 
     /**
      * Register one or more PropertyMatcher instances. Registered property matchers are used
-     * to generate the describeTo text.
+     * to generate the describeTo text. If a given property matcher does not have an assigned
+     * path provider, this instance will be assigned.
      *
      * @param matchers the PropertyMatcher instances
      */
     protected void addPropertyMatchers(PropertyMatcher... matchers) {
-        Collections.addAll(propertyMatcherList, matchers);
+        for (PropertyMatcher matcher : matchers) {
+            if (matcher.getPathProvider() == null) {
+                matcher.setPathProvider(this);
+            }
+
+            propertyMatcherList.add(matcher);
+        }
     }
 
     public final void describeTo(Description description) {
