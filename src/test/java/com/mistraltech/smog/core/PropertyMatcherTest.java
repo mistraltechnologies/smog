@@ -5,7 +5,9 @@ import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.StringDescription;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.assertEquals;
@@ -18,6 +20,9 @@ public class PropertyMatcherTest
 {
     private PathProvider mockPathProvider;
 
+    @Rule
+    public ExpectedException thrown = ExpectedException.none();
+
     @Before
     public void setUp() throws Exception
     {
@@ -26,16 +31,34 @@ public class PropertyMatcherTest
 
     @Test
     public void canGetPropertyName() {
-        PropertyMatcher<String> propertyMatcher = new PropertyMatcher<String>("myProperty", mockPathProvider);
+        PropertyMatcher<String> propertyMatcher = new PropertyMatcher<String>("foo");
 
-        assertEquals("myProperty", propertyMatcher.getPropertyName());
+        assertEquals("foo", propertyMatcher.getPropertyName());
     }
 
     @Test
-    public void canGetPath() {
+    public void canGetPathWithConstructorAssignedPathProvider() {
         PropertyMatcher<String> propertyMatcher = new PropertyMatcher<String>("myProperty", mockPathProvider);
 
         assertEquals("myPath.myProperty", propertyMatcher.getPath());
+    }
+
+    @Test
+    public void canGetPathWithPostConstructionPathProvider() {
+        PropertyMatcher<String> propertyMatcher = new PropertyMatcher<String>("myProperty");
+        propertyMatcher.setPathProvider(mockPathProvider);
+
+        assertEquals("myPath.myProperty", propertyMatcher.getPath());
+    }
+
+    @Test
+    public void cannotGetPathWhenPathProviderIsNotSet() {
+        PropertyMatcher<String> propertyMatcher = new PropertyMatcher<String>("myProperty");
+
+        thrown.expect(IllegalStateException.class);
+        thrown.expectMessage("No PathProvider assigned");
+
+        propertyMatcher.getPath();
     }
 
     @Test

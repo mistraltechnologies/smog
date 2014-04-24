@@ -48,6 +48,25 @@ public class PropertyMatcher<T> extends BaseMatcher<T> implements PathProvider {
      */
     public PropertyMatcher(String propertyName, PathProvider pathProvider) {
         this.propertyName = propertyName;
+        setPathProvider(pathProvider);
+    }
+
+    /**
+     * Constructor that does not take a PathProvider.
+     *
+     * @param propertyName name of the attribute that this PropertyMatcher matches against in the target object
+     */
+    public PropertyMatcher(String propertyName) {
+        this.propertyName = propertyName;
+    }
+
+    /**
+     * Sets the path provider, which provides this PropertyMatcher with its path context. I.e. the property path that leads
+     * to the object containing this attribute in the target object graph
+     *
+     * @param pathProvider the path provider
+     */
+    public void setPathProvider(PathProvider pathProvider) {
         this.pathProvider = pathProvider;
     }
 
@@ -72,6 +91,10 @@ public class PropertyMatcher<T> extends BaseMatcher<T> implements PathProvider {
     }
 
     public String getPath() {
+        if (pathProvider == null) {
+            throw new IllegalStateException("No PathProvider assigned");
+        }
+
         String pathContext = pathProvider.getPath();
         return pathContext + (pathContext.length() > 0 ? "." : "") + propertyName;
     }
