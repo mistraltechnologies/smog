@@ -144,7 +144,7 @@ public class CompositePropertyMatcherTest {
     @Test
     public void canDescribeWithSinglePropertyMatcher() {
         TargetItemCompositePropertyMatcher cpm = new TargetItemCompositePropertyMatcher("foo");
-        cpm.addPropertyMatchers(new SpecifiedPropertyMatcher("bar", cpm, "x"));
+        cpm.addPropertyMatchers(new SpecifiedPropertyMatcher("bar", "x"));
         cpm.describeTo(description);
 
         assertEquals("foo that (has bar (\"x\"))", description.toString());
@@ -154,8 +154,8 @@ public class CompositePropertyMatcherTest {
     public void canDescribeWithMultiplePropertyMatchers() {
         TargetItemCompositePropertyMatcher cpm = new TargetItemCompositePropertyMatcher("foo");
         cpm.addPropertyMatchers(
-                new SpecifiedPropertyMatcher("bar1", cpm, "x"),
-                new SpecifiedPropertyMatcher("bar2", cpm, "y"));
+                new SpecifiedPropertyMatcher("bar1", "x"),
+                new SpecifiedPropertyMatcher("bar2", "y"));
         cpm.describeTo(description);
 
         assertEquals("foo that (has bar1 (\"x\") and has bar2 (\"y\"))", description.toString());
@@ -165,8 +165,8 @@ public class CompositePropertyMatcherTest {
     public void describeIgnoresUnspecifiedPropertyMatchers() {
         TargetItemCompositePropertyMatcher cpm = new TargetItemCompositePropertyMatcher("foo");
         cpm.addPropertyMatchers(
-                new PropertyMatcher("bar1", cpm),
-                new SpecifiedPropertyMatcher("bar2", cpm, "y"));
+                new PropertyMatcher("bar1"),
+                new SpecifiedPropertyMatcher("bar2", "y"));
         cpm.describeTo(description);
 
         assertEquals("foo that (has bar2 (\"y\"))", description.toString());
@@ -221,6 +221,47 @@ public class CompositePropertyMatcherTest {
         cpm.addPropertyMatchers(propertyMatcher);
 
         assertSame(originalPathProvider, propertyMatcher.getPathProvider());
+    }
+
+    @Test
+    public void matchesSafelyInvokesPropertyMatchers() {
+        final SpecifiedPropertyMatcher propertyMatcher1 = new SpecifiedPropertyMatcher("prop1", "x");
+        final SpecifiedPropertyMatcher propertyMatcher2 = new SpecifiedPropertyMatcher("prop2", "y");
+
+        CompositePropertyMatcher<String> cpm = new CompositePropertyMatcher<String>("foo");
+        cpm.addPropertyMatchers(propertyMatcher1, propertyMatcher2);
+
+        boolean result = cpm.matches("x");
+
+        assertFalse("match should fail", result);
+
+        // Matchers are invoked twice because match failed
+        assertEquals(2, propertyMatcher1.getInvocationCount());
+        assertEquals(2, propertyMatcher2.getInvocationCount());
+    }
+
+    @Test
+    public void matchesSafelyDoesNotInvokePropertyMatchersThatAreAlreadyApplied() {
+        final SpecifiedPropertyMatcher propertyMatcher1 = new SpecifiedPropertyMatcher("prop1", "x");
+        final SpecifiedPropertyMatcher propertyMatcher2 = new SpecifiedPropertyMatcher("prop2", "x");
+
+        // MatchesSafely invokes matches on propertyMatcher1, then delegates to superclass implementation.
+        // We expect propertyMatcher1 to not get invoked a second time in the superclass implementation.
+        CompositePropertyMatcher<String> cpm = new CompositePropertyMatcher<String>("foo") {
+            @Override
+            protected void matchesSafely(String item, MatchAccumulator matchAccumulator) {
+                matchAccumulator.matches(propertyMatcher1, item);
+                super.matchesSafely(item, matchAccumulator);
+            }
+        };
+
+        cpm.addPropertyMatchers(propertyMatcher1, propertyMatcher2);
+
+        cpm.matches("x");
+
+        // Matchers are invoked twice because match failed
+        assertEquals(1, propertyMatcher1.getInvocationCount());
+        assertEquals(1, propertyMatcher2.getInvocationCount());
     }
 
     private static class TargetItem {
@@ -298,9 +339,21 @@ public class CompositePropertyMatcherTest {
     }
 
     private class SpecifiedPropertyMatcher extends PropertyMatcher<String> {
-        public SpecifiedPropertyMatcher(String propertyName, PathProvider pathProvider, String expected) {
-            super(propertyName, pathProvider);
+        private int invocationCount;
+
+        public SpecifiedPropertyMatcher(String propertyName, String expected) {
+            super(propertyName);
             setMatcher(CoreMatchers.equalTo(expected));
+        }
+
+        @Override
+        public boolean matches(Object item) {
+            invocationCount++;
+            return super.matches(item);
+        }
+
+        public int getInvocationCount() {
+            return invocationCount;
         }
     }
 }

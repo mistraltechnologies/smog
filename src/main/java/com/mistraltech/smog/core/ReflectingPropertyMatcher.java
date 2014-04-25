@@ -13,6 +13,10 @@ public class ReflectingPropertyMatcher<T> extends PropertyMatcher<T> {
         super(propertyName, pathProvider);
     }
 
+    public ReflectingPropertyMatcher(String propertyName) {
+        super(propertyName);
+    }
+
     @Override
     public boolean matches(Object item) {
         return super.matches(getPropertyValue(item));

@@ -2,6 +2,7 @@ package com.mistraltech.smog.example.matcher;
 
 import com.mistraltech.smog.core.MatchAccumulator;
 import com.mistraltech.smog.core.PropertyMatcher;
+import com.mistraltech.smog.core.ReflectingPropertyMatcher;
 import com.mistraltech.smog.example.model.Person;
 import com.mistraltech.smog.example.model.Phone;
 import org.hamcrest.Matcher;
@@ -12,7 +13,7 @@ import static org.hamcrest.CoreMatchers.equalTo;
 
 public class PersonMatcher extends AddresseeMatcher<PersonMatcher, Person> {
     private PropertyMatcher<Integer> ageMatcher = new PropertyMatcher<Integer>("age");
-    private PropertyMatcher<List<Phone>> phoneListMatcher = new PropertyMatcher<List<Phone>>("phoneList");
+    private PropertyMatcher<List<Phone>> phoneListMatcher = new ReflectingPropertyMatcher<List<Phone>>("phoneList");
 
     private PersonMatcher() {
         super("a Person");
@@ -40,8 +41,6 @@ public class PersonMatcher extends AddresseeMatcher<PersonMatcher, Person> {
 
     protected void matchesSafely(Person item, MatchAccumulator matchAccumulator) {
         super.matchesSafely(item, matchAccumulator);
-        matchAccumulator
-                .matches(ageMatcher, item.getAge())
-                .matches(phoneListMatcher, item.getPhoneList());
+        matchAccumulator.matches(ageMatcher, item.getAge());
     }
 }

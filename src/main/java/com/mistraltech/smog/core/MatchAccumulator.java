@@ -3,6 +3,9 @@ package com.mistraltech.smog.core;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  * A helper class that interposes in the invocation of the matches() method of multiple matchers and
  * coordinates the building of a cumulative mismatch description for those that fail.
@@ -12,10 +15,12 @@ public final class MatchAccumulator {
 
     private boolean matches = true;
     private Description mismatchDescription;
+    private Set<Matcher<?>> appliedMatchers;
 
     private MatchAccumulator(Description mismatchDescription, boolean currentlyMatching) {
         this.mismatchDescription = mismatchDescription;
         this.matches = currentlyMatching;
+        this.appliedMatchers = new HashSet<Matcher<?>>();
     }
 
     private MatchAccumulator(Description mismatchDescription) {
@@ -71,6 +76,7 @@ public final class MatchAccumulator {
             matches = false;
         }
 
+        appliedMatchers.add(matcher);
         return this;
     }
 
@@ -82,5 +88,16 @@ public final class MatchAccumulator {
      */
     public boolean result() {
         return matches;
+    }
+
+    /**
+     * Indicates whether the provided matcher has been applied (i.e. its matches method invoked
+     * and its result accumulated).
+     *
+     * @param matcher the subject of the query
+     * @return true if the matches method of the supplied matcher has been invoked; false otherwise
+     */
+    public boolean hasBeenApplied(Matcher<?> matcher) {
+        return appliedMatchers.contains(matcher);
     }
 }
