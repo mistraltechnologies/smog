@@ -11,7 +11,7 @@ import java.util.List;
  *
  * @param <T> type of matchable target object
  */
-public abstract class CompositePropertyMatcher<T> extends PathAwareDiagnosingMatcher<T> {
+public class CompositePropertyMatcher<T> extends PathAwareDiagnosingMatcher<T> {
     private String matchedObjectDescription;
     private List<PropertyMatcher> propertyMatcherList = new ArrayList<PropertyMatcher>();
 
@@ -69,7 +69,20 @@ public abstract class CompositePropertyMatcher<T> extends PathAwareDiagnosingMat
     @Override
     protected final boolean matchesSafely(T item, Description mismatchDescription) {
         MatchAccumulator matchAccumulator = createMatchAccumulator(mismatchDescription);
+
+        // Give subclasses an opportunity to match PropertyMatchers manually
         matchesSafely(item, matchAccumulator);
+
+        // Any remaining PropertyMatchers are matched automatically against 'item'
+        // Note this is only likely to be the right thing if the property matchers
+        // are able to determine their own property value from the parent object, such
+        // as is done by ReflectingPropertyMatcher.
+        for (PropertyMatcher propertyMatcher : propertyMatcherList) {
+            if (!matchAccumulator.hasBeenApplied(propertyMatcher)) {
+                matchAccumulator.matches(propertyMatcher, item);
+            }
+        }
+
         return matchAccumulator.result();
     }
 
@@ -77,5 +90,6 @@ public abstract class CompositePropertyMatcher<T> extends PathAwareDiagnosingMat
         return MatchAccumulator.matchAccumulator(mismatchDescription);
     }
 
-    protected abstract void matchesSafely(T item, MatchAccumulator matchAccumulator);
+    protected void matchesSafely(T item, MatchAccumulator matchAccumulator) {
+    }
 }

@@ -1,10 +1,12 @@
 package com.mistraltech.smog.core;
 
 
+import org.hamcrest.Matcher;
 import org.hamcrest.StringDescription;
 import org.junit.Before;
 import org.junit.Test;
 
+import static org.hamcrest.CoreMatchers.any;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.*;
 
@@ -87,5 +89,22 @@ public class MatchAccumulatorTest {
                 + "was \"d\"";
 
         assertEquals(expectedMismatchDescription, mismatchDescription.toString());
+    }
+
+    @Test
+    public void canDetermineIfMatcherHasBeenApplied() {
+        MatchAccumulator matchAccumulator = MatchAccumulator.matchAccumulator(mismatchDescription);
+
+        Matcher<Object> matcher1 = any(Object.class);
+        Matcher<Object> matcher2 = any(Object.class);
+        Matcher<Object> matcher3 = any(Object.class);
+
+        Object item = new Object();
+        matchAccumulator.matches(matcher1, item);
+        matchAccumulator.matches(matcher2, item);
+
+        assertTrue(matchAccumulator.hasBeenApplied(matcher1));
+        assertTrue(matchAccumulator.hasBeenApplied(matcher2));
+        assertFalse(matchAccumulator.hasBeenApplied(matcher3));
     }
 }

@@ -20,7 +20,7 @@ public class ReflectingPropertyMatcherTest {
 
     @Test
     public void canMatchAgainstPropertyParent() {
-        PropertyMatcher<String> nameMatcher = new ReflectingPropertyMatcher<String>("name", null);
+        PropertyMatcher<String> nameMatcher = new ReflectingPropertyMatcher<String>("name");
         nameMatcher.setMatcher(equalTo("Bob"));
 
         boolean result = nameMatcher.matches(bob);
@@ -30,7 +30,7 @@ public class ReflectingPropertyMatcherTest {
 
     @Test
     public void cannotMatchWhenPropertyNotFound() {
-        PropertyMatcher<String> matcher = new ReflectingPropertyMatcher<String>("surname", null);
+        PropertyMatcher<String> matcher = new ReflectingPropertyMatcher<String>("surname");
         matcher.setMatcher(anything());
 
         thrown.expect(PropertyNotFoundException.class);
@@ -41,7 +41,7 @@ public class ReflectingPropertyMatcherTest {
 
     @Test
     public void cannotMatchWhenAccessorFails() {
-        PropertyMatcher<String> matcher = new ReflectingPropertyMatcher<String>("brokenName", null);
+        PropertyMatcher<String> matcher = new ReflectingPropertyMatcher<String>("brokenName");
         matcher.setMatcher(anything());
 
         thrown.expect(PropertyUnreadableException.class);

@@ -41,6 +41,50 @@ public class MatcherExamplesTest {
     }
 
     @Test
+    public void testSimpleMatcherSucceedsWhenMatches() {
+        Matcher<Person> matcher = is(aPersonThat().hasName("bob"));
+
+        Person input = new Person("bob", 36, new Address(21, new PostCode("out", "in")));
+
+        assertDescription(matcher, "is a Person that (has name ('bob'))");
+        assertThat(input, matcher);
+    }
+
+    @Test
+    public void testSimpleMatcherFailsWhenMismatches() {
+        Matcher<Person> matcher = is(aPersonThat().hasName("bob"));
+
+        Person input = new Person("dennis", 36, new Address(21, new PostCode("out", "in")));
+
+        assertMismatch(matcher, input, "name was 'dennis' (expected 'bob')");
+    }
+
+    @Test
+    public void testNestedMatcherSucceedsWhenMatches() {
+        Matcher<Person> matcher = is(aPersonThat()
+                .hasName("bob")
+                .hasAddress(anAddressThat()
+                        .hasHouseNumber(21)));
+
+        Person input = new Person("bob", 36, new Address(21, new PostCode("out", "in")));
+
+        assertDescription(matcher, "is a Person that (has name ('bob') and has address (an Address that (has houseNumber (<21>))))");
+        assertThat(input, matcher);
+    }
+
+    @Test
+    public void testNestedMatcherFailsWhenMismatches() {
+        Matcher<Person> matcher = is(aPersonThat()
+                .hasName("bob")
+                .hasAddress(anAddressThat()
+                        .hasHouseNumber(99)));
+
+        Person input = new Person("bob", 36, new Address(21, new PostCode("out", "in")));
+
+        assertMismatch(matcher, input, "address.houseNumber was <21> (expected <99>)");
+    }
+
+    @Test
     public void testDeepCompositeCustomMatcher() {
         Matcher<Person> matcher =
                 is(aPersonThat()
