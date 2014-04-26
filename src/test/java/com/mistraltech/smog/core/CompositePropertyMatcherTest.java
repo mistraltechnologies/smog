@@ -259,7 +259,6 @@ public class CompositePropertyMatcherTest {
 
         cpm.matches("x");
 
-        // Matchers are invoked twice because match failed
         assertEquals(1, propertyMatcher1.getInvocationCount());
         assertEquals(1, propertyMatcher2.getInvocationCount());
     }
