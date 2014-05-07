@@ -33,6 +33,22 @@ public class PropertyMatcherTest {
     }
 
     @Test
+    public void cannotConstructWithEmptyPropertyName() {
+        thrown.expect(IllegalArgumentException.class);
+        thrown.expectMessage("No property name");
+
+        new PropertyMatcher<String>(null);
+    }
+
+    @Test
+    public void cannotConstructWithEmptyPropertyNameAndAnyPathProvider() {
+        thrown.expect(IllegalArgumentException.class);
+        thrown.expectMessage("No property name");
+
+        new PropertyMatcher<String>(null, mockPathProvider);
+    }
+
+    @Test
     public void canGetPathWithConstructorAssignedPathProvider() {
         PropertyMatcher<String> propertyMatcher = new PropertyMatcher<String>("myProperty", mockPathProvider);
 
