@@ -47,7 +47,7 @@ public class PropertyMatcher<T> extends BaseMatcher<T> implements PathProvider {
      * to the object containing this attribute in the target object graph
      */
     public PropertyMatcher(String propertyName, PathProvider pathProvider) {
-        this.propertyName = propertyName;
+        this(propertyName);
         setPathProvider(pathProvider);
     }
 
@@ -57,6 +57,9 @@ public class PropertyMatcher<T> extends BaseMatcher<T> implements PathProvider {
      * @param propertyName name of the attribute that this PropertyMatcher matches against in the target object
      */
     public PropertyMatcher(String propertyName) {
+        if (propertyName == null) {
+            throw new IllegalArgumentException("No property name");
+        }
         this.propertyName = propertyName;
     }
 
