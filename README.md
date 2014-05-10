@@ -121,6 +121,76 @@ Expected: is a Transfer that (has fromAccount (an Account that (has owner ("fred
      but: toAccount.owner was "fred" (expected "tracy")
      and: toAccount.balance was <50> (expected <150>)
 ```
+## Writing a SMOG matcher
+A SMOG matcher will look something like this:
+```
+public final class AccountMatcher extends CompositePropertyMatcher<Account> {
+    private PropertyMatcher<String> ownerMatcher = new ReflectingPropertyMatcher<String>("owner", this);
+    private PropertyMatcher<Integer> balanceMatcher = new ReflectingPropertyMatcher<Integer>("balance", this);
+    private PropertyMatcher<Boolean> overdrawnMatcher = new ReflectingPropertyMatcher<Boolean>("overdrawn", this);
+
+    private AccountMatcher(final String matchedObjectDescription, final Account template) {
+        super(matchedObjectDescription);
+        if (template != null) {
+            hasOwner(template.getOwner());
+            hasBalance(template.getBalance());
+            hasOverdrawn(template.isOverdrawn());
+        }
+    }
+
+    public static AccountMatcher anAccountThat() {
+        return anAccountLike(null);
+    }
+
+    public static AccountMatcher anAccountLike(final Account template) {
+        return new AccountMatcher("an Account", template);
+    }
+
+    public AccountMatcher hasOwner(final String owner) {
+        return this.hasOwner(equalTo(owner));
+    }
+
+    public AccountMatcher hasOwner(Matcher<? super String> ownerMatcher) {
+        this.ownerMatcher.setMatcher(ownerMatcher);
+        return this;
+    }
+
+    public AccountMatcher hasBalance(final int balance) {
+        return this.hasBalance(equalTo(balance));
+    }
+
+    public AccountMatcher hasBalance(Matcher<? super Integer> balanceMatcher) {
+        this.balanceMatcher.setMatcher(balanceMatcher);
+        return this;
+    }
+
+    public AccountMatcher hasOverdrawn(final boolean overdrawn) {
+        return this.hasOverdrawn(equalTo(overdrawn));
+    }
+
+    public AccountMatcher hasOverdrawn(Matcher<? super Boolean> overdrawnMatcher) {
+        this.overdrawnMatcher.setMatcher(overdrawnMatcher);
+        return this;
+    }
+}
+```
+### Notes
+The class extends CompositePropertyMatcher<T> where T is the type of object it will match.
+There is a PropertyMatcher instance variable for each property to be matched. The PropertyMatcher is told the name of
+the property it is matching and takes a reference to 'this', allowing it to request to be invoked automatically during
+the matching process.
+The constructor take a parameter that describes the object being matched. In this example, "an Account" is used.
+The constructor also takes a "template" parameter that, if not null, is used to populate the matcher with values from
+an existing instance of the target class. These preset values can later be overridden using the has... methods.
+The constructor is private. Instead of using it directly, two static factory methods are provided to construct
+instances. The factory methods have names "anAccountThat" (which doesn't take a template instance) and "anAccountLike"
+(that does).
+Each matched property has two associated has... methods. One takes a value that the property must equal and the other
+takes a Hamcrest matcher. The method taking the value simply wraps it in a Hamcrest matcher using the equalTo() factory
+method before passing it to the other method.
+### Simplifying Writing Matcher Classes
+An IntelliJ plugin called Smogen is available to generate matcher classes like this one directly from the target class.
+Pretty cool, eh?
 ##FAQs
 ### Why do I need SMOG?
 
