@@ -31,17 +31,9 @@ public class PropertyMatcherTest {
 
     @Test
     public void canGetPropertyName() {
-        PropertyMatcher<String> propertyMatcher = new PropertyMatcher<String>("foo");
+        PropertyMatcher<String> propertyMatcher = new PropertyMatcher<String>("foo", mockRegistry);
 
         assertEquals("foo", propertyMatcher.getPropertyName());
-    }
-
-    @Test
-    public void cannotConstructWithEmptyPropertyName() {
-        thrown.expect(IllegalArgumentException.class);
-        thrown.expectMessage("No property name");
-
-        new PropertyMatcher<String>(null);
     }
 
     @Test
@@ -90,7 +82,7 @@ public class PropertyMatcherTest {
 
     @Test
     public void canGetPathWithPostConstructionPathProvider() {
-        PropertyMatcher<String> propertyMatcher = new PropertyMatcher<String>("myProperty");
+        PropertyMatcher<String> propertyMatcher = new PropertyMatcher<String>("myProperty", null);
         propertyMatcher.setPathProvider(mockPathProvider);
 
         assertEquals("myPath.myProperty", propertyMatcher.getPath());
@@ -98,7 +90,7 @@ public class PropertyMatcherTest {
 
     @Test
     public void cannotGetPathWhenPathProviderIsNotSet() {
-        PropertyMatcher<String> propertyMatcher = new PropertyMatcher<String>("myProperty");
+        PropertyMatcher<String> propertyMatcher = new PropertyMatcher<String>("myProperty", null);
 
         thrown.expect(IllegalStateException.class);
         thrown.expectMessage("No PathProvider assigned");

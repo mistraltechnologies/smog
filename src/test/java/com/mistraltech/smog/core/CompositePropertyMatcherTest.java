@@ -163,7 +163,7 @@ public class CompositePropertyMatcherTest {
     @Test
     public void describeIgnoresUnspecifiedPropertyMatchers() {
         TargetItemCompositePropertyMatcher cpm = new TargetItemCompositePropertyMatcher("foo");
-        cpm.registerPropertyMatcher(new PropertyMatcher("bar1"));
+        cpm.registerPropertyMatcher(new PropertyMatcher("bar1", null));
         cpm.registerPropertyMatcher(new SpecifiedPropertyMatcher("bar2", "y"));
         cpm.describeTo(description);
 
@@ -203,7 +203,7 @@ public class CompositePropertyMatcherTest {
     @Test
     public void assignsPathProviderToPropertyMatchersWithoutPathProvider() {
         TargetItemCompositePropertyMatcher cpm = new TargetItemCompositePropertyMatcher("foo");
-        PropertyMatcher propertyMatcher = new PropertyMatcher("");
+        PropertyMatcher propertyMatcher = new PropertyMatcher("", null);
 
         cpm.registerPropertyMatcher(propertyMatcher);
 
@@ -341,7 +341,7 @@ public class CompositePropertyMatcherTest {
         private int invocationCount;
 
         public SpecifiedPropertyMatcher(String propertyName, String expected) {
-            super(propertyName);
+            super(propertyName, null);
             setMatcher(CoreMatchers.equalTo(expected));
         }
 
