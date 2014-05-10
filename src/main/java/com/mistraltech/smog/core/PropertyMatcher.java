@@ -45,22 +45,41 @@ public class PropertyMatcher<T> extends BaseMatcher<T> implements PathProvider {
      * @param propertyName name of the attribute that this PropertyMatcher matches against in the target object
      */
     public PropertyMatcher(String propertyName) {
-        if (propertyName == null) {
-            throw new IllegalArgumentException("No property name");
-        }
-        this.propertyName = propertyName;
+        this(propertyName, null, null);
+    }
+
+    /**
+     * Constructor that takes a PropertyMatcherRegistry. This instance will register itself with the registry.
+     *
+     * @param propertyName name of the attribute that this PropertyMatcher matches against in the target object
+     * @param registry the PropertyMatcherRegistry to register with; can be null
+     */
+    public PropertyMatcher(String propertyName, PropertyMatcherRegistry registry) {
+        this(propertyName, registry, null);
     }
 
     /**
      * Constructor that takes and assigns a {@link PathProvider}.
      *
      * @param propertyName name of the attribute that this PropertyMatcher matches against in the target object
+     * @param registry the PropertyMatcherRegistry to register with; can be null
      * @param pathProvider provides this PropertyMatcher with its path context. I.e. the property path that leads
-     * to the object containing this attribute in the target object graph
+     * to the object containing this attribute in the target object graph; can be null
      */
-    public PropertyMatcher(String propertyName, PathProvider pathProvider) {
-        this(propertyName);
-        setPathProvider(pathProvider);
+    public PropertyMatcher(String propertyName, PropertyMatcherRegistry registry, PathProvider pathProvider) {
+        if (propertyName == null) {
+            throw new IllegalArgumentException("No property name");
+        }
+
+        this.propertyName = propertyName;
+
+        if (pathProvider != null) {
+            setPathProvider(pathProvider);
+        }
+
+        if (registry != null) {
+            registry.registerPropertyMatcher(this);
+        }
     }
 
     /**

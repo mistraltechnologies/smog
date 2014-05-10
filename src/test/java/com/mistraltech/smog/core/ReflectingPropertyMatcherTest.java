@@ -1,6 +1,7 @@
 package com.mistraltech.smog.core;
 
 import org.hamcrest.StringDescription;
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -11,12 +12,28 @@ import java.lang.reflect.InvocationTargetException;
 import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 
 public class ReflectingPropertyMatcherTest {
     private static final Person bob = new Person();
 
+    private PropertyMatcherRegistry mockRegistry;
+
     @Rule
     public ExpectedException thrown = ExpectedException.none();
+
+    @Before
+    public void setUp() throws Exception {
+        mockRegistry = mock(PropertyMatcherRegistry.class);
+    }
+
+    @Test
+    public void registersWithRegistryOnConstruction() {
+        PropertyMatcher<String> propertyMatcher = new PropertyMatcher<String>("myProperty", mockRegistry);
+
+        verify(mockRegistry).registerPropertyMatcher(propertyMatcher);
+    }
 
     @Test
     public void canMatchAgainstPropertyParent() {
@@ -53,7 +70,7 @@ public class ReflectingPropertyMatcherTest {
 
     @Test
     public void canDescribeMismatchAgainstPropertyParent() {
-        PropertyMatcher<String> nameMatcher = new ReflectingPropertyMatcher<String>("name", new PathProvider() {
+        PropertyMatcher<String> nameMatcher = new ReflectingPropertyMatcher<String>("name", null, new PathProvider() {
             @Override
             public String getPath() {
                 return "path";
