@@ -214,7 +214,7 @@ public class CompositePropertyMatcherTest {
     public void doesNotOverridePathProviderOnPropertyMatchers() {
         TargetItemCompositePropertyMatcher cpm = new TargetItemCompositePropertyMatcher("foo");
         PathProvider originalPathProvider = new StubPathProvider();
-        PropertyMatcher propertyMatcher = new PropertyMatcher("", originalPathProvider);
+        PropertyMatcher propertyMatcher = new PropertyMatcher("", null, originalPathProvider);
 
         cpm.registerPropertyMatcher(propertyMatcher);
 

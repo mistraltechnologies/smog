@@ -12,10 +12,13 @@ import org.junit.rules.ExpectedException;
 import static org.hamcrest.CoreMatchers.anything;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 
 
 public class PropertyMatcherTest {
     private PathProvider mockPathProvider;
+    private PropertyMatcherRegistry mockRegistry;
 
     @Rule
     public ExpectedException thrown = ExpectedException.none();
@@ -23,6 +26,7 @@ public class PropertyMatcherTest {
     @Before
     public void setUp() throws Exception {
         mockPathProvider = new PathProviderStub("myPath");
+        mockRegistry = mock(PropertyMatcherRegistry.class);
     }
 
     @Test
@@ -41,16 +45,45 @@ public class PropertyMatcherTest {
     }
 
     @Test
-    public void cannotConstructWithEmptyPropertyNameAndAnyPathProvider() {
+    public void cannotConstructWithEmptyPropertyNameAndAnyRegistry() {
         thrown.expect(IllegalArgumentException.class);
         thrown.expectMessage("No property name");
 
-        new PropertyMatcher<String>(null, mockPathProvider);
+        new PropertyMatcher<String>(null, mockRegistry);
+    }
+
+    @Test
+    public void cannotConstructWithEmptyPropertyNameAndAnyRegistryAndPathProvider() {
+        thrown.expect(IllegalArgumentException.class);
+        thrown.expectMessage("No property name");
+
+        new PropertyMatcher<String>(null, mockRegistry, mockPathProvider);
+    }
+
+    @Test
+    public void registersWithRegistryOnConstruction() {
+        PropertyMatcher<String> propertyMatcher = new PropertyMatcher<String>("myProperty", mockRegistry);
+
+        verify(mockRegistry).registerPropertyMatcher(propertyMatcher);
+    }
+
+    @Test
+    public void registersWithRegistryOnConstructionWithAnyPathProvider() {
+        PropertyMatcher<String> propertyMatcher =
+                new PropertyMatcher<String>("myProperty", mockRegistry, mockPathProvider);
+
+        verify(mockRegistry).registerPropertyMatcher(propertyMatcher);
+    }
+
+    @Test
+    public void doesNotAttemptToRegisterWithNullRegistryOnConstruction() {
+        new PropertyMatcher<String>("myProperty", null, mockPathProvider);
     }
 
     @Test
     public void canGetPathWithConstructorAssignedPathProvider() {
-        PropertyMatcher<String> propertyMatcher = new PropertyMatcher<String>("myProperty", mockPathProvider);
+        PropertyMatcher<String> propertyMatcher =
+                new PropertyMatcher<String>("myProperty", null, mockPathProvider);
 
         assertEquals("myPath.myProperty", propertyMatcher.getPath());
     }
@@ -75,7 +108,8 @@ public class PropertyMatcherTest {
 
     @Test
     public void setsSelfAsPathProviderOnAssignedMatchers() {
-        PropertyMatcher<String> propertyMatcher = new PropertyMatcher<String>("myProperty", mockPathProvider);
+        PropertyMatcher<String> propertyMatcher =
+                new PropertyMatcher<String>("myProperty", mockRegistry, mockPathProvider);
         PathAwareMatcherStub<String> pathAwareMatcherStub = new PathAwareMatcherStub<String>();
 
         propertyMatcher.setMatcher(pathAwareMatcherStub);
@@ -85,14 +119,16 @@ public class PropertyMatcherTest {
 
     @Test
     public void isSpecifiedIsFalseWhenNoMatcherAssigned() {
-        PropertyMatcher<String> propertyMatcher = new PropertyMatcher<String>("myProperty", mockPathProvider);
+        PropertyMatcher<String> propertyMatcher =
+                new PropertyMatcher<String>("myProperty", null, mockPathProvider);
 
         assertFalse(propertyMatcher.isSpecified());
     }
 
     @Test
     public void isSpecifiedIsTrueWhenMatcherAssigned() {
-        PropertyMatcher<String> propertyMatcher = new PropertyMatcher<String>("myProperty", mockPathProvider);
+        PropertyMatcher<String> propertyMatcher =
+                new PropertyMatcher<String>("myProperty", null, mockPathProvider);
 
         propertyMatcher.setMatcher(anything());
 
@@ -101,14 +137,16 @@ public class PropertyMatcherTest {
 
     @Test
     public void matchesIfNoMatcherAssigned() {
-        PropertyMatcher<String> propertyMatcher = new PropertyMatcher<String>("myProperty", mockPathProvider);
+        PropertyMatcher<String> propertyMatcher =
+                new PropertyMatcher<String>("myProperty", null, mockPathProvider);
 
         assertTrue(propertyMatcher.matches("any string"));
     }
 
     @Test
     public void matchesIfAssignedMatcherMatches() {
-        PropertyMatcher<String> propertyMatcher = new PropertyMatcher<String>("myProperty", mockPathProvider);
+        PropertyMatcher<String> propertyMatcher =
+                new PropertyMatcher<String>("myProperty", null, mockPathProvider);
         propertyMatcher.setMatcher(equalTo("matched string"));
 
         assertTrue(propertyMatcher.matches("matched string"));
@@ -116,7 +154,8 @@ public class PropertyMatcherTest {
 
     @Test
     public void matchFailsIfAssignedMatcherFails() {
-        PropertyMatcher<String> propertyMatcher = new PropertyMatcher<String>("myProperty", mockPathProvider);
+        PropertyMatcher<String> propertyMatcher =
+                new PropertyMatcher<String>("myProperty", null, mockPathProvider);
         propertyMatcher.setMatcher(equalTo("matched string"));
 
         assertFalse(propertyMatcher.matches("not matched string"));
@@ -124,7 +163,8 @@ public class PropertyMatcherTest {
 
     @Test
     public void describesWhenMatcherAssigned() {
-        PropertyMatcher<String> propertyMatcher = new PropertyMatcher<String>("myProperty", mockPathProvider);
+        PropertyMatcher<String> propertyMatcher =
+                new PropertyMatcher<String>("myProperty", null, mockPathProvider);
         PathAwareMatcherStub<String> assignedMatcher = new PathAwareMatcherStub<String>();
         assignedMatcher.setDescriptionText("assigned matcher description text");
         propertyMatcher.setMatcher(assignedMatcher);
@@ -137,7 +177,8 @@ public class PropertyMatcherTest {
 
     @Test
     public void describesWhenNoMatcherAssigned() {
-        PropertyMatcher<String> propertyMatcher = new PropertyMatcher<String>("myProperty", mockPathProvider);
+        PropertyMatcher<String> propertyMatcher =
+                new PropertyMatcher<String>("myProperty", null, mockPathProvider);
 
         StringDescription description = new StringDescription();
         propertyMatcher.describeTo(description);
@@ -147,7 +188,8 @@ public class PropertyMatcherTest {
 
     @Test
     public void describeMismatchDelegatesToAssignedPathAwareMatcher() {
-        PropertyMatcher<String> propertyMatcher = new PropertyMatcher<String>("myProperty", mockPathProvider);
+        PropertyMatcher<String> propertyMatcher =
+                new PropertyMatcher<String>("myProperty", null, mockPathProvider);
         PathAwareMatcherStub<String> assignedMatcher = new PathAwareMatcherStub<String>();
         assignedMatcher.setMismatchDescriptionText("assigned matcher mismatch description");
         propertyMatcher.setMatcher(assignedMatcher);
@@ -160,7 +202,8 @@ public class PropertyMatcherTest {
 
     @Test
     public void describeMismatchGeneratesMismatchDescription() {
-        PropertyMatcher<String> propertyMatcher = new PropertyMatcher<String>("myProperty", mockPathProvider);
+        PropertyMatcher<String> propertyMatcher =
+                new PropertyMatcher<String>("myProperty", null, mockPathProvider);
         propertyMatcher.setMatcher(equalTo("bar"));
 
         StringDescription description = new StringDescription();

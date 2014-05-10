@@ -13,8 +13,12 @@ public class ReflectingPropertyMatcher<T> extends PropertyMatcher<T> {
         super(propertyName);
     }
 
-    public ReflectingPropertyMatcher(String propertyName, PathProvider pathProvider) {
-        super(propertyName, pathProvider);
+    public ReflectingPropertyMatcher(String propertyName, PropertyMatcherRegistry registry) {
+        super(propertyName, registry);
+    }
+
+    public ReflectingPropertyMatcher(String propertyName, PropertyMatcherRegistry registry, PathProvider pathProvider) {
+        super(propertyName, registry, pathProvider);
     }
 
     @Override
