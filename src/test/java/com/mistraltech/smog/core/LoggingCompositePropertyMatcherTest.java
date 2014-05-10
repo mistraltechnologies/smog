@@ -38,7 +38,7 @@ public class LoggingCompositePropertyMatcherTest {
     private void addPropertyMatcher(CompositePropertyMatcher<Item> cpm, String propertyName, String value) {
         PropertyMatcher<String> propertyMatcher = new ReflectingPropertyMatcher<String>(propertyName);
         propertyMatcher.setMatcher(equalTo(value));
-        cpm.addPropertyMatchers(propertyMatcher);
+        cpm.registerPropertyMatcher(propertyMatcher);
     }
 
     private Appender<ILoggingEvent> createMockAppender() {

@@ -16,7 +16,8 @@ public abstract class AddresseeMatcher<R, T extends Addressee> extends Composite
 
     protected AddresseeMatcher(String matchedObjectDescription) {
         super(matchedObjectDescription);
-        addPropertyMatchers(nameMatcher, addressMatcher);
+        registerPropertyMatcher(nameMatcher);
+        registerPropertyMatcher(addressMatcher);
     }
 
     @SuppressWarnings("unchecked")

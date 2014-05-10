@@ -16,7 +16,8 @@ public class AddressMatcher extends CompositePropertyMatcher<Address> {
 
     private AddressMatcher() {
         super("an Address");
-        addPropertyMatchers(houseNumberMatcher, postCodeMatcher);
+        registerPropertyMatcher(houseNumberMatcher);
+        registerPropertyMatcher(postCodeMatcher);
     }
 
     public static AddressMatcher anAddressThat() {
