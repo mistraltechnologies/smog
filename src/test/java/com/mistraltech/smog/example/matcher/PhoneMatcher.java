@@ -9,13 +9,11 @@ import org.hamcrest.Matcher;
 import static org.hamcrest.CoreMatchers.equalTo;
 
 public class PhoneMatcher extends CompositePropertyMatcher<Phone> {
-    private PropertyMatcher<String> codeMatcher = new PropertyMatcher<String>("code");
-    private PropertyMatcher<String> numberMatcher = new PropertyMatcher<String>("number");
+    private PropertyMatcher<String> codeMatcher = new PropertyMatcher<String>("code", this);
+    private PropertyMatcher<String> numberMatcher = new PropertyMatcher<String>("number", this);
 
     private PhoneMatcher() {
         super("a Phone");
-        registerPropertyMatcher(codeMatcher);
-        registerPropertyMatcher(numberMatcher);
     }
 
     public static PhoneMatcher aPhoneThat() {

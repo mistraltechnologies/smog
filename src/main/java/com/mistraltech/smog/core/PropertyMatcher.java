@@ -40,15 +40,6 @@ public class PropertyMatcher<T> extends BaseMatcher<T> implements PathProvider {
     private PathProvider pathProvider;
 
     /**
-     * Minimal constructor.
-     *
-     * @param propertyName name of the attribute that this PropertyMatcher matches against in the target object
-     */
-    public PropertyMatcher(String propertyName) {
-        this(propertyName, null, null);
-    }
-
-    /**
      * Constructor that takes a PropertyMatcherRegistry. This instance will register itself with the registry.
      *
      * @param propertyName name of the attribute that this PropertyMatcher matches against in the target object
