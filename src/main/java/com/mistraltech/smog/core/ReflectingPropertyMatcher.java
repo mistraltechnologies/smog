@@ -9,12 +9,12 @@ import java.lang.reflect.Method;
 
 public class ReflectingPropertyMatcher<T> extends PropertyMatcher<T> {
 
-    public ReflectingPropertyMatcher(String propertyName, PathProvider pathProvider) {
-        super(propertyName, pathProvider);
-    }
-
     public ReflectingPropertyMatcher(String propertyName) {
         super(propertyName);
+    }
+
+    public ReflectingPropertyMatcher(String propertyName, PathProvider pathProvider) {
+        super(propertyName, pathProvider);
     }
 
     @Override

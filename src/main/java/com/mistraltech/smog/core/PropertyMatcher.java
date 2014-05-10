@@ -40,19 +40,7 @@ public class PropertyMatcher<T> extends BaseMatcher<T> implements PathProvider {
     private PathProvider pathProvider;
 
     /**
-     * Constructor.
-     *
-     * @param propertyName name of the attribute that this PropertyMatcher matches against in the target object
-     * @param pathProvider provides this PropertyMatcher with its path context. I.e. the property path that leads
-     * to the object containing this attribute in the target object graph
-     */
-    public PropertyMatcher(String propertyName, PathProvider pathProvider) {
-        this(propertyName);
-        setPathProvider(pathProvider);
-    }
-
-    /**
-     * Constructor that does not take a PathProvider.
+     * Minimal constructor.
      *
      * @param propertyName name of the attribute that this PropertyMatcher matches against in the target object
      */
@@ -64,8 +52,20 @@ public class PropertyMatcher<T> extends BaseMatcher<T> implements PathProvider {
     }
 
     /**
-     * Sets the path provider, which provides this PropertyMatcher with its path context. I.e. the property path that leads
+     * Constructor that takes and assigns a {@link PathProvider}.
+     *
+     * @param propertyName name of the attribute that this PropertyMatcher matches against in the target object
+     * @param pathProvider provides this PropertyMatcher with its path context. I.e. the property path that leads
      * to the object containing this attribute in the target object graph
+     */
+    public PropertyMatcher(String propertyName, PathProvider pathProvider) {
+        this(propertyName);
+        setPathProvider(pathProvider);
+    }
+
+    /**
+     * Sets the path provider, which provides this PropertyMatcher with its path context. I.e. the property path that leads
+     * to the object containing this attribute in the target object graph.
      *
      * @param pathProvider the path provider
      */
