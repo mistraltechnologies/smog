@@ -175,7 +175,7 @@ public final class AccountMatcher extends CompositePropertyMatcher<Account> {
 }
 ```
 ### Notes
-* The class extends CompositePropertyMatcher<T> where T is the type of object it will match.
+* The class extends CompositePropertyMatcher\<T> where T is the type of object it will match.
 * There is a PropertyMatcher instance variable for each property to be matched. The PropertyMatcher is told the name of
 the property it is matching and takes a reference to 'this', allowing it to request to be invoked automatically during
 the matching process.
