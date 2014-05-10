@@ -22,22 +22,24 @@ Here are a few examples to illustrate how SMOG matchers can be used. They're jus
 For a simple case, let's just match some property values on a single object.
 Assume you are testing an Account class:
 ```
-public class Account() {
+public class Account {
     private String owner;
     private int balance;
-    
+
     public Account(String owner, int balance) {
         this.owner = owner;
         this.balance = balance;
     }
-    
+
     public String getOwner() { return owner; }
     public int getBalance() { return balance; }
     public boolean isOverdrawn() { return balance < 0; }
-    ...
+
+    public void withdraw(int amount) { balance -= amount; }
+    public void deposit(int amount) { balance += amount; }
 }
 ```
-Using SMOG matchers, we can test Account like this:
+Using SMOG matchers, we can test Account with tests like this:
 ```
 @Test
 public void canConstructAccount()
@@ -59,27 +61,28 @@ public void canGoOverdrawn()
 ```
 Suppose instead of subtracting the withdrawn amount, we added it. The test would fail and the output would look like this:
 ```
-java.lang.AssertionError
-Expected: is an Account that (has balance (-50) and overdrawn (true))
-     but: balance was 250 (expected -50)
-     and: overdrawn was false (expected true)
+java.lang.AssertionError:
+Expected: is an Account that (has balance (<-50>) and has overdrawn (<true>))
+     but: balance was <250> (expected <-50>)
+     and: overdrawn was <false> (expected <true>)
 ```
 ### Matching Nested Objects
 A slightly more complex example might involve a transfer of funds using a Transfer object:
 ```
-public class Transfer() {
+public class Transfer {
     private Account from;
     private Account to;
     private int amount;
-    
+
     public Transfer(Account from, Account to, int amount) {
         this.from = from;
         this.to = to;
         this.amount = amount;
+
         from.withdraw(amount);
         to.deposit(amount);
     }
-    
+
     public Account getFromAccount() { return from; }
     public Account getToAccount() { return to; }
     public int getAmount() { return amount; }
@@ -88,7 +91,7 @@ public class Transfer() {
 Now, when the transfer occurs, we want the associated accounts to have been updated:
 ```
 @Test
-public void fundsAreTransferred()
+public void ensureFundsAreTransferred()
 {
   Account fredsAccount = new Account("fred", 100);
   Account tracysAccount = new Account("tracy", 100);
@@ -96,7 +99,6 @@ public void fundsAreTransferred()
   Transfer transfer = new Transfer(fredsAccount, tracysAccount, 50);
   
   assertThat(transfer, is(aTransferThat()
-      .hasAmount(50)
       .hasFromAccount(anAccountThat()
           .hasOwner("fred")
           .hasBalance(50))
@@ -108,16 +110,16 @@ public void fundsAreTransferred()
 ```
 Suppose instead of depositing the money in Tracy's account, we withdrew it. The test would fail and the output would look like this:
 ```
-java.lang.AssertionError
-Expected: is a Transfer that (has amount (50) and fromAccount (an Account that (has owner ("fred") and balance (50))) and toAccount (an Account that (has owner ("tracy") and balance (150))))
-     but: toAccount.balance was 50 (expected 150)
+java.lang.AssertionError:
+Expected: is a Transfer that (has fromAccount (an Account that (has owner ("fred") and has balance (<50>))) and has toAccount (an Account that (has owner ("tracy") and has balance (<150>))))
+     but: toAccount.balance was <50> (expected <150>)
 ```
 Or we may have stored the first constructor argument as both the 'from' and 'to' accounts. We would then see:
 ```
-java.lang.AssertionError
-Expected: is a Transfer that (has amount (50) and fromAccount (an Account that (has owner ("fred") and balance (50))) and toAccount (an Account that (has owner ("tracy") and balance (150))))
+java.lang.AssertionError:
+Expected: is a Transfer that (has fromAccount (an Account that (has owner ("fred") and has balance (<50>))) and has toAccount (an Account that (has owner ("tracy") and has balance (<150>))))
      but: toAccount.owner was "fred" (expected "tracy")
-     and: toAccount.balance was 50 (expected 150)
+     and: toAccount.balance was <50> (expected <150>)
 ```
 ##FAQs
 ### Why do I need SMOG?
