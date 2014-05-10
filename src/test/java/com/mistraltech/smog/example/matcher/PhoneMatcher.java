@@ -14,7 +14,8 @@ public class PhoneMatcher extends CompositePropertyMatcher<Phone> {
 
     private PhoneMatcher() {
         super("a Phone");
-        addPropertyMatchers(codeMatcher, numberMatcher);
+        registerPropertyMatcher(codeMatcher);
+        registerPropertyMatcher(numberMatcher);
     }
 
     public static PhoneMatcher aPhoneThat() {

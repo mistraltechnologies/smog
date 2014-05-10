@@ -14,7 +14,8 @@ public class PostCodeMatcher extends CompositePropertyMatcher<PostCode> {
 
     private PostCodeMatcher() {
         super("a Postcode");
-        addPropertyMatchers(outerMatcher, innerMatcher);
+        registerPropertyMatcher(outerMatcher);
+        registerPropertyMatcher(innerMatcher);
     }
 
     public static PostCodeMatcher aPostCodeThat() {

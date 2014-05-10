@@ -11,7 +11,7 @@ import java.util.List;
  *
  * @param <T> type of matchable target object
  */
-public class CompositePropertyMatcher<T> extends PathAwareDiagnosingMatcher<T> {
+public class CompositePropertyMatcher<T> extends PathAwareDiagnosingMatcher<T> implements PropertyMatcherRegistry {
     private String matchedObjectDescription;
     private List<PropertyMatcher> propertyMatcherList = new ArrayList<PropertyMatcher>();
 
@@ -31,20 +31,19 @@ public class CompositePropertyMatcher<T> extends PathAwareDiagnosingMatcher<T> {
     }
 
     /**
-     * Register one or more PropertyMatcher instances. Registered property matchers are used
+     * Register a PropertyMatcher instance. Registered property matchers are used
      * to generate the describeTo text. If a given property matcher does not have an assigned
      * path provider, this instance will be assigned.
      *
-     * @param matchers the PropertyMatcher instances
+     * @param propertyMatcher the PropertyMatcher instances
      */
-    protected void addPropertyMatchers(PropertyMatcher... matchers) {
-        for (PropertyMatcher matcher : matchers) {
-            if (matcher.getPathProvider() == null) {
-                matcher.setPathProvider(this);
-            }
-
-            propertyMatcherList.add(matcher);
+    @Override
+    public void registerPropertyMatcher(PropertyMatcher<?> propertyMatcher) {
+        if (propertyMatcher.getPathProvider() == null) {
+            propertyMatcher.setPathProvider(this);
         }
+
+        propertyMatcherList.add(propertyMatcher);
     }
 
     public final void describeTo(Description description) {

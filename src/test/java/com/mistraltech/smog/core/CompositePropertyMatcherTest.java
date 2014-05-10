@@ -144,7 +144,7 @@ public class CompositePropertyMatcherTest {
     @Test
     public void canDescribeWithSinglePropertyMatcher() {
         TargetItemCompositePropertyMatcher cpm = new TargetItemCompositePropertyMatcher("foo");
-        cpm.addPropertyMatchers(new SpecifiedPropertyMatcher("bar", "x"));
+        cpm.registerPropertyMatcher(new SpecifiedPropertyMatcher("bar", "x"));
         cpm.describeTo(description);
 
         assertEquals("foo that (has bar (\"x\"))", description.toString());
@@ -153,9 +153,8 @@ public class CompositePropertyMatcherTest {
     @Test
     public void canDescribeWithMultiplePropertyMatchers() {
         TargetItemCompositePropertyMatcher cpm = new TargetItemCompositePropertyMatcher("foo");
-        cpm.addPropertyMatchers(
-                new SpecifiedPropertyMatcher("bar1", "x"),
-                new SpecifiedPropertyMatcher("bar2", "y"));
+        cpm.registerPropertyMatcher(new SpecifiedPropertyMatcher("bar1", "x"));
+        cpm.registerPropertyMatcher(new SpecifiedPropertyMatcher("bar2", "y"));
         cpm.describeTo(description);
 
         assertEquals("foo that (has bar1 (\"x\") and has bar2 (\"y\"))", description.toString());
@@ -164,9 +163,8 @@ public class CompositePropertyMatcherTest {
     @Test
     public void describeIgnoresUnspecifiedPropertyMatchers() {
         TargetItemCompositePropertyMatcher cpm = new TargetItemCompositePropertyMatcher("foo");
-        cpm.addPropertyMatchers(
-                new PropertyMatcher("bar1"),
-                new SpecifiedPropertyMatcher("bar2", "y"));
+        cpm.registerPropertyMatcher(new PropertyMatcher("bar1"));
+        cpm.registerPropertyMatcher(new SpecifiedPropertyMatcher("bar2", "y"));
         cpm.describeTo(description);
 
         assertEquals("foo that (has bar2 (\"y\"))", description.toString());
@@ -207,7 +205,7 @@ public class CompositePropertyMatcherTest {
         TargetItemCompositePropertyMatcher cpm = new TargetItemCompositePropertyMatcher("foo");
         PropertyMatcher propertyMatcher = new PropertyMatcher("");
 
-        cpm.addPropertyMatchers(propertyMatcher);
+        cpm.registerPropertyMatcher(propertyMatcher);
 
         assertSame(cpm, propertyMatcher.getPathProvider());
     }
@@ -218,7 +216,7 @@ public class CompositePropertyMatcherTest {
         PathProvider originalPathProvider = new StubPathProvider();
         PropertyMatcher propertyMatcher = new PropertyMatcher("", originalPathProvider);
 
-        cpm.addPropertyMatchers(propertyMatcher);
+        cpm.registerPropertyMatcher(propertyMatcher);
 
         assertSame(originalPathProvider, propertyMatcher.getPathProvider());
     }
@@ -229,7 +227,8 @@ public class CompositePropertyMatcherTest {
         final SpecifiedPropertyMatcher propertyMatcher2 = new SpecifiedPropertyMatcher("prop2", "y");
 
         CompositePropertyMatcher<String> cpm = new CompositePropertyMatcher<String>("foo");
-        cpm.addPropertyMatchers(propertyMatcher1, propertyMatcher2);
+        cpm.registerPropertyMatcher(propertyMatcher1);
+        cpm.registerPropertyMatcher(propertyMatcher2);
 
         boolean result = cpm.matches("x");
 
@@ -255,7 +254,8 @@ public class CompositePropertyMatcherTest {
             }
         };
 
-        cpm.addPropertyMatchers(propertyMatcher1, propertyMatcher2);
+        cpm.registerPropertyMatcher(propertyMatcher1);
+        cpm.registerPropertyMatcher(propertyMatcher2);
 
         cpm.matches("x");
 

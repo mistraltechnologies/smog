@@ -17,8 +17,8 @@ public class PersonMatcher extends AddresseeMatcher<PersonMatcher, Person> {
 
     private PersonMatcher() {
         super("a Person");
-        addPropertyMatchers(ageMatcher);
-        addPropertyMatchers(phoneListMatcher);
+        registerPropertyMatcher(ageMatcher);
+        registerPropertyMatcher(phoneListMatcher);
     }
 
     public static PersonMatcher aPersonThat() {
