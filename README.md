@@ -4,11 +4,11 @@ Sparse Matching of Object Graphs - an extension to Hamcrest
 
 ## Summary
 
-Problem:
+**Problem:**
 
 You are writing JUnit-style tests for operations that update an object graph in various ways. In each test, you want to assert that specific properties of the objects in the object graph are correct.
 
-Solution:
+**Solution:**
 
 Write a matcher for each class in the object graph based on the SMOG library, then compose instances of those matcher classes into a matcher object tree for each test. Each matcher tree matches just the properties you care about for that test.
 
@@ -59,7 +59,7 @@ public void canGoOverdrawn()
     assertThat(account, is(anAccountThat().hasBalance(-50).hasOverdrawn(true));
 }
 ```
-Suppose instead of subtracting the withdrawn amount, we added it. The test would fail and the output would look like this:
+Suppose instead of subtracting the withdrawn amount in our Transfer object, we accidentally added it. The test would fail and the output would look like this:
 ```
 java.lang.AssertionError:
 Expected: is an Account that (has balance (<-50>) and has overdrawn (<true>))
@@ -108,13 +108,13 @@ public void ensureFundsAreTransferred()
       ));
 }
 ```
-Suppose instead of depositing the money in Tracy's account, we withdrew it. The test would fail and the output would look like this:
+Suppose instead of depositing the money in Tracy's account, we accidentally withdrew it. The test would fail and the output would look like this:
 ```
 java.lang.AssertionError:
 Expected: is a Transfer that (has fromAccount (an Account that (has owner ("fred") and has balance (<50>))) and has toAccount (an Account that (has owner ("tracy") and has balance (<150>))))
      but: toAccount.balance was <50> (expected <150>)
 ```
-Or we may have stored the first constructor argument as both the 'from' and 'to' accounts. We would then see:
+Or we may have stored the first constructor argument as both the 'from' and the 'to' accounts. We would then see:
 ```
 java.lang.AssertionError:
 Expected: is a Transfer that (has fromAccount (an Account that (has owner ("fred") and has balance (<50>))) and has toAccount (an Account that (has owner ("tracy") and has balance (<150>))))
@@ -175,23 +175,26 @@ public final class AccountMatcher extends CompositePropertyMatcher<Account> {
 }
 ```
 ### Notes
-The class extends CompositePropertyMatcher<T> where T is the type of object it will match.
-There is a PropertyMatcher instance variable for each property to be matched. The PropertyMatcher is told the name of
+* The class extends CompositePropertyMatcher<T> where T is the type of object it will match.
+* There is a PropertyMatcher instance variable for each property to be matched. The PropertyMatcher is told the name of
 the property it is matching and takes a reference to 'this', allowing it to request to be invoked automatically during
 the matching process.
-The constructor take a parameter that describes the object being matched. In this example, "an Account" is used.
-The constructor also takes a "template" parameter that, if not null, is used to populate the matcher with values from
+* The constructor take a parameter that describes the object being matched. In this example, "an Account" is used.
+* The constructor also takes a "template" parameter that, if not null, is used to populate the matcher with values from
 an existing instance of the target class. These preset values can later be overridden using the has... methods.
-The constructor is private. Instead of using it directly, two static factory methods are provided to construct
+* The constructor is private. Instead of using it directly, two static factory methods are provided to construct
 instances. The factory methods have names "anAccountThat" (which doesn't take a template instance) and "anAccountLike"
 (that does).
-Each matched property has two associated has... methods. One takes a value that the property must equal and the other
+* Each matched property has two associated has... methods. One takes a value that the property must equal and the other
 takes a Hamcrest matcher. The method taking the value simply wraps it in a Hamcrest matcher using the equalTo() factory
 method before passing it to the other method.
+
 ### Simplifying Writing Matcher Classes
 An IntelliJ plugin called Smogen is available to generate matcher classes like this one directly from the target class.
 Pretty cool, eh?
+
 ##FAQs
+
 ### Why do I need SMOG?
 
 You can easily write matcher classes that match the properties of an object without using SMOG. But what happens when the match fails? You may get a message containing a java object reference for the object that didn't match. If you're lucky and toString has been overridden you may instead get a list of all the properties of an object. You are then left to work out which property caused the failure. This might not be too bad for an object with a couple of properties, but as the number of properties grows it can become a real headache.
@@ -210,7 +213,7 @@ You could write a separate assertion for each property you care about. But then,
 
 ### Is this style of testing a good idea?
 
-Not necessarily. Certainly it is possible to write complex test expectations that are hard to read and maintain. And it may lead to tests that do too much - what Gerard Meszaros calls an Eager Test (xUnit Test Patterns). Basically, it is up to you to use it wisely :)
+Not necessarily. Certainly it is possible to write complex test expectations that are hard to read and maintain. And it may lead to tests that do too much - what Gerard Meszaros calls an Eager Test ([xUnit Test Patterns](http://xunitpatterns.com/). Basically, it is up to you to use it wisely :)
 
 ### I'm using matchers in mocks - how does SMOG help?
 
@@ -219,8 +222,8 @@ Mocking libraries like Mockito support using Hamcrest matchers to match argument
 ## Acknowledgments
 
 This project builds on the work and ideas of developers on the Titan Pricing Management (v1) application at
-Black Pepper Software (http://blackpepper.co.uk/).
+[Black Pepper Software](http://blackpepper.co.uk/).
 
-The project extends the Hamcrest Matcher library at http://hamcrest.org/ and relies heavily on the mechanism introduced in the TypeSafeDiagnosingMatcher.
+The project extends the [Hamcrest Matcher library](http://hamcrest.org/) and relies heavily on the mechanism introduced in the TypeSafeDiagnosingMatcher.
 
 
