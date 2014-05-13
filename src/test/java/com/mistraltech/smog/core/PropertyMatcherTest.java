@@ -1,6 +1,7 @@
 package com.mistraltech.smog.core;
 
 
+import org.hamcrest.BaseMatcher;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.StringDescription;
@@ -217,7 +218,7 @@ public class PropertyMatcherTest {
         }
     }
 
-    private static class PathAwareMatcherStub<T> implements Matcher<T>, PathAware {
+    private static class PathAwareMatcherStub<T> extends BaseMatcher<T> implements PathAware {
         private PathProvider pathProvider;
         private String descriptionText = "";
         private String mismatchDescriptionText = "";
@@ -230,11 +231,6 @@ public class PropertyMatcherTest {
         @Override
         public void describeMismatch(Object item, Description mismatchDescription) {
             mismatchDescription.appendText(mismatchDescriptionText);
-        }
-
-        @Override
-        public void _dont_implement_Matcher___instead_extend_BaseMatcher_() {
-            // ... unless its a test mock representing some arbitrary Matcher
         }
 
         @Override
