@@ -63,7 +63,7 @@ public final class MatchAccumulator {
      * @param <P> the type of item to be matched
      * @return this instance, to allow multiple calls to be chained
      */
-    public <P> MatchAccumulator matches(Matcher<? super P> matcher, P item) {
+    public <P> MatchAccumulator matches(Matcher<?> matcher, P item) {
         boolean localMatches = matcher.matches(item);
 
         if (!localMatches) {

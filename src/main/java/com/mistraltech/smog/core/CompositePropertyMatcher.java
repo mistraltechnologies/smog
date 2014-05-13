@@ -13,7 +13,7 @@ import java.util.List;
  */
 public class CompositePropertyMatcher<T> extends PathAwareDiagnosingMatcher<T> implements PropertyMatcherRegistry {
     private String matchedObjectDescription;
-    private List<PropertyMatcher> propertyMatcherList = new ArrayList<PropertyMatcher>();
+    private List<PropertyMatcher<?>> propertyMatcherList = new ArrayList<PropertyMatcher<?>>();
 
     /**
      * Constructor.
@@ -76,7 +76,7 @@ public class CompositePropertyMatcher<T> extends PathAwareDiagnosingMatcher<T> i
         // Note this is only likely to be the right thing if the property matchers
         // are able to determine their own property value from the parent object, such
         // as is done by ReflectingPropertyMatcher.
-        for (PropertyMatcher propertyMatcher : propertyMatcherList) {
+        for (PropertyMatcher<?> propertyMatcher : propertyMatcherList) {
             if (!matchAccumulator.hasBeenApplied(propertyMatcher)) {
                 matchAccumulator.matches(propertyMatcher, item);
             }

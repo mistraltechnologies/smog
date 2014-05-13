@@ -1,5 +1,6 @@
 package com.mistraltech.smog;
 
+import com.mistraltech.smog.example.matcher.PhoneMatcher;
 import com.mistraltech.smog.example.model.Address;
 import com.mistraltech.smog.example.model.Person;
 import com.mistraltech.smog.example.model.Phone;
@@ -178,8 +179,11 @@ public class MatcherExamplesTest {
         Matcher<Person> matcher =
                 is(aPersonThat()
                         .hasPhoneList(IsIterableContainingInOrder.contains(
+                            new PhoneMatcher[] {
                                 aPhoneThat().hasCode("123").hasNumber("456456"),
-                                aPhoneThat().hasCode("123").hasNumber("123321"))));
+                                aPhoneThat().hasCode("123").hasNumber("123321")
+                            }
+                        )));
 
         Person input = new Person("bob", 36, null, new Phone("123", "456456"), new Phone("123", "123123"));
 
