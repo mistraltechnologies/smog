@@ -18,7 +18,7 @@
     <licenses>
         <license>
             <name>BSD 3-Clause License</name>
-            <url>/LICENSE.txt</url>
+            <url>http://opensource.org/licenses/BSD-3-Clause</url>
             <distribution>repo</distribution>
         </license>
     </licenses>
