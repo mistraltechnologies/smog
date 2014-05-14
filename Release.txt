@@ -1,0 +1,16 @@
+Process
+-------
+
+Check all changes are committed.
+
+Give the new release a version: mvn versions:set
+
+Build and deploy to staging repository: mvn deploy -Psonatype-oss-release
+This will build binary, javadoc and source artifacts, sign them and upload to the sonatype staging repository.
+
+Tag the release: mvn scm:tag
+Creates a tag with the form: smog-core-{version}
+
+Close the staging repository.
+
+Set a new snapshot version.
