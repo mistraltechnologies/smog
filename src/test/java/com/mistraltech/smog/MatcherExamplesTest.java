@@ -30,7 +30,7 @@ public class MatcherExamplesTest {
         Matcher<String> matcher = CombinableMatcher.<String>both(equalTo("abc")).and(equalTo("bc"));
 
         assertDescription(matcher, "('abc' and 'bc')");
-        assertMismatch(matcher, "abc", "'bc' was 'abc'");
+        assertMismatch("abc", matcher, "'bc' was 'abc'");
     }
 
     @Test
@@ -38,7 +38,7 @@ public class MatcherExamplesTest {
         Matcher<String> matcher = anyOf(equalTo("ab"), equalTo("bc"), equalTo("ac"));
 
         assertDescription(matcher, "('ab' or 'bc' or 'ac')");
-        assertMismatch(matcher, "abc", "was 'abc'");
+        assertMismatch("abc", matcher, "was 'abc'");
     }
 
     @Test
@@ -57,7 +57,7 @@ public class MatcherExamplesTest {
 
         Person input = new Person("dennis", 36, new Address(21, new PostCode("out", "in")));
 
-        assertMismatch(matcher, input, "name was 'dennis' (expected 'bob')");
+        assertMismatch(input, matcher, "name was 'dennis' (expected 'bob')");
     }
 
     @Test
@@ -82,7 +82,7 @@ public class MatcherExamplesTest {
 
         Person input = new Person("bob", 36, new Address(21, new PostCode("out", "in")));
 
-        assertMismatch(matcher, input, "address.houseNumber was <21> (expected <99>)");
+        assertMismatch(input, matcher, "address.houseNumber was <21> (expected <99>)");
     }
 
     @Test
@@ -101,7 +101,7 @@ public class MatcherExamplesTest {
                 "(an Address that (has houseNumber (<21>) and has postCode " +
                 "(a Postcode that (has outer (a string containing 'y'))))))");
 
-        assertMismatch(matcher, input, "address.postCode.outer was 'out' (expected a string containing 'y')");
+        assertMismatch(input, matcher, "address.postCode.outer was 'out' (expected a string containing 'y')");
     }
 
     @Test
@@ -122,7 +122,7 @@ public class MatcherExamplesTest {
                 "     and: address.postCode.outer was 'out' (expected a string containing 'y')\n" +
                 "     and: address.postCode.inner was 'in' (expected a string starting with 'x')";
 
-        assertMismatch(matcher, input, descriptionOfMismatch);
+        assertMismatch(input, matcher, descriptionOfMismatch);
     }
 
     @Test
@@ -140,7 +140,7 @@ public class MatcherExamplesTest {
         String descriptionOfMismatch = "name was 'bob' (expected 'obo')\n" +
                 "     and: address was null";
 
-        assertMismatch(matcher, input, descriptionOfMismatch);
+        assertMismatch(input, matcher, descriptionOfMismatch);
     }
 
     private void assertDescription(Matcher matcher, String descriptionOfExpected) {
@@ -158,7 +158,7 @@ public class MatcherExamplesTest {
 
         Pattern mismatchDescriptionPattern = Pattern.compile("phoneList .* \\(expected an empty collection\\)");
 
-        assertMismatch(matcher, input, mismatchDescriptionPattern);
+        assertMismatch(input, matcher, mismatchDescriptionPattern);
     }
 
     @Test
@@ -171,7 +171,7 @@ public class MatcherExamplesTest {
 
         String descriptionOfMismatch = "phoneList collection size was <2> (expected a collection with size <1>)";
 
-        assertMismatch(matcher, input, descriptionOfMismatch);
+        assertMismatch(input, matcher, descriptionOfMismatch);
     }
 
     @Test
@@ -193,10 +193,10 @@ public class MatcherExamplesTest {
                 "a Phone that (has code ('123') and has number ('123321'))" +
                 "])";
 
-        assertMismatch(matcher, input, descriptionOfMismatch);
+        assertMismatch(input, matcher, descriptionOfMismatch);
     }
 
-    private <T> void assertMismatch(Matcher<T> matcher, T input, String descriptionOfMismatch) {
+    private <T> void assertMismatch(T input, Matcher<T> matcher, String descriptionOfMismatch) {
         assertFalse(matcher.matches(input));
 
         Description actualDescriptionOfMismatch = new StringDescription();
@@ -204,7 +204,7 @@ public class MatcherExamplesTest {
         assertEquals(singleToDoubleQuotes(descriptionOfMismatch), actualDescriptionOfMismatch.toString());
     }
 
-    private <T> void assertMismatch(Matcher<T> matcher, T input, Pattern descriptionOfMismatch) {
+    private <T> void assertMismatch(T input, Matcher<T> matcher, Pattern descriptionOfMismatch) {
         assertFalse(matcher.matches(input));
 
         Description actualDescriptionOfMismatch = new StringDescription();
