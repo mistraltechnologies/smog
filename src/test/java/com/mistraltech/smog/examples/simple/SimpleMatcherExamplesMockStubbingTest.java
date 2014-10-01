@@ -1,21 +1,22 @@
-package com.mistraltech.smog;
+package com.mistraltech.smog.examples.simple;
 
-import com.mistraltech.smog.example.model.Address;
-import com.mistraltech.smog.example.model.Person;
-import com.mistraltech.smog.example.model.PostCode;
+import com.mistraltech.smog.examples.simple.model.Address;
+import com.mistraltech.smog.examples.simple.model.Person;
+import com.mistraltech.smog.examples.simple.model.PostCode;
 import org.hamcrest.Matchers;
 import org.junit.Test;
 
-import static com.mistraltech.smog.example.matcher.AddressMatcher.anAddressThat;
-import static com.mistraltech.smog.example.matcher.PersonMatcher.aPersonThat;
-import static com.mistraltech.smog.example.matcher.PostCodeMatcher.aPostCodeThat;
+import static com.mistraltech.smog.examples.simple.matcher.AddressMatcher.anAddressThat;
+import static com.mistraltech.smog.examples.simple.matcher.PersonMatcher.aPersonThat;
+import static com.mistraltech.smog.examples.simple.matcher.PostCodeMatcher.aPostCodeThat;
 import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.Matchers.argThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-public class MockExamplesTest {
+public class SimpleMatcherExamplesMockStubbingTest
+{
     private class Converter {
         public String personToName(Person person) {
             return "Bertie";

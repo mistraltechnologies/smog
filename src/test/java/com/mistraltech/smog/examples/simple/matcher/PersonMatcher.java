@@ -1,10 +1,10 @@
-package com.mistraltech.smog.example.matcher;
+package com.mistraltech.smog.examples.simple.matcher;
 
 import com.mistraltech.smog.core.MatchAccumulator;
 import com.mistraltech.smog.core.PropertyMatcher;
 import com.mistraltech.smog.core.ReflectingPropertyMatcher;
-import com.mistraltech.smog.example.model.Person;
-import com.mistraltech.smog.example.model.Phone;
+import com.mistraltech.smog.examples.simple.model.Person;
+import com.mistraltech.smog.examples.simple.model.Phone;
 import org.hamcrest.Matcher;
 
 import java.util.List;
