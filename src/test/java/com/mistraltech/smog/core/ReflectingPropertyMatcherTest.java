@@ -57,6 +57,17 @@ public class ReflectingPropertyMatcherTest {
     }
 
     @Test
+    public void doesNotReadPropertyUnnecessarilyWhenMatcherUnspecified() {
+        PropertyMatcher<String> matcher = new ReflectingPropertyMatcher<String>("surname", null);
+
+        matcher.matches(bob);
+
+        // Absence of exception means test passed. If there was an attempt to read the property value
+        // a PropertyNotFoundException would have been thrown.
+        // See cannotMatchWhenPropertyNotFound().
+    }
+
+    @Test
     public void cannotMatchWhenAccessorFails() {
         PropertyMatcher<String> matcher = new ReflectingPropertyMatcher<String>("brokenName", null);
         matcher.setMatcher(anything());
