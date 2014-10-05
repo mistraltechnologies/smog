@@ -1,0 +1,28 @@
+The examples currently show separate abstract and concrete classes for extensible matchers.
+See:
+    com.mistraltech.smog.examples.generics.matcher.AbstractBoxMatcher
+    com.mistraltech.smog.examples.generics.matcher.BoxMatcher
+
+Could these be combined into a single extensible BoxMatcher class?
+
+This would involve moving the static factory methods from the subclass into the superclass:
+
+    public static <P1> BoxMatcher<P1, BoxMatcher<P1, ?, Box<P1>>, Box<P1>> aBoxThat()
+    {
+        return aBoxLike(null);
+    }
+
+    public static <P1> BoxMatcher<P1, BoxMatcher<P1, ?, Box<P1>>, Box<P1>> aBoxLike(final Box<P1> template)
+    {
+        return new BoxMatcher<P1, BoxMatcher<P1, ?, Box<P1>>, Box<P1>>("a Box", template);
+    }
+
+The problem is that the implementation of matches safely requires this signature:
+
+    protected void matchesSafely(T item, MatchAccumulator matchAccumulator) {
+    }
+
+Through type erasure, the runtime type of item is Object. Unfortunately, the type of item declared in this method
+is used by PathAwareDiagnosingMatcher to enforce type checking when matching.
+
+A solution would require an alternative mechanism for specifying or determining the type of T.
