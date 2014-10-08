@@ -10,10 +10,10 @@ import org.hamcrest.core.CombinableMatcher;
 import org.junit.Test;
 
 import com.mistraltech.smog.examples.simple.matcher.PhoneMatcher;
-import com.mistraltech.smog.examples.simple.model.Address;
-import com.mistraltech.smog.examples.simple.model.Person;
-import com.mistraltech.smog.examples.simple.model.Phone;
-import com.mistraltech.smog.examples.simple.model.PostCode;
+import com.mistraltech.smog.examples.model.Address;
+import com.mistraltech.smog.examples.model.Person;
+import com.mistraltech.smog.examples.model.Phone;
+import com.mistraltech.smog.examples.model.PostCode;
 
 import static org.hamcrest.CoreMatchers.anyOf;
 import static org.hamcrest.CoreMatchers.containsString;

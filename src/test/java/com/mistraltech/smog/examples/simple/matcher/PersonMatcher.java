@@ -3,15 +3,16 @@ package com.mistraltech.smog.examples.simple.matcher;
 import com.mistraltech.smog.core.MatchAccumulator;
 import com.mistraltech.smog.core.PropertyMatcher;
 import com.mistraltech.smog.core.ReflectingPropertyMatcher;
-import com.mistraltech.smog.examples.simple.model.Person;
-import com.mistraltech.smog.examples.simple.model.Phone;
+import com.mistraltech.smog.examples.model.Person;
+import com.mistraltech.smog.examples.model.Phone;
 import org.hamcrest.Matcher;
 
 import java.util.List;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 
-public class PersonMatcher extends AddresseeMatcher<PersonMatcher, Person> {
+public class PersonMatcher extends AddresseeMatcher<PersonMatcher, Person>
+{
     private PropertyMatcher<Integer> ageMatcher = new PropertyMatcher<Integer>("age", this);
     private PropertyMatcher<List<Phone>> phoneListMatcher = new ReflectingPropertyMatcher<List<Phone>>("phoneList", this);
 

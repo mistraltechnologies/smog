@@ -1,29 +1,66 @@
 package com.mistraltech.smog.examples.generics.matcher;
 
+import com.mistraltech.smog.core.CompositePropertyMatcher;
 import com.mistraltech.smog.core.MatchAccumulator;
-import com.mistraltech.smog.examples.generics.model.Box;
+import com.mistraltech.smog.core.ReflectingPropertyMatcher;
+import com.mistraltech.smog.core.PropertyMatcher;
+import com.mistraltech.smog.examples.model.generics.Box;
 
-public class BoxMatcher<P1> extends AbstractBoxMatcher<P1, BoxMatcher<P1>, Box<P1>>
+import org.hamcrest.Matcher;
+
+import static org.hamcrest.CoreMatchers.equalTo;
+
+public class BoxMatcher<P1, R, T extends Box<P1>> extends CompositePropertyMatcher<T>
 {
-    public BoxMatcher(final String matchedObjectDescription, final Box<P1> template)
+    private PropertyMatcher<P1> contentsMatcher = new ReflectingPropertyMatcher<P1>("contents", this);
+
+    protected BoxMatcher(final String matchedObjectDescription, final T template)
     {
-        super(matchedObjectDescription, template);
+        super(matchedObjectDescription);
+        if (template != null)
+        {
+            hasContents(template.getContents());
+        }
     }
 
-    public static <P1> BoxMatcher<P1> aBoxThat()
+    private static class TypeBoundBoxMatcher<P1> extends BoxMatcher<P1, TypeBoundBoxMatcher<P1>, Box<P1>>
+    {
+        protected TypeBoundBoxMatcher(String matchedObjectDescription, Box<P1> template)
+        {
+            super(matchedObjectDescription, template);
+        }
+
+        @Override
+        protected void matchesSafely(Box<P1> item, MatchAccumulator matchAccumulator)
+        {
+            super.matchesSafely(item, matchAccumulator);
+        }
+    }
+
+    public static <P1> BoxMatcher<P1, TypeBoundBoxMatcher<P1>, Box<P1>> aBoxThat()
     {
         return aBoxLike(null);
     }
 
-    public static <P1> BoxMatcher<P1> aBoxLike(final Box<P1> template)
+    public static <P1> BoxMatcher<P1, TypeBoundBoxMatcher<P1>, Box<P1>> aBoxLike(final Box<P1> template)
     {
-        return new BoxMatcher<P1>("a Box", template);
+        return new TypeBoundBoxMatcher<P1>("a Box", template);
     }
 
-    // This override is necessary only to allow CompositePropertyMatcher to determine the type that the matcher expects.
-    @Override
-    protected void matchesSafely(Box<P1> item, MatchAccumulator matchAccumulator)
+    @SuppressWarnings("unchecked")
+    private R self()
     {
-        super.matchesSafely(item, matchAccumulator);
+        return (R) this;
+    }
+
+    public R hasContents(final P1 contents)
+    {
+        return this.hasContents(equalTo(contents));
+    }
+
+    public R hasContents(Matcher<? super P1> contentsMatcher)
+    {
+        this.contentsMatcher.setMatcher(contentsMatcher);
+        return self();
     }
 }

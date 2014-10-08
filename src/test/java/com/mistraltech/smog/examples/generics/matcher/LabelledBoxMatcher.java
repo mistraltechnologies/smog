@@ -5,11 +5,11 @@ import org.hamcrest.Matcher;
 import com.mistraltech.smog.core.MatchAccumulator;
 import com.mistraltech.smog.core.PropertyMatcher;
 import com.mistraltech.smog.core.ReflectingPropertyMatcher;
-import com.mistraltech.smog.examples.generics.model.LabelledBox;
+import com.mistraltech.smog.examples.model.generics.LabelledBox;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 
-public class LabelledBoxMatcher<P1, P2> extends AbstractBoxMatcher<P1, LabelledBoxMatcher<P1, P2>, LabelledBox<P1, P2>>
+public class LabelledBoxMatcher<P1, P2> extends BoxMatcher<P1, LabelledBoxMatcher<P1, P2>, LabelledBox<P1, P2>>
 {
     private PropertyMatcher<P2> labelMatcher = new ReflectingPropertyMatcher<P2>("label", this);
 
