@@ -55,7 +55,7 @@ public class ExtendedMatcherExamplesTest
     }
 
     @Test
-    public void testExtendableAddresseeMatcherSucceedsWhenMatches()
+    public void testExtensibleAddresseeMatcherSucceedsWhenMatches()
     {
         Matcher<Addressee> matcher = is(anAddresseeThat().hasName("bob"));
 
@@ -66,7 +66,7 @@ public class ExtendedMatcherExamplesTest
     }
 
     @Test
-    public void testExtendableAddresseeMatcherFailsWhenMismatches()
+    public void testExtensibleAddresseeMatcherFailsWhenMismatches()
     {
         Matcher<Addressee> matcher = is(anAddresseeThat().hasName("bob"));
 
