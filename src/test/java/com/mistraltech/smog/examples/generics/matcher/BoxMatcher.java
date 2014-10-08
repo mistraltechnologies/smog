@@ -12,6 +12,8 @@ import static org.hamcrest.CoreMatchers.equalTo;
 
 public class BoxMatcher<P1, R extends BoxMatcher, T extends Box<P1>> extends CompositePropertyMatcher<T>
 {
+    private static final String MATCHED_OBJECT_DESCRIPTION = "a Box";
+
     private PropertyMatcher<P1> contentsMatcher = new ReflectingPropertyMatcher<P1>("contents", this);
 
     protected BoxMatcher(final String matchedObjectDescription, final T template)
@@ -39,12 +41,12 @@ public class BoxMatcher<P1, R extends BoxMatcher, T extends Box<P1>> extends Com
 
     public static <P1> BoxMatcher<P1, TypeBoundBoxMatcher<P1>, Box<P1>> aBoxThat()
     {
-        return aBoxLike(null);
+        return new TypeBoundBoxMatcher<P1>(MATCHED_OBJECT_DESCRIPTION, null);
     }
 
     public static <P1> BoxMatcher<P1, TypeBoundBoxMatcher<P1>, Box<P1>> aBoxLike(final Box<P1> template)
     {
-        return new TypeBoundBoxMatcher<P1>("a Box", template);
+        return new TypeBoundBoxMatcher<P1>(MATCHED_OBJECT_DESCRIPTION, template);
     }
 
     @SuppressWarnings("unchecked")

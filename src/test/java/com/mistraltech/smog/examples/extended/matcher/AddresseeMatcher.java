@@ -13,6 +13,8 @@ import static org.hamcrest.CoreMatchers.equalTo;
 
 public class AddresseeMatcher<R extends AddresseeMatcher, T extends Addressee> extends CompositePropertyMatcher<T>
 {
+    private static final String MATCHED_OBJECT_DESCRIPTION = "an Addressee";
+
     private PropertyMatcher<String> nameMatcher = new PropertyMatcher<String>("name", this);
     private PropertyMatcher<Address> addressMatcher = new ReflectingPropertyMatcher<Address>("address", this);
 
@@ -36,12 +38,12 @@ public class AddresseeMatcher<R extends AddresseeMatcher, T extends Addressee> e
 
     public static AddresseeMatcher<TypeBoundAddresseeMatcher, Addressee> anAddresseeThat()
     {
-        return anAddresseeLike(null);
+        return new TypeBoundAddresseeMatcher(MATCHED_OBJECT_DESCRIPTION, null);
     }
 
     public static AddresseeMatcher<TypeBoundAddresseeMatcher, Addressee> anAddresseeLike(final Addressee template)
     {
-        return new TypeBoundAddresseeMatcher("an Addressee", template);
+        return new TypeBoundAddresseeMatcher(MATCHED_OBJECT_DESCRIPTION, template);
     }
 
     @SuppressWarnings("unchecked")
