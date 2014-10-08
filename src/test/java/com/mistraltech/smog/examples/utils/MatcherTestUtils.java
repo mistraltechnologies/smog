@@ -25,7 +25,7 @@ public final class MatcherTestUtils
         assertEquals(singleToDoubleQuotes(descriptionOfMismatch), actualDescriptionOfMismatch.toString());
     }
 
-    public static <T> void assertMismatch(Object input, Matcher<?> matcher, Pattern descriptionOfMismatch)
+    public static void assertMismatch(Object input, Matcher<?> matcher, Pattern descriptionOfMismatch)
     {
         assertFalse(matcher.matches(input));
 
