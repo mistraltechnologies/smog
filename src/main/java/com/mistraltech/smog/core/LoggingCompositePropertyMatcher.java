@@ -1,7 +1,6 @@
 package com.mistraltech.smog.core;
 
 import org.hamcrest.Description;
-import org.hamcrest.StringDescription;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
