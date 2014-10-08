@@ -1,8 +1,8 @@
 package com.mistraltech.smog.examples.simple;
 
-import com.mistraltech.smog.examples.simple.model.Address;
-import com.mistraltech.smog.examples.simple.model.Person;
-import com.mistraltech.smog.examples.simple.model.PostCode;
+import com.mistraltech.smog.examples.model.Address;
+import com.mistraltech.smog.examples.model.Person;
+import com.mistraltech.smog.examples.model.PostCode;
 import org.hamcrest.Matchers;
 import org.junit.Test;
 

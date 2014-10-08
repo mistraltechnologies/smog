@@ -3,8 +3,8 @@ package com.mistraltech.smog.examples.simple.matcher;
 import com.mistraltech.smog.core.CompositePropertyMatcher;
 import com.mistraltech.smog.core.MatchAccumulator;
 import com.mistraltech.smog.core.PropertyMatcher;
-import com.mistraltech.smog.examples.simple.model.Address;
-import com.mistraltech.smog.examples.simple.model.PostCode;
+import com.mistraltech.smog.examples.model.Address;
+import com.mistraltech.smog.examples.model.PostCode;
 import org.hamcrest.Matcher;
 
 import static org.hamcrest.CoreMatchers.equalTo;

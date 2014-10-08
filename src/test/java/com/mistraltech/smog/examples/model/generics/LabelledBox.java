@@ -1,4 +1,4 @@
-package com.mistraltech.smog.examples.generics.model;
+package com.mistraltech.smog.examples.model.generics;
 
 
 public class LabelledBox<T, L> extends Box<T>

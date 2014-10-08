@@ -6,13 +6,14 @@ import org.hamcrest.Matcher;
 import org.junit.Test;
 
 import com.mistraltech.smog.examples.generics.matcher.LabelledBoxMatcher;
-import com.mistraltech.smog.examples.generics.model.Box;
-import com.mistraltech.smog.examples.generics.model.LabelledBox;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
 import com.mistraltech.smog.examples.generics.matcher.BoxMatcher;
+import com.mistraltech.smog.examples.model.generics.Box;
+import com.mistraltech.smog.examples.model.generics.LabelledBox;
+
 import static com.mistraltech.smog.examples.utils.MatcherTestUtils.assertDescription;
 import static com.mistraltech.smog.examples.utils.MatcherTestUtils.assertMismatch;
 
@@ -47,6 +48,14 @@ public class GenericsMatcherExamplesTest
         Box<String> input = new Box<String>("5");
 
         assertMismatch(input, matcher, "contents was '5' (expected <5>)");
+    }
+
+    @Test
+    public void testBoxMatcherFailsForIncorrectInstanceType()
+    {
+        Matcher<Box<Integer>> matcher = is(BoxMatcher.<Integer>aBoxThat());
+
+        assertMismatch("input", matcher, " was 'input'");
     }
 
     @Test

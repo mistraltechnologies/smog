@@ -1,4 +1,4 @@
-package com.mistraltech.smog.examples.simple.model;
+package com.mistraltech.smog.examples.model;
 
 public class Phone {
     String code;
