@@ -1,16 +1,17 @@
 package com.mistraltech.smog.examples.extended.matcher;
 
-import java.util.List;
-
-import org.hamcrest.Matcher;
-
 import com.mistraltech.smog.core.MatchAccumulator;
 import com.mistraltech.smog.core.PropertyMatcher;
 import com.mistraltech.smog.core.ReflectingPropertyMatcher;
 import com.mistraltech.smog.examples.model.Person;
 import com.mistraltech.smog.examples.model.Phone;
+import org.hamcrest.Matcher;
+
+import java.util.List;
 
 import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.collection.IsEmptyCollection.empty;
+import static org.hamcrest.collection.IsIterableContainingInOrder.contains;
 
 public class PersonMatcher<R extends PersonMatcher, T extends Person> extends AddresseeMatcher<R, T>
 {
@@ -23,6 +24,14 @@ public class PersonMatcher<R extends PersonMatcher, T extends Person> extends Ad
         if (template != null)
         {
             hasAge(template.getAge());
+            if (template.getPhoneList().size() > 0)
+            {
+                hasPhoneList(contains(template.getPhoneList().toArray()));
+            }
+            else
+            {
+                hasPhoneList(empty());
+            }
         }
     }
 
