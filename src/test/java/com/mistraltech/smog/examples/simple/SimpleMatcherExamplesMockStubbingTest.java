@@ -35,6 +35,8 @@ public class SimpleMatcherExamplesMockStubbingTest
                         )
         )))).thenReturn("Billie");
 
+        // The mock expectation should match and returns "Billie"
+
         assertThat(converter.personToName(person), equalTo("Billie"));
     }
 
@@ -50,6 +52,8 @@ public class SimpleMatcherExamplesMockStubbingTest
                                         .hasPostCode(aPostCodeThat().hasInner("out"))
                         )
         )))).thenReturn("Billie");
+
+        // The mock expectation should not match so personToName returns null
 
         assertThat(converter.personToName(person), Matchers.nullValue());
     }
