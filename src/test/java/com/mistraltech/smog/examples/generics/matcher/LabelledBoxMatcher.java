@@ -11,6 +11,8 @@ import static org.hamcrest.CoreMatchers.equalTo;
 
 public class LabelledBoxMatcher<P1, P2> extends BoxMatcher<P1, LabelledBoxMatcher<P1, P2>, LabelledBox<P1, P2>>
 {
+    private static final String MATCHED_OBJECT_DESCRIPTION = "a LabelledBox";
+
     private PropertyMatcher<P2> labelMatcher = new ReflectingPropertyMatcher<P2>("label", this);
 
     private LabelledBoxMatcher(final String matchedObjectDescription, final LabelledBox<P1, P2> template)
@@ -25,12 +27,12 @@ public class LabelledBoxMatcher<P1, P2> extends BoxMatcher<P1, LabelledBoxMatche
 
     public static <T, L> LabelledBoxMatcher<T, L> aLabelledBoxThat()
     {
-        return aLabelledBoxLike(null);
+        return new LabelledBoxMatcher<T, L>(MATCHED_OBJECT_DESCRIPTION, null);
     }
 
     public static <T, L> LabelledBoxMatcher<T, L> aLabelledBoxLike(final LabelledBox<T, L> template)
     {
-        return new LabelledBoxMatcher<T, L>("a LabelledBox", template);
+        return new LabelledBoxMatcher<T, L>(MATCHED_OBJECT_DESCRIPTION, template);
     }
 
     public LabelledBoxMatcher<P1, P2> hasLabel(final P2 label)

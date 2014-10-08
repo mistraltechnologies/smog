@@ -15,6 +15,8 @@ import static org.hamcrest.collection.IsIterableContainingInOrder.contains;
 
 public class PersonMatcher<R extends PersonMatcher, T extends Person> extends AddresseeMatcher<R, T>
 {
+    private static final String MATCHED_OBJECT_DESCRIPTION = "a Person";
+
     private PropertyMatcher<Integer> ageMatcher = new PropertyMatcher<Integer>("age", this);
     private PropertyMatcher<List<Phone>> phoneListMatcher = new ReflectingPropertyMatcher<List<Phone>>("phoneList", this);
 
@@ -45,12 +47,12 @@ public class PersonMatcher<R extends PersonMatcher, T extends Person> extends Ad
 
     public static PersonMatcher<TypeBoundPersonMatcher, Person> aPersonThat()
     {
-        return aPersonLike(null);
+        return new TypeBoundPersonMatcher(MATCHED_OBJECT_DESCRIPTION, null);
     }
 
     public static PersonMatcher<TypeBoundPersonMatcher, Person> aPersonLike(final Person template)
     {
-        return new TypeBoundPersonMatcher("a Person", template);
+        return new TypeBoundPersonMatcher(MATCHED_OBJECT_DESCRIPTION, template);
     }
 
     @SuppressWarnings("unchecked")
