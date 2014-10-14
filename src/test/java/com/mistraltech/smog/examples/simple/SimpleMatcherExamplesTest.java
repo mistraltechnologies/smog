@@ -20,7 +20,9 @@ import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.startsWith;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 
 import static com.mistraltech.smog.examples.simple.matcher.AddressMatcher.anAddressThat;
 import static com.mistraltech.smog.examples.simple.matcher.PersonMatcher.aPersonThat;
@@ -208,5 +210,17 @@ public class SimpleMatcherExamplesTest
             "])";
 
         assertMismatch(input, matcher, descriptionOfMismatch);
+    }
+
+    @Test
+    public void testCallingMatcherDirectly()
+    {
+        Person bob = new Person("Bob", 35, null);
+
+        Matcher<Person> youngPerson = aPersonThat().hasAge(35);
+        Matcher<Person> oldPerson = aPersonThat().hasAge(36);
+
+        assertTrue(youngPerson.matches(bob));
+        assertFalse(oldPerson.matches(bob));
     }
 }
