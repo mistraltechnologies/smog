@@ -11,7 +11,7 @@ import com.mistraltech.smog.examples.model.Addressee;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 
-public class AddresseeMatcher<R, T extends Addressee> extends CompositePropertyMatcher<T>
+public class AddresseeMatcher<R extends AddresseeMatcher, T extends Addressee> extends CompositePropertyMatcher<T>
 {
     private PropertyMatcher<String> nameMatcher = new PropertyMatcher<String>("name", this);
     private PropertyMatcher<Address> addressMatcher = new ReflectingPropertyMatcher<Address>("address", this);
@@ -32,20 +32,14 @@ public class AddresseeMatcher<R, T extends Addressee> extends CompositePropertyM
         {
             super(matchedObjectDescription, template);
         }
-
-        @Override
-        protected void matchesSafely(Addressee item, MatchAccumulator matchAccumulator)
-        {
-            super.matchesSafely(item, matchAccumulator);
-        }
     }
 
-    public static <P1> AddresseeMatcher<TypeBoundAddresseeMatcher, Addressee> anAddresseeThat()
+    public static AddresseeMatcher<TypeBoundAddresseeMatcher, Addressee> anAddresseeThat()
     {
         return anAddresseeLike(null);
     }
 
-    public static <P1> AddresseeMatcher<TypeBoundAddresseeMatcher, Addressee> anAddresseeLike(final Addressee template)
+    public static AddresseeMatcher<TypeBoundAddresseeMatcher, Addressee> anAddresseeLike(final Addressee template)
     {
         return new TypeBoundAddresseeMatcher("an Addressee", template);
     }

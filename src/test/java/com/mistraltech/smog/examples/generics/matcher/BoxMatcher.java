@@ -10,7 +10,7 @@ import org.hamcrest.Matcher;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 
-public class BoxMatcher<P1, R, T extends Box<P1>> extends CompositePropertyMatcher<T>
+public class BoxMatcher<P1, R extends BoxMatcher, T extends Box<P1>> extends CompositePropertyMatcher<T>
 {
     private PropertyMatcher<P1> contentsMatcher = new ReflectingPropertyMatcher<P1>("contents", this);
 
