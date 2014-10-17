@@ -11,12 +11,16 @@ import org.hamcrest.Matcher;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 
-public abstract class AddresseeMatcher<R, T extends Addressee> extends CompositePropertyMatcher<T> {
+public class AddresseeMatcher<R extends AddresseeMatcher, T extends Addressee> extends CompositePropertyMatcher<T> {
     private PropertyMatcher<String> nameMatcher = new PropertyMatcher<String>("name", this);
     private PropertyMatcher<Address> addressMatcher = new ReflectingPropertyMatcher<Address>("address", this);
 
     protected AddresseeMatcher(String matchedObjectDescription) {
         super(matchedObjectDescription);
+    }
+
+    public static AddresseeMatcher<AddresseeMatcher, Addressee> anAddresseeThat() {
+        return new AddresseeMatcher<AddresseeMatcher, Addressee>("an Addressee");
     }
 
     @SuppressWarnings("unchecked")

@@ -12,7 +12,7 @@ import com.mistraltech.smog.examples.model.Phone;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 
-public class PersonMatcher<R, T extends Person> extends AddresseeMatcher<R, T>
+public class PersonMatcher<R extends PersonMatcher, T extends Person> extends AddresseeMatcher<R, T>
 {
     private PropertyMatcher<Integer> ageMatcher = new PropertyMatcher<Integer>("age", this);
     private PropertyMatcher<List<Phone>> phoneListMatcher = new ReflectingPropertyMatcher<List<Phone>>("phoneList", this);
@@ -32,20 +32,14 @@ public class PersonMatcher<R, T extends Person> extends AddresseeMatcher<R, T>
         {
             super(matchedObjectDescription, template);
         }
-
-        @Override
-        protected void matchesSafely(Person item, MatchAccumulator matchAccumulator)
-        {
-            super.matchesSafely(item, matchAccumulator);
-        }
     }
 
-    public static <P1> PersonMatcher<TypeBoundPersonMatcher, Person> aPersonThat()
+    public static PersonMatcher<TypeBoundPersonMatcher, Person> aPersonThat()
     {
         return aPersonLike(null);
     }
 
-    public static <P1> PersonMatcher<TypeBoundPersonMatcher, Person> aPersonLike(final Person template)
+    public static PersonMatcher<TypeBoundPersonMatcher, Person> aPersonLike(final Person template)
     {
         return new TypeBoundPersonMatcher("a Person", template);
     }

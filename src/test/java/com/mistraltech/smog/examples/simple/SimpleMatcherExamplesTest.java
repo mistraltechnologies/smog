@@ -9,6 +9,7 @@ import org.hamcrest.collection.IsIterableContainingInOrder;
 import org.hamcrest.core.CombinableMatcher;
 import org.junit.Test;
 
+import com.mistraltech.smog.examples.model.Addressee;
 import com.mistraltech.smog.examples.simple.matcher.PhoneMatcher;
 import com.mistraltech.smog.examples.model.Address;
 import com.mistraltech.smog.examples.model.Person;
@@ -25,6 +26,7 @@ import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
 import static com.mistraltech.smog.examples.simple.matcher.AddressMatcher.anAddressThat;
+import static com.mistraltech.smog.examples.simple.matcher.AddresseeMatcher.anAddresseeThat;
 import static com.mistraltech.smog.examples.simple.matcher.PersonMatcher.aPersonThat;
 import static com.mistraltech.smog.examples.simple.matcher.PhoneMatcher.aPhoneThat;
 import static com.mistraltech.smog.examples.simple.matcher.PostCodeMatcher.aPostCodeThat;
@@ -71,6 +73,14 @@ public class SimpleMatcherExamplesTest
         Person input = new Person("dennis", 36, new Address(21, new PostCode("out", "in")));
 
         assertMismatch(input, matcher, "name was 'dennis' (expected 'bob')");
+    }
+
+    @Test
+    public void testSimpleMatcherFailsWhenMatchingWrongType()
+    {
+        Matcher<Addressee> matcher = is(anAddresseeThat());
+
+        assertFalse(matcher.matches("a string"));
     }
 
     @Test
