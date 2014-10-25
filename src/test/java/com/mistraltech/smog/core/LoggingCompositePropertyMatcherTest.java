@@ -5,7 +5,6 @@ import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.Logger;
 import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.core.Appender;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -16,7 +15,9 @@ import static org.hamcrest.CoreMatchers.endsWith;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 public class LoggingCompositePropertyMatcherTest {
 
@@ -68,8 +69,7 @@ public class LoggingCompositePropertyMatcherTest {
         return mockAppender;
     }
 
-    private void removeMockAppender()
-    {
+    private void removeMockAppender() {
         if (root != null && mockAppender != null) {
             root.detachAppender(mockAppender);
         }

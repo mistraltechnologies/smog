@@ -11,17 +11,19 @@ import org.junit.rules.ExpectedException;
 
 import static org.hamcrest.CoreMatchers.anything;
 import static org.hamcrest.CoreMatchers.equalTo;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
 
 public class PropertyMatcherTest {
-    private PathProvider mockPathProvider;
-    private PropertyMatcherRegistry mockRegistry;
-
     @Rule
     public ExpectedException thrown = ExpectedException.none();
+    private PathProvider mockPathProvider;
+    private PropertyMatcherRegistry mockRegistry;
 
     @Before
     public void setUp() throws Exception {
@@ -233,17 +235,17 @@ public class PropertyMatcherTest {
         }
 
         @Override
-        public void setPathProvider(PathProvider pathProvider) {
-            this.pathProvider = pathProvider;
-        }
-
-        @Override
         public void describeTo(Description description) {
             description.appendText(this.descriptionText);
         }
 
         public PathProvider getPathProvider() {
             return pathProvider;
+        }
+
+        @Override
+        public void setPathProvider(PathProvider pathProvider) {
+            this.pathProvider = pathProvider;
         }
 
         public void setDescriptionText(String descriptionText) {

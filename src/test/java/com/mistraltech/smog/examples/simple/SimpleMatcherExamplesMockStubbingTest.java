@@ -9,20 +9,15 @@ import org.junit.Test;
 import static com.mistraltech.smog.examples.simple.matcher.AddressMatcher.anAddressThat;
 import static com.mistraltech.smog.examples.simple.matcher.PersonMatcher.aPersonThat;
 import static com.mistraltech.smog.examples.simple.matcher.PostCodeMatcher.aPostCodeThat;
-import static org.hamcrest.CoreMatchers.*;
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.startsWith;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.Matchers.argThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-public class SimpleMatcherExamplesMockStubbingTest
-{
-    private class Converter {
-        public String personToName(Person person) {
-            return "Bertie";
-        }
-    }
-
+public class SimpleMatcherExamplesMockStubbingTest {
     @Test
     public void testMock() {
         Converter converter = mock(Converter.class);
@@ -56,6 +51,12 @@ public class SimpleMatcherExamplesMockStubbingTest
         // The mock expectation should not match so personToName returns null
 
         assertThat(converter.personToName(person), Matchers.nullValue());
+    }
+
+    private class Converter {
+        public String personToName(Person person) {
+            return "Bertie";
+        }
     }
 
 }
