@@ -37,22 +37,22 @@ public class PersonMatcher<R extends PersonMatcher, T extends Person> extends Ad
         }
     }
 
-    private static class TypeBoundPersonMatcher extends PersonMatcher<TypeBoundPersonMatcher, Person>
+    public static class PersonMatcherType extends PersonMatcher<PersonMatcherType, Person>
     {
-        protected TypeBoundPersonMatcher(String matchedObjectDescription, Person template)
+        protected PersonMatcherType(String matchedObjectDescription, Person template)
         {
             super(matchedObjectDescription, template);
         }
     }
 
-    public static PersonMatcher<TypeBoundPersonMatcher, Person> aPersonThat()
+    public static PersonMatcherType aPersonThat()
     {
-        return new TypeBoundPersonMatcher(MATCHED_OBJECT_DESCRIPTION, null);
+        return new PersonMatcherType(MATCHED_OBJECT_DESCRIPTION, null);
     }
 
-    public static PersonMatcher<TypeBoundPersonMatcher, Person> aPersonLike(final Person template)
+    public static PersonMatcherType aPersonLike(final Person template)
     {
-        return new TypeBoundPersonMatcher(MATCHED_OBJECT_DESCRIPTION, template);
+        return new PersonMatcherType(MATCHED_OBJECT_DESCRIPTION, template);
     }
 
     @SuppressWarnings("unchecked")
