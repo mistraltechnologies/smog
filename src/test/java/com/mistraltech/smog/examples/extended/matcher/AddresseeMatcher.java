@@ -28,22 +28,22 @@ public class AddresseeMatcher<R extends AddresseeMatcher, T extends Addressee> e
         }
     }
 
-    private static class TypeBoundAddresseeMatcher extends AddresseeMatcher<TypeBoundAddresseeMatcher, Addressee>
+    public static class AddresseeMatcherType extends AddresseeMatcher<AddresseeMatcherType, Addressee>
     {
-        protected TypeBoundAddresseeMatcher(String matchedObjectDescription, Addressee template)
+        protected AddresseeMatcherType(String matchedObjectDescription, Addressee template)
         {
             super(matchedObjectDescription, template);
         }
     }
 
-    public static AddresseeMatcher<TypeBoundAddresseeMatcher, Addressee> anAddresseeThat()
+    public static AddresseeMatcherType anAddresseeThat()
     {
-        return new TypeBoundAddresseeMatcher(MATCHED_OBJECT_DESCRIPTION, null);
+        return new AddresseeMatcherType(MATCHED_OBJECT_DESCRIPTION, null);
     }
 
-    public static AddresseeMatcher<TypeBoundAddresseeMatcher, Addressee> anAddresseeLike(final Addressee template)
+    public static AddresseeMatcherType anAddresseeLike(final Addressee template)
     {
-        return new TypeBoundAddresseeMatcher(MATCHED_OBJECT_DESCRIPTION, template);
+        return new AddresseeMatcherType(MATCHED_OBJECT_DESCRIPTION, template);
     }
 
     @SuppressWarnings("unchecked")

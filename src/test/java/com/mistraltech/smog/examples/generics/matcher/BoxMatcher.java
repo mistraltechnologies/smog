@@ -25,9 +25,9 @@ public class BoxMatcher<P1, R extends BoxMatcher, T extends Box<P1>> extends Com
         }
     }
 
-    private static class TypeBoundBoxMatcher<P1> extends BoxMatcher<P1, TypeBoundBoxMatcher<P1>, Box<P1>>
+    private static class BoxMatcherType<P1> extends BoxMatcher<P1, BoxMatcherType<P1>, Box<P1>>
     {
-        protected TypeBoundBoxMatcher(String matchedObjectDescription, Box<P1> template)
+        protected BoxMatcherType(String matchedObjectDescription, Box<P1> template)
         {
             super(matchedObjectDescription, template);
         }
@@ -39,14 +39,14 @@ public class BoxMatcher<P1, R extends BoxMatcher, T extends Box<P1>> extends Com
         }
     }
 
-    public static <P1> BoxMatcher<P1, TypeBoundBoxMatcher<P1>, Box<P1>> aBoxThat()
+    public static <P1> BoxMatcher<P1, BoxMatcherType<P1>, Box<P1>> aBoxThat()
     {
-        return new TypeBoundBoxMatcher<P1>(MATCHED_OBJECT_DESCRIPTION, null);
+        return new BoxMatcherType<P1>(MATCHED_OBJECT_DESCRIPTION, null);
     }
 
-    public static <P1> BoxMatcher<P1, TypeBoundBoxMatcher<P1>, Box<P1>> aBoxLike(final Box<P1> template)
+    public static <P1> BoxMatcher<P1, BoxMatcherType<P1>, Box<P1>> aBoxLike(final Box<P1> template)
     {
-        return new TypeBoundBoxMatcher<P1>(MATCHED_OBJECT_DESCRIPTION, template);
+        return new BoxMatcherType<P1>(MATCHED_OBJECT_DESCRIPTION, template);
     }
 
     @SuppressWarnings("unchecked")
