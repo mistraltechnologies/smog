@@ -26,3 +26,24 @@ Through type erasure, the runtime type of item is Object. Unfortunately, the typ
 is used by PathAwareDiagnosingMatcher to enforce type checking when matching.
 
 A solution would require an alternative mechanism for specifying or determining the type of T.
+
+-----
+
+This appears to be solved by creating a nested static class that is used as the type of the matcher for which
+matchesSafely is overridden with an appropriate parameter type for item:
+
+    private static class BoxMatcherType<P1> extends BoxMatcher<P1, BoxMatcherType<P1>, Box<P1>> {
+        protected BoxMatcherType(String matchedObjectDescription, Box<P1> template) {
+            super(matchedObjectDescription, template);
+        }
+
+        @Override
+        protected void matchesSafely(Box<P1> item, MatchAccumulator matchAccumulator) {
+            super.matchesSafely(item, matchAccumulator);
+        }
+    }
+
+Type checking correctly identifies that the item should be of class Box.
+This is demonstrated in test cases:
+    GenericsMatcherExamplesTest.testBoxMatcherFailsForIncorrectInstanceType
+    GenericsMatcherExamplesTest.testLabelledBoxMatcherFailsForIncorrectInstanceType
