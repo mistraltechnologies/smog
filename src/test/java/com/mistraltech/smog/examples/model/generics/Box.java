@@ -1,16 +1,13 @@
 package com.mistraltech.smog.examples.model.generics;
 
-public class Box<T>
-{
+public class Box<T> {
     private T contents;
 
-    public Box(T contents)
-    {
+    public Box(T contents) {
         this.contents = contents;
     }
 
-    public T getContents()
-    {
+    public T getContents() {
         return contents;
     }
 }

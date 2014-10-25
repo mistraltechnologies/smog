@@ -9,7 +9,9 @@ import org.junit.rules.ExpectedException;
 import javax.naming.OperationNotSupportedException;
 import java.lang.reflect.InvocationTargetException;
 
-import static org.hamcrest.CoreMatchers.*;
+import static org.hamcrest.CoreMatchers.anything;
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.isA;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
@@ -17,11 +19,9 @@ import static org.mockito.Mockito.verify;
 
 public class ReflectingPropertyMatcherTest {
     private static final Person bob = new Person();
-
-    private PropertyMatcherRegistry mockRegistry;
-
     @Rule
     public ExpectedException thrown = ExpectedException.none();
+    private PropertyMatcherRegistry mockRegistry;
 
     @Before
     public void setUp() throws Exception {

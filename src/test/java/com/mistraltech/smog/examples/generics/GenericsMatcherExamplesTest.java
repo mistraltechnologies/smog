@@ -1,27 +1,22 @@
 package com.mistraltech.smog.examples.generics;
 
-import java.util.regex.Pattern;
-
+import com.mistraltech.smog.examples.generics.matcher.BoxMatcher;
+import com.mistraltech.smog.examples.generics.matcher.LabelledBoxMatcher;
+import com.mistraltech.smog.examples.model.generics.Box;
+import com.mistraltech.smog.examples.model.generics.LabelledBox;
 import org.hamcrest.Matcher;
 import org.junit.Test;
 
-import com.mistraltech.smog.examples.generics.matcher.LabelledBoxMatcher;
-
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
-
-import com.mistraltech.smog.examples.generics.matcher.BoxMatcher;
-import com.mistraltech.smog.examples.model.generics.Box;
-import com.mistraltech.smog.examples.model.generics.LabelledBox;
+import java.util.regex.Pattern;
 
 import static com.mistraltech.smog.examples.utils.MatcherTestUtils.assertDescription;
 import static com.mistraltech.smog.examples.utils.MatcherTestUtils.assertMismatch;
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertThat;
 
-public class GenericsMatcherExamplesTest
-{
+public class GenericsMatcherExamplesTest {
     @Test
-    public void testBoxMatcherSucceedsWhenMatches()
-    {
+    public void testBoxMatcherSucceedsWhenMatches() {
         Matcher<Box<Integer>> matcher = is(BoxMatcher.<Integer>aBoxThat().hasContents(5));
 
         Box<Integer> input = new Box<Integer>(5);
@@ -31,8 +26,7 @@ public class GenericsMatcherExamplesTest
     }
 
     @Test
-    public void testBoxMatcherFailsWhenMismatches()
-    {
+    public void testBoxMatcherFailsWhenMismatches() {
         Matcher<Box<Integer>> matcher = is(BoxMatcher.<Integer>aBoxThat().hasContents(6));
 
         Box<Integer> input = new Box<Integer>(5);
@@ -41,8 +35,7 @@ public class GenericsMatcherExamplesTest
     }
 
     @Test
-    public void testBoxMatcherFailsForIncorrectTypeParam()
-    {
+    public void testBoxMatcherFailsForIncorrectTypeParam() {
         Matcher<Box<Integer>> matcher = is(BoxMatcher.<Integer>aBoxThat().hasContents(5));
 
         Box<String> input = new Box<String>("5");
@@ -51,16 +44,14 @@ public class GenericsMatcherExamplesTest
     }
 
     @Test
-    public void testBoxMatcherFailsForIncorrectInstanceType()
-    {
+    public void testBoxMatcherFailsForIncorrectInstanceType() {
         Matcher<Box<Integer>> matcher = is(BoxMatcher.<Integer>aBoxThat());
 
         assertMismatch("input", matcher, " was 'input'");
     }
 
     @Test
-    public void testLabelledBoxMatcherSucceedsWhenMatches()
-    {
+    public void testLabelledBoxMatcherSucceedsWhenMatches() {
         Matcher<LabelledBox<Integer, String>> matcher = is(LabelledBoxMatcher.<Integer, String>aLabelledBoxThat().hasContents(42).hasLabel("Meaning Of Life"));
 
         LabelledBox<Integer, String> input = new LabelledBox<Integer, String>(42, "Meaning Of Life");
@@ -70,8 +61,7 @@ public class GenericsMatcherExamplesTest
     }
 
     @Test
-    public void testLabelledBoxMatcherFailsWhenMismatches()
-    {
+    public void testLabelledBoxMatcherFailsWhenMismatches() {
         Matcher<LabelledBox<Integer, String>> matcher = is(LabelledBoxMatcher.<Integer, String>aLabelledBoxThat().hasContents(42).hasLabel("My Age"));
 
         LabelledBox<Integer, String> input = new LabelledBox<Integer, String>(5, "Meaning Of Life");
@@ -80,8 +70,7 @@ public class GenericsMatcherExamplesTest
     }
 
     @Test
-    public void testLabelledBoxMatcherFailsForIncorrectTypeParam()
-    {
+    public void testLabelledBoxMatcherFailsForIncorrectTypeParam() {
         Matcher<LabelledBox<Integer, String>> matcher = is(LabelledBoxMatcher.<Integer, String>aLabelledBoxThat().hasContents(5).hasLabel("Meaning Of Life"));
 
         LabelledBox<Integer, Integer> input = new LabelledBox<Integer, Integer>(5, 42);
@@ -90,8 +79,7 @@ public class GenericsMatcherExamplesTest
     }
 
     @Test
-    public void testLabelledBoxMatcherFailsForIncorrectInstanceType()
-    {
+    public void testLabelledBoxMatcherFailsForIncorrectInstanceType() {
         Matcher<LabelledBox<Integer, String>> matcher = is(LabelledBoxMatcher.<Integer, String>aLabelledBoxThat());
 
         Box<Integer> input = new Box<Integer>(5);

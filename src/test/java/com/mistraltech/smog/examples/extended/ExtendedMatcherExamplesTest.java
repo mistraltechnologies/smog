@@ -1,15 +1,11 @@
 package com.mistraltech.smog.examples.extended;
 
-import org.hamcrest.Matcher;
-import org.junit.Test;
-
 import com.mistraltech.smog.examples.model.Address;
 import com.mistraltech.smog.examples.model.Addressee;
 import com.mistraltech.smog.examples.model.Person;
 import com.mistraltech.smog.examples.model.PostCode;
-
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
+import org.hamcrest.Matcher;
+import org.junit.Test;
 
 import static com.mistraltech.smog.examples.extended.matcher.AddresseeMatcher.anAddresseeLike;
 import static com.mistraltech.smog.examples.extended.matcher.AddresseeMatcher.anAddresseeThat;
@@ -17,12 +13,12 @@ import static com.mistraltech.smog.examples.extended.matcher.PersonMatcher.aPers
 import static com.mistraltech.smog.examples.extended.matcher.PersonMatcher.aPersonThat;
 import static com.mistraltech.smog.examples.utils.MatcherTestUtils.assertDescription;
 import static com.mistraltech.smog.examples.utils.MatcherTestUtils.assertMismatch;
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertThat;
 
-public class ExtendedMatcherExamplesTest
-{
+public class ExtendedMatcherExamplesTest {
     @Test
-    public void testExtensiblePersonMatcherSucceedsWhenMatches()
-    {
+    public void testExtensiblePersonMatcherSucceedsWhenMatches() {
         Matcher<Person> matcher = is(aPersonThat().hasName("bob"));
 
         Person input = new Person("bob", 36, new Address(21, new PostCode("out", "in")));
@@ -32,8 +28,7 @@ public class ExtendedMatcherExamplesTest
     }
 
     @Test
-    public void testExtensiblePersonMatcherFailsWhenMismatches()
-    {
+    public void testExtensiblePersonMatcherFailsWhenMismatches() {
         Matcher<Person> matcher = is(aPersonThat().hasName("bob"));
 
         Person input = new Person("dennis", 36, new Address(21, new PostCode("out", "in")));
@@ -42,8 +37,7 @@ public class ExtendedMatcherExamplesTest
     }
 
     @Test
-    public void testAPersonLikeReturnsPopulatedMatcher()
-    {
+    public void testAPersonLikeReturnsPopulatedMatcher() {
         Address address = new Address(21, new PostCode("out", "in"));
         Person person1 = new Person("dennis", 36, address);
         Person person2 = new Person("bob", 34, address);
@@ -55,8 +49,7 @@ public class ExtendedMatcherExamplesTest
     }
 
     @Test
-    public void testExtensibleAddresseeMatcherSucceedsWhenMatches()
-    {
+    public void testExtensibleAddresseeMatcherSucceedsWhenMatches() {
         Matcher<Addressee> matcher = is(anAddresseeThat().hasName("bob"));
 
         Person input = new Person("bob", 36, new Address(21, new PostCode("out", "in")));
@@ -66,8 +59,7 @@ public class ExtendedMatcherExamplesTest
     }
 
     @Test
-    public void testExtensibleAddresseeMatcherFailsWhenMismatches()
-    {
+    public void testExtensibleAddresseeMatcherFailsWhenMismatches() {
         Matcher<Addressee> matcher = is(anAddresseeThat().hasName("bob"));
 
         Person input = new Person("dennis", 36, new Address(21, new PostCode("out", "in")));
@@ -76,8 +68,7 @@ public class ExtendedMatcherExamplesTest
     }
 
     @Test
-    public void testAnAddresseeLikeReturnsPopulatedMatcher()
-    {
+    public void testAnAddresseeLikeReturnsPopulatedMatcher() {
         Address address = new Address(21, new PostCode("out", "in"));
         Person person1 = new Person("dennis", 36, address);
         Person person2 = new Person("bob", 34, address);

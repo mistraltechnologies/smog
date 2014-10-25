@@ -21,8 +21,6 @@ abstract class PathAwareDiagnosingMatcher<T> extends BaseMatcher<T> implements P
     private final Class<?> expectedType;
     private PathProvider pathProvider;
 
-    protected abstract boolean matchesSafely(T item, Description mismatchDescription);
-
     protected PathAwareDiagnosingMatcher(ReflectiveTypeFinder typeFinder) {
         this.expectedType = typeFinder.findExpectedType(getClass());
     }
@@ -30,6 +28,8 @@ abstract class PathAwareDiagnosingMatcher<T> extends BaseMatcher<T> implements P
     protected PathAwareDiagnosingMatcher() {
         this(TYPE_FINDER);
     }
+
+    protected abstract boolean matchesSafely(T item, Description mismatchDescription);
 
     @SuppressWarnings("unchecked")
     @Override

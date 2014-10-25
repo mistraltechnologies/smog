@@ -74,6 +74,15 @@ public class PropertyMatcher<T> extends BaseMatcher<T> implements PathProvider {
     }
 
     /**
+     * Gets the assigned path provider.
+     *
+     * @return the assigned PathProvider, or null if no PathProvider has been assigned
+     */
+    public PathProvider getPathProvider() {
+        return pathProvider;
+    }
+
+    /**
      * Sets the path provider, which provides this PropertyMatcher with its path context. I.e. the property path that leads
      * to the object containing this attribute in the target object graph.
      *
@@ -81,15 +90,6 @@ public class PropertyMatcher<T> extends BaseMatcher<T> implements PathProvider {
      */
     public void setPathProvider(PathProvider pathProvider) {
         this.pathProvider = pathProvider;
-    }
-
-    /**
-     * Gets the assigned path provider.
-     *
-     * @return the assigned PathProvider, or null if no PathProvider has been assigned
-     */
-    public PathProvider getPathProvider() {
-        return pathProvider;
     }
 
     /**
