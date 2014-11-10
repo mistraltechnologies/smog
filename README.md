@@ -191,7 +191,6 @@ method before passing it to the other method.
 
 ### Simplifying Writing Matcher Classes
 An IntelliJ plugin called Smogen is available to generate matcher classes like this one directly from the target class.
-Pretty cool, eh?
 
 ##FAQs
 
