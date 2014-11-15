@@ -1,8 +1,10 @@
 package com.mistraltech.smog.core;
 
 import org.hamcrest.Description;
-import org.hamcrest.beans.PropertyUtil;
 
+import java.beans.BeanInfo;
+import java.beans.IntrospectionException;
+import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -28,11 +30,7 @@ public class ReflectingPropertyMatcher<T> extends PropertyMatcher<T> {
     }
 
     private Object getPropertyValue(Object item) {
-        PropertyDescriptor property = PropertyUtil.getPropertyDescriptor(getPropertyName(), item);
-
-        if (property == null) {
-            throw new PropertyNotFoundException(item.getClass(), getPropertyName());
-        }
+        PropertyDescriptor property = getPropertyDescriptor(getPropertyName(), item);
 
         final Method readMethod = property.getReadMethod();
 
@@ -43,6 +41,22 @@ public class ReflectingPropertyMatcher<T> extends PropertyMatcher<T> {
         } catch (InvocationTargetException e) {
             throw new PropertyUnreadableException(item.getClass(), readMethod, getPropertyName(), e);
         }
+    }
+
+    private PropertyDescriptor getPropertyDescriptor(String propertyName, Object item) {
+        try {
+            final BeanInfo beanInfo = Introspector.getBeanInfo(item.getClass(), null);
+            final PropertyDescriptor[] propertyDescriptors = beanInfo.getPropertyDescriptors();
+            for (PropertyDescriptor property : propertyDescriptors) {
+                if (property.getName().equals(propertyName)) {
+                    return property;
+                }
+            }
+        } catch (IntrospectionException e) {
+            throw new IllegalArgumentException("Could not get property descriptors for " + item.getClass(), e);
+        }
+
+        throw new PropertyNotFoundException(item.getClass(), getPropertyName());
     }
 }
 
