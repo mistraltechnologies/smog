@@ -10,7 +10,7 @@ import org.hamcrest.Matcher;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 
-public class AddresseeMatcher<R extends AddresseeMatcher, T extends Addressee> extends CompositePropertyMatcher<T> {
+public class AddresseeMatcher<R extends AddresseeMatcher<R, T>, T extends Addressee> extends CompositePropertyMatcher<T> {
     private static final String MATCHED_OBJECT_DESCRIPTION = "an Addressee";
 
     private PropertyMatcher<String> nameMatcher = new PropertyMatcher<String>("name", this);

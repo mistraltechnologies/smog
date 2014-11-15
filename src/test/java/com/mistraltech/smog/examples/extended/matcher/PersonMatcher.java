@@ -13,7 +13,7 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.collection.IsEmptyCollection.empty;
 import static org.hamcrest.collection.IsIterableContainingInOrder.contains;
 
-public class PersonMatcher<R extends PersonMatcher, T extends Person> extends AddresseeMatcher<R, T> {
+public class PersonMatcher<R extends PersonMatcher<R, T>, T extends Person> extends AddresseeMatcher<R, T> {
     private static final String MATCHED_OBJECT_DESCRIPTION = "a Person";
 
     private PropertyMatcher<Integer> ageMatcher = new PropertyMatcher<Integer>("age", this);
