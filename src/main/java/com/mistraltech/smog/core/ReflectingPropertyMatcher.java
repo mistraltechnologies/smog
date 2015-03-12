@@ -30,7 +30,7 @@ public class ReflectingPropertyMatcher<T> extends PropertyMatcher<T> {
     }
 
     private Object getPropertyValue(Object item) {
-        PropertyDescriptor property = getPropertyDescriptor(getPropertyName(), item);
+        PropertyDescriptor property = getPropertyDescriptor(getPropertyName(), item.getClass());
 
         final Method readMethod = property.getReadMethod();
 
@@ -43,9 +43,9 @@ public class ReflectingPropertyMatcher<T> extends PropertyMatcher<T> {
         }
     }
 
-    private PropertyDescriptor getPropertyDescriptor(String propertyName, Object item) {
+    private static PropertyDescriptor getPropertyDescriptor(String propertyName, Class clazz) {
         try {
-            final BeanInfo beanInfo = Introspector.getBeanInfo(item.getClass(), null);
+            final BeanInfo beanInfo = Introspector.getBeanInfo(clazz, null);
             final PropertyDescriptor[] propertyDescriptors = beanInfo.getPropertyDescriptors();
             for (PropertyDescriptor property : propertyDescriptors) {
                 if (property.getName().equals(propertyName)) {
@@ -53,10 +53,10 @@ public class ReflectingPropertyMatcher<T> extends PropertyMatcher<T> {
                 }
             }
         } catch (IntrospectionException e) {
-            throw new IllegalArgumentException("Could not get property descriptors for " + item.getClass(), e);
+            throw new IllegalArgumentException("Could not get property descriptors for " + clazz, e);
         }
 
-        throw new PropertyNotFoundException(item.getClass(), getPropertyName());
+        throw new PropertyNotFoundException(clazz, propertyName);
     }
 }
 
