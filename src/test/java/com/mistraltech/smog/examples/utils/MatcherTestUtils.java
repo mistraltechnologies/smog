@@ -15,7 +15,7 @@ public final class MatcherTestUtils {
     }
 
     public static void assertMismatch(Object input, Matcher<?> matcher, String descriptionOfMismatch) {
-        assertFalse(matcher.matches(input));
+        assertFalse("Expected mismatch", matcher.matches(input));
 
         Description actualDescriptionOfMismatch = new StringDescription();
         matcher.describeMismatch(input, actualDescriptionOfMismatch);

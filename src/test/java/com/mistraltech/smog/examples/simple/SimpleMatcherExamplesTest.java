@@ -35,7 +35,7 @@ public class SimpleMatcherExamplesTest {
 
     @Test
     public void testBothMatcher() throws Exception {
-        Matcher<String> matcher = CombinableMatcher.<String>both(equalTo("abc")).and(equalTo("bc"));
+        Matcher<String> matcher = CombinableMatcher.both(equalTo("abc")).and(equalTo("bc"));
 
         assertDescription(matcher, "('abc' and 'bc')");
         assertMismatch("abc", matcher, "'bc' was 'abc'");
@@ -134,8 +134,8 @@ public class SimpleMatcherExamplesTest {
 
         String descriptionOfMismatch = "name was 'bob' (expected 'obo')\n" +
                 "     and: address.houseNumber was <22> (expected <21>)\n" +
-                "     and: address.postCode.outer was 'out' (expected a string containing 'y')\n" +
-                "     and: address.postCode.inner was 'in' (expected a string starting with 'x')";
+                "     and: address.postCode.inner was 'in' (expected a string starting with 'x')\n" +
+                "     and: address.postCode.outer was 'out' (expected a string containing 'y')";
 
         assertMismatch(input, matcher, descriptionOfMismatch);
     }

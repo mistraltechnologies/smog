@@ -41,7 +41,7 @@ public class PostCodeMatcher extends CompositePropertyMatcher<PostCode> {
     @Override
     protected void matchesSafely(PostCode item, MatchAccumulator matchAccumulator) {
         matchAccumulator
-                .matches(outerMatcher, item.getOuter())
-                .matches(innerMatcher, item.getInner());
+                .matches(innerMatcher, item.getInner())
+                .matches(outerMatcher, item.getOuter());
     }
 }

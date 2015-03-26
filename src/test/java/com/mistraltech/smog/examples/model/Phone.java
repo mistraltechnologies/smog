@@ -40,11 +40,8 @@ public class Phone {
         if (code != null ? !code.equals(phone.code) : phone.code != null) {
             return false;
         }
-        if (!number.equals(phone.number)) {
-            return false;
-        }
+        return number.equals(phone.number);
 
-        return true;
     }
 
     @Override
