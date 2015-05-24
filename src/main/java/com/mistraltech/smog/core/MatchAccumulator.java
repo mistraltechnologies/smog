@@ -32,41 +32,14 @@ public final class MatchAccumulator {
      */
     private Set<Matcher<?>> appliedMatchers;
 
-    private MatchAccumulator(Description mismatchDescription, boolean currentlyMatching) {
+    /**
+     * Constructor.
+     *
+     * @param mismatchDescription the description object used for recording the mismatch description
+     */
+    public MatchAccumulator(Description mismatchDescription) {
         this.mismatchDescription = mismatchDescription;
-        this.currentlyMatching = currentlyMatching;
         this.appliedMatchers = new HashSet<Matcher<?>>();
-    }
-
-    private MatchAccumulator(Description mismatchDescription) {
-        this(mismatchDescription, true);
-    }
-
-    /**
-     * Factory method for use by non-inheriting matchers.
-     *
-     * @param mismatchDescription the description object used for recording the mismatch description
-     * @return a new MatchAccumulator instance
-     */
-    public static MatchAccumulator createMatchAccumulator(Description mismatchDescription) {
-        return new MatchAccumulator(mismatchDescription);
-    }
-
-    /**
-     * Factory method for use by inheriting matchers - that is, matchers that inherit some of their
-     * properties from a superclass.
-     * <p/>
-     * In this case it is desirable to construct the MatchAccumulator with
-     * an indicator of whether preceding property matches (performed by the matcher superclass) have
-     * passed or failed.
-     *
-     * @param mismatchDescription the description object used for recording the mismatch description
-     * @param currentlyMatching a flag to indicate if, in the case that this instance is participating as
-     * a sub-scope of a larger matching process, the larger matching process is already failing.
-     * @return a new MatchAccumulator instance
-     */
-    public static MatchAccumulator createMatchAccumulator(Description mismatchDescription, boolean currentlyMatching) {
-        return new MatchAccumulator(mismatchDescription, currentlyMatching);
     }
 
     /**
