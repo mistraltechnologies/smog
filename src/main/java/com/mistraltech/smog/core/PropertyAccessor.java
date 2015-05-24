@@ -1,6 +1,6 @@
 package com.mistraltech.smog.core;
 
-import com.mistraltech.smog.core.util.PropertyDescriptorUtils;
+import com.mistraltech.smog.core.util.PropertyDescriptorLocator;
 
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.InvocationTargetException;
@@ -14,7 +14,7 @@ class PropertyAccessor {
     }
 
     public Object getPropertyValue(Object item) {
-        PropertyDescriptor property = PropertyDescriptorUtils.getPropertyDescriptor(propertyName, item.getClass());
+        PropertyDescriptor property = new PropertyDescriptorLocator(item).getPropertyDescriptor(propertyName);
 
         final Method readMethod = property.getReadMethod();
 
