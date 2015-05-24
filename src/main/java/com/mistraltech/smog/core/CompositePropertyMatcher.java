@@ -8,6 +8,10 @@ import java.util.List;
 /**
  * A base class for a matcher that composes a list of other related matchers, all of
  * which can be applied to a given matching target.
+ * <p>
+ * Implements PropertyMatcherRegister, allowing nested PropertyMatchers to be added.
+ * <p>
+ * Acts as a PathProvider for registered PropertyMatchers.
  *
  * @param <T> type of matchable target object
  */
@@ -72,7 +76,8 @@ public class CompositePropertyMatcher<T> extends PathAwareDiagnosingMatcher<T> i
         // Give subclasses an opportunity to match PropertyMatchers manually
         matchesSafely(item, matchAccumulator);
 
-        // Any remaining PropertyMatchers are matched automatically against 'item'
+        // Any remaining PropertyMatchers that have not been matched manually by subclasses
+        // are matched automatically against 'item'.
         // Note this is only likely to be the right thing if the property matchers
         // are able to determine their own property value from the parent object, such
         // as is done by ReflectingPropertyMatcher.

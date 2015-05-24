@@ -11,15 +11,30 @@ import java.util.Set;
  * coordinates the building of a cumulative mismatch description for those that fail.
  */
 public final class MatchAccumulator {
+    /**
+     * The text that appears between elements of a mismatch description.
+     */
     public static final String MISMATCH_CONJUNCTIVE_ADVERB = "\n     and: ";
 
-    private boolean matches = true;
+    /**
+     * Indicates whether the matchers tested so far have all succeeded.
+     */
+    private boolean currentlyMatching = true;
+
+    /**
+     * Builds the mismatch description.
+     */
     private Description mismatchDescription;
+
+    /**
+     * Identifies those matchers that have been tested. This allows clients to ask whether
+     * a given matcher has been tested previously.
+     */
     private Set<Matcher<?>> appliedMatchers;
 
     private MatchAccumulator(Description mismatchDescription, boolean currentlyMatching) {
         this.mismatchDescription = mismatchDescription;
-        this.matches = currentlyMatching;
+        this.currentlyMatching = currentlyMatching;
         this.appliedMatchers = new HashSet<Matcher<?>>();
     }
 
@@ -64,30 +79,34 @@ public final class MatchAccumulator {
      * @return this instance, to allow multiple calls to be chained
      */
     public <P> MatchAccumulator matches(Matcher<?> matcher, P item) {
-        boolean localMatches = matcher.matches(item);
-
-        if (!localMatches) {
-            if (!matches) // i.e. this is not the first failure
-            {
-                mismatchDescription.appendText(MISMATCH_CONJUNCTIVE_ADVERB);
-            }
-
-            matcher.describeMismatch(item, mismatchDescription);
-            matches = false;
+        if (!matcher.matches(item)) {
+            handleMismatch(matcher, item);
         }
 
         appliedMatchers.add(matcher);
         return this;
     }
 
+    private <P> void handleMismatch(Matcher<?> matcher, P item) {
+        if (!currentlyMatching)
+        {
+            // This is not the first failure so add some joining text to mismatch description
+            mismatchDescription.appendText(MISMATCH_CONJUNCTIVE_ADVERB);
+        }
+
+        matcher.describeMismatch(item, mismatchDescription);
+
+        currentlyMatching = false;
+    }
+
     /**
-     * The cumulative matches result.
+     * The cumulative currentlyMatching result.
      *
      * @return true if this instance was constructed with currentlyMatching equal to or
-     * defaulted to true and all subsequent matches() invocations were successful; false otherwise.
+     * defaulted to true and all subsequent currentlyMatching() invocations were successful; false otherwise.
      */
     public boolean result() {
-        return matches;
+        return currentlyMatching;
     }
 
     /**

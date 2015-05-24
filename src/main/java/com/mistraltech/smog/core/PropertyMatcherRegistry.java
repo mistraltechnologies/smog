@@ -1,8 +1,7 @@
 package com.mistraltech.smog.core;
 
 /**
- * A simple register of {@link PropertyMatcher}s. On construction, a PropertyMatcher can optionally register
- * itself with a PropertyMatcherRegistry.
+ * Allows a PropertyMatcher to be added to a register of {@link PropertyMatcher}s.
  */
 public interface PropertyMatcherRegistry {
     void registerPropertyMatcher(PropertyMatcher<?> propertyMatcher);

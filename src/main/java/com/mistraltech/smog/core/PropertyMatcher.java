@@ -8,19 +8,19 @@ import org.hamcrest.Matcher;
  * A wrapper for a Hamcrest matcher that matches a property of the target object. Knows the name
  * of the property being matched and helps with the mismatch description if the match fails.
  * <p/>
- * For example, if a Person class has an Address property, the PersonMatcher class
- * will declare a PropertyMatcher<Address> field that holds a matcher for Address.
- * <p/>
- * The PropertyMatcher may be empty, in which case the represented property will not be matched.
+ * Example: Assume a Person class has an Address property and that PersonMatcher is a {@link CompositePropertyMatcher}
+ * class for matching against Person. PersonMatcher declares a PropertyMatcher<Address> field that can be assigned a
+ * matcher for the Address property. If no matcher is assigned to a PropertyMatcher when the {@link #matches(Object)}
+ * method is invoked, the match is assumed to have succeeded.
  *
- * @param <T>
+ * @param <T> the type of the property being matched
  */
 public class PropertyMatcher<T> extends BaseMatcher<T> implements PathProvider {
     /**
      * A contained matcher for matching the property that this PropertyMatcher represents in
      * the target object.
      * <p/>
-     * May be null, in which case the property will be ignored.
+     * May be null, in which case {@link #matches(Object)} will automatically succeed.
      */
     private Matcher<? super T> matcher;
 
@@ -31,8 +31,8 @@ public class PropertyMatcher<T> extends BaseMatcher<T> implements PathProvider {
     private String propertyName;
 
     /**
-     * A path provider that tells us where the property represented by this PropertyMatcher
-     * exists in the object graph.
+     * Tells us where the property represented by this PropertyMatcher
+     * exists in the object graph, relative to the root object being matched.
      * <p/>
      * E.g. if this PropertyMatcher represents the houseNumber property on an Address object, the
      * path might be "person.address" or "company.address".
