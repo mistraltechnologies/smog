@@ -6,6 +6,7 @@ import org.hamcrest.StringDescription;
 import org.junit.Before;
 import org.junit.Test;
 
+import static com.mistraltech.smog.core.MatchAccumulator.createMatchAccumulator;
 import static org.hamcrest.CoreMatchers.any;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.assertEquals;
@@ -22,28 +23,28 @@ public class MatchAccumulatorTest {
 
     @Test
     public void givesSuccessResultWhenNoResultSpecifiedAtConstructionAndNoMatchesFail() {
-        MatchAccumulator matchAccumulator = MatchAccumulator.matchAccumulator(mismatchDescription);
+        MatchAccumulator matchAccumulator = createMatchAccumulator(mismatchDescription);
 
         assertTrue(matchAccumulator.result());
     }
 
     @Test
     public void givesSuccessResultWhenSucceedingAtConstructionAndNoMatchesFail() {
-        MatchAccumulator matchAccumulator = MatchAccumulator.matchAccumulator(mismatchDescription, true);
+        MatchAccumulator matchAccumulator = createMatchAccumulator(mismatchDescription, true);
 
         assertTrue(matchAccumulator.result());
     }
 
     @Test
     public void givesFailureResultWhenFailingAtConstruction() {
-        MatchAccumulator matchAccumulator = MatchAccumulator.matchAccumulator(mismatchDescription, false);
+        MatchAccumulator matchAccumulator = createMatchAccumulator(mismatchDescription, false);
 
         assertFalse(matchAccumulator.result());
     }
 
     @Test
     public void givesFailureResultWhenAnyMatchFails() {
-        MatchAccumulator matchAccumulator = MatchAccumulator.matchAccumulator(mismatchDescription);
+        MatchAccumulator matchAccumulator = createMatchAccumulator(mismatchDescription);
 
         matchAccumulator.matches(equalTo("A"), "A");
         matchAccumulator.matches(equalTo("B"), "-");
@@ -54,7 +55,7 @@ public class MatchAccumulatorTest {
 
     @Test
     public void givesSuccessResultWhenAllMatchesSucceed() {
-        MatchAccumulator matchAccumulator = MatchAccumulator.matchAccumulator(mismatchDescription);
+        MatchAccumulator matchAccumulator = createMatchAccumulator(mismatchDescription);
 
         matchAccumulator.matches(equalTo("A"), "A");
         matchAccumulator.matches(equalTo("B"), "B");
@@ -65,7 +66,7 @@ public class MatchAccumulatorTest {
 
     @Test
     public void doesNotUpdateMismatchDescriptionWhenMatchesSucceed() {
-        MatchAccumulator matchAccumulator = MatchAccumulator.matchAccumulator(mismatchDescription);
+        MatchAccumulator matchAccumulator = createMatchAccumulator(mismatchDescription);
 
         matchAccumulator.matches(equalTo("A"), "A");
         matchAccumulator.matches(equalTo("B"), "B");
@@ -76,7 +77,7 @@ public class MatchAccumulatorTest {
 
     @Test
     public void updatesMismatchDescriptionForFailingMatches() {
-        MatchAccumulator matchAccumulator = MatchAccumulator.matchAccumulator(mismatchDescription);
+        MatchAccumulator matchAccumulator = createMatchAccumulator(mismatchDescription);
 
         matchAccumulator.matches(equalTo("A"), "a"); // mismatch
         matchAccumulator.matches(equalTo("B"), "B");
@@ -95,7 +96,7 @@ public class MatchAccumulatorTest {
 
     @Test
     public void canDetermineIfMatcherHasBeenApplied() {
-        MatchAccumulator matchAccumulator = MatchAccumulator.matchAccumulator(mismatchDescription);
+        MatchAccumulator matchAccumulator = createMatchAccumulator(mismatchDescription);
 
         Matcher<Object> matcher1 = any(Object.class);
         Matcher<Object> matcher2 = any(Object.class);

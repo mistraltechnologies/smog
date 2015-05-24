@@ -67,7 +67,7 @@ public class CompositePropertyMatcher<T> extends PathAwareDiagnosingMatcher<T> i
 
     @Override
     protected final boolean matchesSafely(T item, Description mismatchDescription) {
-        MatchAccumulator matchAccumulator = createMatchAccumulator(mismatchDescription);
+        MatchAccumulator matchAccumulator = MatchAccumulator.createMatchAccumulator(mismatchDescription);
 
         // Give subclasses an opportunity to match PropertyMatchers manually
         matchesSafely(item, matchAccumulator);
@@ -83,10 +83,6 @@ public class CompositePropertyMatcher<T> extends PathAwareDiagnosingMatcher<T> i
         }
 
         return matchAccumulator.result();
-    }
-
-    private MatchAccumulator createMatchAccumulator(Description mismatchDescription) {
-        return MatchAccumulator.matchAccumulator(mismatchDescription);
     }
 
     protected void matchesSafely(T item, MatchAccumulator matchAccumulator) {

@@ -33,7 +33,7 @@ public final class MatchAccumulator {
      * @param mismatchDescription the description object used for recording the mismatch description
      * @return a new MatchAccumulator instance
      */
-    public static MatchAccumulator matchAccumulator(Description mismatchDescription) {
+    public static MatchAccumulator createMatchAccumulator(Description mismatchDescription) {
         return new MatchAccumulator(mismatchDescription);
     }
 
@@ -50,7 +50,7 @@ public final class MatchAccumulator {
      * a sub-scope of a larger matching process, the larger matching process is already failing.
      * @return a new MatchAccumulator instance
      */
-    public static MatchAccumulator matchAccumulator(Description mismatchDescription, boolean currentlyMatching) {
+    public static MatchAccumulator createMatchAccumulator(Description mismatchDescription, boolean currentlyMatching) {
         return new MatchAccumulator(mismatchDescription, currentlyMatching);
     }
 
