@@ -1,31 +1,43 @@
 package com.mistraltech.smog.examples.model;
 
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 public class Person extends Addressee {
     private int age;
-    private Phone[] phones;
+    private Map<PhoneType, Phone> phoneMap;
 
-    public Person(String name, int age, Address address, Phone... phones) {
+    public Person(String name, int age, Address address, Map<PhoneType, Phone> phoneMap) {
         super(name, address);
         this.age = age;
-        this.phones = phones;
+        this.phoneMap = phoneMap;
     }
 
     public int getAge() {
         return age;
     }
 
+    public Phone[] getPhones() {
+        return phoneMap.values().toArray(new Phone[phoneMap.size()]);
+    }
+
     public List<Phone> getPhoneList() {
-        return Arrays.asList(phones);
+        List<Phone> phoneList = new ArrayList<Phone>(phoneMap.values());
+        Collections.sort(phoneList, new PhoneComparator());
+        return phoneList;
+    }
+
+    public Map<PhoneType, Phone> getPhoneMap() {
+        return phoneMap;
     }
 
     @Override
     public String toString() {
         return "Person{" +
                 "age=" + age +
-                ", phones=" + Arrays.toString(phones) +
+                ", phoneMap=" + phoneMap +
                 "} " + super.toString();
     }
 }

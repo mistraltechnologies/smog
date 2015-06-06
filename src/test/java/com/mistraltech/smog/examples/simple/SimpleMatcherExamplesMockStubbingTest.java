@@ -6,6 +6,7 @@ import com.mistraltech.smog.examples.model.PostCode;
 import org.hamcrest.Matchers;
 import org.junit.Test;
 
+import static com.mistraltech.smog.examples.model.PersonBuilder.aPerson;
 import static com.mistraltech.smog.examples.simple.matcher.AddressMatcher.anAddressThat;
 import static com.mistraltech.smog.examples.simple.matcher.PersonMatcher.aPersonThat;
 import static com.mistraltech.smog.examples.simple.matcher.PostCodeMatcher.aPostCodeThat;
@@ -18,39 +19,44 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 public class SimpleMatcherExamplesMockStubbingTest {
+    private Person brian = aPerson()
+            .withName("Brian")
+            .withAge(26)
+            .withAddress(new Address(73, new PostCode("out", "in")))
+            .build();
+
     @Test
     public void testMock() {
         Converter converter = mock(Converter.class);
 
-        Person person = new Person("Brian", 26, new Address(73, new PostCode("out", "in")));
-
         when(converter.personToName(argThat(is(aPersonThat()
-                        .hasName(startsWith("B")).hasAddress(anAddressThat()
-                                        .hasPostCode(aPostCodeThat().hasInner("in"))
+                        .hasName(startsWith("B"))
+                        .hasAddress(anAddressThat()
+                                        .hasPostCode(aPostCodeThat()
+                                                .hasInner("in"))
                         )
         )))).thenReturn("Billie");
 
         // The mock expectation should match and returns "Billie"
 
-        assertThat(converter.personToName(person), equalTo("Billie"));
+        assertThat(converter.personToName(brian), equalTo("Billie"));
     }
 
     @Test
     public void testMockFailure() {
         Converter converter = mock(Converter.class);
 
-        Person person = new Person("Brian", 26, new Address(73, new PostCode("out", "in")));
-
         when(converter.personToName(argThat(is(aPersonThat()
                         .hasName(startsWith("B")).hasAddress(anAddressThat()
                                         .hasHouseNumber(37)
-                                        .hasPostCode(aPostCodeThat().hasInner("out"))
+                                        .hasPostCode(aPostCodeThat()
+                                                .hasInner("out"))
                         )
         )))).thenReturn("Billie");
 
         // The mock expectation should not match so personToName returns null
 
-        assertThat(converter.personToName(person), Matchers.nullValue());
+        assertThat(converter.personToName(brian), Matchers.nullValue());
     }
 
     private class Converter {
@@ -58,5 +64,4 @@ public class SimpleMatcherExamplesMockStubbingTest {
             return "Bertie";
         }
     }
-
 }

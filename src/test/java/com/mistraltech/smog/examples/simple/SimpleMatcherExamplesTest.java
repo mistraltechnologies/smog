@@ -15,6 +15,9 @@ import org.junit.Test;
 
 import java.util.regex.Pattern;
 
+import static com.mistraltech.smog.examples.model.PersonBuilder.aPerson;
+import static com.mistraltech.smog.examples.model.PhoneType.Home;
+import static com.mistraltech.smog.examples.model.PhoneType.Work;
 import static com.mistraltech.smog.examples.simple.matcher.AddressMatcher.anAddressThat;
 import static com.mistraltech.smog.examples.simple.matcher.AddresseeMatcher.anAddresseeThat;
 import static com.mistraltech.smog.examples.simple.matcher.PersonMatcher.aPersonThat;
@@ -32,6 +35,26 @@ import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
 public class SimpleMatcherExamplesTest {
+
+    private Person bob = aPerson()
+            .withName("bob")
+            .withAge(34)
+            .withAddress(new Address(21, new PostCode("out", "in")))
+            .addPhone(Home, new Phone("123", "456456"))
+            .addPhone(Work, new Phone("123", "123123"))
+            .build();
+
+    private Person dennis = aPerson()
+            .withName("dennis")
+            .withAge(36)
+            .withAddress(new Address(21, new PostCode("out", "in")))
+            .build();
+
+    private Person teaCosyPete = aPerson()
+            .withName("pete")
+            .withAddress(null)
+            .build();
+
 
     @Test
     public void testBothMatcher() throws Exception {
@@ -53,19 +76,15 @@ public class SimpleMatcherExamplesTest {
     public void testSimpleMatcherSucceedsWhenMatches() {
         Matcher<Person> matcher = is(aPersonThat().hasName("bob"));
 
-        Person input = new Person("bob", 36, new Address(21, new PostCode("out", "in")));
-
         assertDescription(matcher, "is a Person that (has name ('bob'))");
-        assertThat(input, matcher);
+        assertThat(bob, matcher);
     }
 
     @Test
     public void testSimpleMatcherFailsWhenMismatches() {
         Matcher<Person> matcher = is(aPersonThat().hasName("bob"));
 
-        Person input = new Person("dennis", 36, new Address(21, new PostCode("out", "in")));
-
-        assertMismatch(input, matcher, "name was 'dennis' (expected 'bob')");
+        assertMismatch(dennis, matcher, "name was 'dennis' (expected 'bob')");
     }
 
     @Test
@@ -82,10 +101,8 @@ public class SimpleMatcherExamplesTest {
                 .hasAddress(anAddressThat()
                         .hasHouseNumber(21)));
 
-        Person input = new Person("bob", 36, new Address(21, new PostCode("out", "in")));
-
         assertDescription(matcher, "is a Person that (has name ('bob') and has address (an Address that (has houseNumber (<21>))))");
-        assertThat(input, matcher);
+        assertThat(bob, matcher);
     }
 
     @Test
@@ -95,9 +112,7 @@ public class SimpleMatcherExamplesTest {
                 .hasAddress(anAddressThat()
                         .hasHouseNumber(99)));
 
-        Person input = new Person("bob", 36, new Address(21, new PostCode("out", "in")));
-
-        assertMismatch(input, matcher, "address.houseNumber was <21> (expected <99>)");
+        assertMismatch(bob, matcher, "address.houseNumber was <21> (expected <99>)");
     }
 
     @Test
@@ -110,13 +125,11 @@ public class SimpleMatcherExamplesTest {
                                 .hasPostCode(aPostCodeThat()
                                         .hasOuter(containsString("y")))));
 
-        Person input = new Person("bob", 36, new Address(21, new PostCode("out", "in")));
-
         assertDescription(matcher, "is a Person that (has name ('bob') and has address " +
                 "(an Address that (has houseNumber (<21>) and has postCode " +
                 "(a Postcode that (has outer (a string containing 'y'))))))");
 
-        assertMismatch(input, matcher, "address.postCode.outer was 'out' (expected a string containing 'y')");
+        assertMismatch(bob, matcher, "address.postCode.outer was 'out' (expected a string containing 'y')");
     }
 
     @Test
@@ -125,37 +138,33 @@ public class SimpleMatcherExamplesTest {
                 is(aPersonThat()
                         .hasName("obo")
                         .hasAddress(anAddressThat()
-                                .hasHouseNumber(21)
+                                .hasHouseNumber(22)
                                 .hasPostCode(aPostCodeThat()
                                         .hasInner(startsWith("x"))
                                         .hasOuter(containsString("y")))));
 
-        Person input = new Person("bob", 36, new Address(22, new PostCode("out", "in")));
-
         String descriptionOfMismatch = "name was 'bob' (expected 'obo')\n" +
-                "     and: address.houseNumber was <22> (expected <21>)\n" +
+                "     and: address.houseNumber was <21> (expected <22>)\n" +
                 "     and: address.postCode.inner was 'in' (expected a string starting with 'x')\n" +
                 "     and: address.postCode.outer was 'out' (expected a string containing 'y')";
 
-        assertMismatch(input, matcher, descriptionOfMismatch);
+        assertMismatch(bob, matcher, descriptionOfMismatch);
     }
 
     @Test
     public void testDeepCompositeCustomMatcherWithNull() {
         Matcher<Person> matcher =
                 is(aPersonThat()
-                        .hasName("obo")
+                        .hasName("Tea Cosy")
                         .hasAddress(anAddressThat()
                                 .hasHouseNumber(21)
                                 .hasPostCode(aPostCodeThat()
                                         .hasInner("x"))));
 
-        Person input = new Person("bob", 36, null);
-
-        String descriptionOfMismatch = "name was 'bob' (expected 'obo')\n" +
+        String descriptionOfMismatch = "name was 'pete' (expected 'Tea Cosy')\n" +
                 "     and: address was null";
 
-        assertMismatch(input, matcher, descriptionOfMismatch);
+        assertMismatch(teaCosyPete, matcher, descriptionOfMismatch);
     }
 
     @Test
@@ -164,11 +173,9 @@ public class SimpleMatcherExamplesTest {
                 is(aPersonThat()
                         .hasPhoneList(IsEmptyCollection.<Phone>empty()));
 
-        Person input = new Person("bob", 36, null, new Phone("123", "456456"), new Phone("123", "123123"));
-
         Pattern mismatchDescriptionPattern = Pattern.compile("phoneList .* \\(expected an empty collection\\)");
 
-        assertMismatch(input, matcher, mismatchDescriptionPattern);
+        assertMismatch(bob, matcher, mismatchDescriptionPattern);
     }
 
     @Test
@@ -177,11 +184,9 @@ public class SimpleMatcherExamplesTest {
                 is(aPersonThat()
                         .hasPhoneList(IsCollectionWithSize.<Phone>hasSize(1)));
 
-        Person input = new Person("bob", 36, null, new Phone("123", "456456"), new Phone("123", "123123"));
-
         String descriptionOfMismatch = "phoneList collection size was <2> (expected a collection with size <1>)";
 
-        assertMismatch(input, matcher, descriptionOfMismatch);
+        assertMismatch(bob, matcher, descriptionOfMismatch);
     }
 
     @Test
@@ -190,27 +195,23 @@ public class SimpleMatcherExamplesTest {
                 is(aPersonThat()
                         .hasPhoneList(IsIterableContainingInOrder.contains(
                                 new PhoneMatcher[]{
-                                        aPhoneThat().hasCode("123").hasNumber("456456"),
-                                        aPhoneThat().hasCode("123").hasNumber("123321")
+                                        aPhoneThat().hasCode("123").hasNumber("123123"),
+                                        aPhoneThat().hasCode("123").hasNumber("456654")
                                 }
                         )));
 
-        Person input = new Person("bob", 36, null, new Phone("123", "456456"), new Phone("123", "123123"));
-
-        String descriptionOfMismatch = "phoneList item 1: number was '123123' (expected '123321') " +
+        String descriptionOfMismatch = "phoneList item 1: number was '456456' (expected '456654') " +
                 "(expected iterable containing [" +
-                "a Phone that (has code ('123') and has number ('456456')), " +
-                "a Phone that (has code ('123') and has number ('123321'))" +
+                "a Phone that (has code ('123') and has number ('123123')), " +
+                "a Phone that (has code ('123') and has number ('456654'))" +
                 "])";
 
-        assertMismatch(input, matcher, descriptionOfMismatch);
+        assertMismatch(bob, matcher, descriptionOfMismatch);
     }
 
     @Test
     public void testCallingMatcherDirectly() {
-        Person bob = new Person("Bob", 35, null);
-
-        Matcher<Person> youngPerson = aPersonThat().hasAge(35);
+        Matcher<Person> youngPerson = aPersonThat().hasAge(34);
         Matcher<Person> oldPerson = aPersonThat().hasAge(36);
 
         assertTrue(youngPerson.matches(bob));

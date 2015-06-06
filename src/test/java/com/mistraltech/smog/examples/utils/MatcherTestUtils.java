@@ -39,7 +39,6 @@ public final class MatcherTestUtils {
         assertEquals(singleToDoubleQuotes(descriptionOfExpected), actualDescriptionOfExpected.toString());
     }
 
-
     private static String singleToDoubleQuotes(String text) {
         return text.replace('\'', '"');
     }

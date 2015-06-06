@@ -1,9 +1,7 @@
 package com.mistraltech.smog.examples.extended;
 
-import com.mistraltech.smog.examples.model.Address;
 import com.mistraltech.smog.examples.model.Addressee;
 import com.mistraltech.smog.examples.model.Person;
-import com.mistraltech.smog.examples.model.PostCode;
 import org.hamcrest.Matcher;
 import org.junit.Test;
 
@@ -11,71 +9,69 @@ import static com.mistraltech.smog.examples.extended.matcher.AddresseeMatcher.an
 import static com.mistraltech.smog.examples.extended.matcher.AddresseeMatcher.anAddresseeThat;
 import static com.mistraltech.smog.examples.extended.matcher.PersonMatcher.aPersonLike;
 import static com.mistraltech.smog.examples.extended.matcher.PersonMatcher.aPersonThat;
+import static com.mistraltech.smog.examples.model.PersonBuilder.aPerson;
 import static com.mistraltech.smog.examples.utils.MatcherTestUtils.assertDescription;
 import static com.mistraltech.smog.examples.utils.MatcherTestUtils.assertMismatch;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
 public class ExtendedMatcherExamplesTest {
+    private Person bob = aPerson()
+            .withName("bob")
+            .withAge(34)
+            .withAddress(null)
+            .build();
+
+    private Person dennis = aPerson()
+            .withName("dennis")
+            .withAge(36)
+            .withAddress(null)
+            .build();
+
+
     @Test
     public void testExtensiblePersonMatcherSucceedsWhenMatches() {
         Matcher<Person> matcher = is(aPersonThat().hasName("bob"));
 
-        Person input = new Person("bob", 36, new Address(21, new PostCode("out", "in")));
-
         assertDescription(matcher, "is a Person that (has name ('bob'))");
-        assertThat(input, matcher);
+        assertThat(bob, matcher);
     }
 
     @Test
     public void testExtensiblePersonMatcherFailsWhenMismatches() {
         Matcher<Person> matcher = is(aPersonThat().hasName("bob"));
 
-        Person input = new Person("dennis", 36, new Address(21, new PostCode("out", "in")));
-
-        assertMismatch(input, matcher, "name was 'dennis' (expected 'bob')");
+        assertMismatch(dennis, matcher, "name was 'dennis' (expected 'bob')");
     }
 
     @Test
     public void testAPersonLikeReturnsPopulatedMatcher() {
-        Address address = new Address(21, new PostCode("out", "in"));
-        Person person1 = new Person("dennis", 36, address);
-        Person person2 = new Person("bob", 34, address);
-
-        Matcher<Person> matcher = is(aPersonLike(person1).hasName("bob"));
+        Matcher<Person> matcher = is(aPersonLike(dennis).hasName("bob"));
 
         // Name matches, but age has not been overridden and doesn't match
-        assertMismatch(person2, matcher, "age was <34> (expected <36>)");
+        assertMismatch(bob, matcher, "age was <34> (expected <36>)");
     }
 
     @Test
     public void testExtensibleAddresseeMatcherSucceedsWhenMatches() {
         Matcher<Addressee> matcher = is(anAddresseeThat().hasName("bob"));
 
-        Person input = new Person("bob", 36, new Address(21, new PostCode("out", "in")));
-
         assertDescription(matcher, "is an Addressee that (has name ('bob'))");
-        assertThat(input, matcher);
+        assertThat(bob, matcher);
     }
 
     @Test
     public void testExtensibleAddresseeMatcherFailsWhenMismatches() {
         Matcher<Addressee> matcher = is(anAddresseeThat().hasName("bob"));
 
-        Person input = new Person("dennis", 36, new Address(21, new PostCode("out", "in")));
-
-        assertMismatch(input, matcher, "name was 'dennis' (expected 'bob')");
+        assertMismatch(dennis, matcher, "name was 'dennis' (expected 'bob')");
     }
 
     @Test
     public void testAnAddresseeLikeReturnsPopulatedMatcher() {
-        Address address = new Address(21, new PostCode("out", "in"));
-        Person person1 = new Person("dennis", 36, address);
-        Person person2 = new Person("bob", 34, address);
-
-        Matcher<Addressee> matcher = is(anAddresseeLike(person1));
+        Matcher<Addressee> matcher = is(anAddresseeLike(dennis));
 
         // Name mismatches
-        assertMismatch(person2, matcher, "name was 'bob' (expected 'dennis')");
+        assertMismatch(bob, matcher, "name was 'bob' (expected 'dennis')");
     }
 }
