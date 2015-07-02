@@ -7,9 +7,9 @@ import org.hamcrest.Matcher;
 /**
  * A wrapper for a Hamcrest matcher that matches a property of the target object. Knows the name
  * of the property being matched and helps with the mismatch description if the match fails.
- * <p/>
+ * <p>
  * Example: Assume a Person class has an Address property and that PersonMatcher is a {@link CompositePropertyMatcher}
- * class for matching against Person. PersonMatcher declares a PropertyMatcher<Address> field that can be assigned a
+ * class for matching against Person. PersonMatcher declares a PropertyMatcher&lt;Address&gt; field that can be assigned a
  * matcher for the Address property. If no matcher is assigned to a PropertyMatcher when the {@link #matches(Object)}
  * method is invoked, the match is assumed to have succeeded.
  *
@@ -19,7 +19,7 @@ public class PropertyMatcher<T> extends BaseMatcher<T> implements PathProvider {
     /**
      * A contained matcher for matching the property that this PropertyMatcher represents in
      * the target object.
-     * <p/>
+     * <p>
      * May be null, in which case {@link #matches(Object)} will automatically succeed.
      */
     private Matcher<? super T> matcher;
@@ -33,7 +33,7 @@ public class PropertyMatcher<T> extends BaseMatcher<T> implements PathProvider {
     /**
      * Tells us where the property represented by this PropertyMatcher
      * exists in the object graph, relative to the root object being matched.
-     * <p/>
+     * <p>
      * E.g. if this PropertyMatcher represents the houseNumber property on an Address object, the
      * path might be "person.address" or "company.address".
      */
@@ -94,9 +94,9 @@ public class PropertyMatcher<T> extends BaseMatcher<T> implements PathProvider {
 
     /**
      * Sets the matcher that the property that this instance represents in the target object graph must match.
-     * <p/>
+     * <p>
      * If matcher is null, this PropertyMatcher will be ignored.
-     * <p/>
+     * <p>
      * If the matcher is {@link PathAware}, this instance will become its {@link PathProvider}.
      *
      * @param matcher the matcher

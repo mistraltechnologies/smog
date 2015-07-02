@@ -9,7 +9,7 @@ import org.hamcrest.internal.ReflectiveTypeFinder;
  * A variation on Hamcrest's {@link org.hamcrest.TypeSafeDiagnosingMatcher} that replaces the
  * {@link org.hamcrest.TypeSafeDiagnosingMatcher#matches(Object)} and
  * {@link org.hamcrest.TypeSafeDiagnosingMatcher#describeMismatch(Object, Description)} methods.
- * <p/>
+ * <p>
  * A more elegant implementation would extend TypeSafeDiagnosingMatcher, but the
  * methods we want to override are final.
  *

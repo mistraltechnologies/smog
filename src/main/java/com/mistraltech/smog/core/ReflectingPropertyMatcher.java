@@ -18,6 +18,10 @@ public class ReflectingPropertyMatcher<T> extends PropertyMatcher<T> {
     private PropertyAccessor propertyAccessor;
 
     /**
+     * Constructs an instance without a pathProvider, for use when the pathProvider is not known at construction time.
+     *
+     * @param propertyName name of the attribute that this PropertyMatcher matches against in the target object
+     * @param registry the PropertyMatcherRegistry to register with; can be null
      * @see #ReflectingPropertyMatcher(String, PropertyMatcherRegistry, PathProvider)
      */
     public ReflectingPropertyMatcher(String propertyName, PropertyMatcherRegistry registry) {
@@ -25,6 +29,12 @@ public class ReflectingPropertyMatcher<T> extends PropertyMatcher<T> {
     }
 
     /**
+     * Constructor that takes and assigns a {@link PathProvider}.
+     *
+     * @param propertyName name of the attribute that this PropertyMatcher matches against in the target object
+     * @param registry the PropertyMatcherRegistry to register with; can be null
+     * @param pathProvider provides this PropertyMatcher with its path context. I.e. the property path that leads
+     * to the object containing this attribute in the target object graph; can be null
      * @see PropertyMatcher#PropertyMatcher(String, PropertyMatcherRegistry, PathProvider)
      */
     public ReflectingPropertyMatcher(String propertyName, PropertyMatcherRegistry registry, PathProvider pathProvider) {
