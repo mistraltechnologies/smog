@@ -1,6 +1,8 @@
 Process
 -------
 
+Update the Smog class major and minor versions if necessary.
+
 Check all changes are committed.
 
 Give the new release a version: mvn versions:set
