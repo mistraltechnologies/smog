@@ -122,7 +122,7 @@ Expected: is a Transfer that (has fromAccount (an Account that (has owner ("fred
      and: toAccount.balance was <50> (expected <150>)
 ```
 ## Writing a SMOG matcher
-tl;dr: You don't have to write the matchers yourself. You can generate them with an [IntelliJ plugin](#Simplifying-Writing-Matcher-Classes) or you can use a [runtime code generator](#Dynamically-Generated-Matcher-Classes) extension library to generate code from an interface.
+tl;dr: You don't have to write the matchers yourself. You can generate them with an [IntelliJ plugin](#simplifying-writing-matcher-classes) or you can use a [runtime code generator](#dynamically-generated-matcher-classes) extension library to generate code from an interface.
 
 A SMOG matcher will look something like this:
 ```
