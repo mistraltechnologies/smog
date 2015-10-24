@@ -6,7 +6,7 @@ Sparse Matching of Object Graphs - an extension to Hamcrest
 
 **Problem:**
 
-You are writing JUnit-style tests for operations that update an object graph in various ways. In each test, you want to assert that specific properties of the objects in the object graph are correct.
+You are writing unit tests for operations that update an object graph in various ways. In each test, you want to assert that specific properties of the objects in the object graph are correct.
 
 **Solution:**
 
@@ -122,6 +122,8 @@ Expected: is a Transfer that (has fromAccount (an Account that (has owner ("fred
      and: toAccount.balance was <50> (expected <150>)
 ```
 ## Writing a SMOG matcher
+tl;dr: You don't have to write the matchers yourself. You can generate them with an [IntelliJ plugin](#Simplifying-Writing-Matcher-Classes) or you can use a [runtime code generator](#Dynamically-Generated-Matcher-Classes) extension library to generate code from an interface.
+
 A SMOG matcher will look something like this:
 ```
 public final class AccountMatcher extends CompositePropertyMatcher<Account> {
@@ -190,7 +192,10 @@ takes a Hamcrest matcher. The method taking the value simply wraps it in a Hamcr
 method before passing it to the other method.
 
 ### Simplifying Writing Matcher Classes
-An IntelliJ plugin called Smogen is available to generate matcher classes like this one directly from the target class.
+An IntelliJ plugin called [Smogen](https://github.com/mistraltechnologies/smogen) is available from the [IntelliJ Plugin Repository](https://plugins.jetbrains.com/plugin/7469) to generate matcher classes like this one directly from the target class.
+
+### Dynamically Generated Matcher Classes
+Rather than writing the implementation for matchers by hand (or generating them using the IntelliJ plugin) you can now write just an interface only and have the implementation generated at runtime. This saves a lot of boiler-plate code in your project. The IntelliJ plugin can still be used to quickly generate these interfaces. Visit the project home of the extension library [Smog-Javassist](https://github.com/mistraltechnologies/smog-javassist) for details of how to configure this.
 
 ##FAQs
 
@@ -212,7 +217,7 @@ You could write a separate assertion for each property you care about. But then,
 
 ### Is this style of testing a good idea?
 
-Not necessarily. Certainly it is possible to write complex test expectations that are hard to read and maintain. And it may lead to tests that do too much - what Gerard Meszaros calls an Eager Test ([xUnit Test Patterns](http://xunitpatterns.com/). Basically, it is up to you to use it wisely :)
+Not necessarily. Certainly it is possible to write complex test expectations that are hard to read and maintain. And it may lead to tests that do too much - what Gerard Meszaros calls an Eager Test ([xUnit Test Patterns](http://xunitpatterns.com/). Basically, it is up to you to use it wisely.
 
 ### I'm using matchers in mocks - how does SMOG help?
 
