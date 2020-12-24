@@ -41,8 +41,7 @@ public class PropertyDescriptorLocator {
      * @throws PropertyNotFoundException if the named property does not exist on the bean
      * @see #findPropertyDescriptor(String)
      */
-    public PropertyDescriptor getPropertyDescriptor(String propertyName)
-    {
+    public PropertyDescriptor getPropertyDescriptor(String propertyName) {
         final PropertyDescriptor propertyDescriptor = findPropertyDescriptor(propertyName);
 
         if (propertyDescriptor == null) {

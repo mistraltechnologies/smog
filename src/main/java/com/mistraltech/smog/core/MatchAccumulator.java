@@ -61,8 +61,7 @@ public final class MatchAccumulator {
     }
 
     private <P> void handleMismatch(Matcher<?> matcher, P item) {
-        if (!currentlyMatching)
-        {
+        if (!currentlyMatching) {
             // This is not the first failure so add some joining text to mismatch description
             mismatchDescription.appendText(MISMATCH_CONJUNCTIVE_ADVERB);
         }

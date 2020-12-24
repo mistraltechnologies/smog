@@ -30,11 +30,11 @@ public class SimpleMatcherExamplesMockStubbingTest {
         Converter converter = mock(Converter.class);
 
         when(converter.personToName(argThat(is(aPersonThat()
-                        .hasName(startsWith("B"))
-                        .hasAddress(anAddressThat()
-                                        .hasPostCode(aPostCodeThat()
-                                                .hasInner("in"))
-                        )
+                .hasName(startsWith("B"))
+                .hasAddress(anAddressThat()
+                        .hasPostCode(aPostCodeThat()
+                                .hasInner("in"))
+                )
         )))).thenReturn("Billie");
 
         // The mock expectation should match and returns "Billie"
@@ -47,11 +47,11 @@ public class SimpleMatcherExamplesMockStubbingTest {
         Converter converter = mock(Converter.class);
 
         when(converter.personToName(argThat(is(aPersonThat()
-                        .hasName(startsWith("B")).hasAddress(anAddressThat()
-                                        .hasHouseNumber(37)
-                                        .hasPostCode(aPostCodeThat()
-                                                .hasInner("out"))
-                        )
+                .hasName(startsWith("B")).hasAddress(anAddressThat()
+                        .hasHouseNumber(37)
+                        .hasPostCode(aPostCodeThat()
+                                .hasInner("out"))
+                )
         )))).thenReturn("Billie");
 
         // The mock expectation should not match so personToName returns null

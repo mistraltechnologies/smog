@@ -8,7 +8,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
  * Identifies the property in the target object that the annotated method applies to.
- *
+ * <p>
  * Useful for overriding defaults assumed by matcher generators.
  */
 @Target(METHOD)
