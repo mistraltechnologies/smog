@@ -6,16 +6,16 @@ import org.hamcrest.StringDescription;
 
 import java.util.regex.Pattern;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public final class MatcherTestUtils {
     private MatcherTestUtils() {
     }
 
     public static void assertMismatch(Object input, Matcher<?> matcher, String descriptionOfMismatch) {
-        assertFalse("Expected mismatch", matcher.matches(input));
+        assertFalse(matcher.matches(input), "Expected mismatch");
 
         Description actualDescriptionOfMismatch = new StringDescription();
         matcher.describeMismatch(input, actualDescriptionOfMismatch);
@@ -31,7 +31,7 @@ public final class MatcherTestUtils {
 
         boolean result = descriptionOfMismatch.matcher(actualDescriptionText).matches();
 
-        assertTrue("matching: " + descriptionOfMismatch.pattern() + " against: " + actualDescriptionText, result);
+        assertTrue(result, "matching: " + descriptionOfMismatch.pattern() + " against: " + actualDescriptionText);
     }
 
     public static void assertDescription(Matcher<?> matcher, String descriptionOfExpected) {

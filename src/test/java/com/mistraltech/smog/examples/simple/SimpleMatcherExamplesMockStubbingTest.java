@@ -4,7 +4,7 @@ import com.mistraltech.smog.examples.model.Address;
 import com.mistraltech.smog.examples.model.Person;
 import com.mistraltech.smog.examples.model.PostCode;
 import org.hamcrest.Matchers;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import static com.mistraltech.smog.examples.model.PersonBuilder.aPerson;
 import static com.mistraltech.smog.examples.simple.matcher.AddressMatcher.anAddressThat;
@@ -14,12 +14,12 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.startsWith;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.mockito.Matchers.argThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
+import static org.mockito.hamcrest.MockitoHamcrest.argThat;
 
 public class SimpleMatcherExamplesMockStubbingTest {
-    private Person brian = aPerson()
+    private final Person brian = aPerson()
             .withName("Brian")
             .withAge(26)
             .withAddress(new Address(73, new PostCode("out", "in")))
@@ -59,7 +59,7 @@ public class SimpleMatcherExamplesMockStubbingTest {
         assertThat(converter.personToName(brian), Matchers.nullValue());
     }
 
-    private class Converter {
+    private static class Converter {
         public String personToName(Person person) {
             return "Bertie";
         }

@@ -5,7 +5,7 @@ import com.mistraltech.smog.examples.model.Phone;
 import com.mistraltech.smog.examples.model.PhoneType;
 import org.hamcrest.Matcher;
 import org.hamcrest.collection.IsMapContaining;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.Map;
 

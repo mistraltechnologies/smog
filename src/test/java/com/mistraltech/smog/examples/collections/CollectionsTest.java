@@ -7,11 +7,9 @@ import org.hamcrest.Matcher;
 import org.hamcrest.collection.IsEmptyCollection;
 import org.hamcrest.collection.IsIterableContainingInAnyOrder;
 import org.hamcrest.collection.IsIterableContainingInOrder;
-import org.hamcrest.core.Every;
-import org.hamcrest.core.IsCollectionContaining;
 import org.hamcrest.core.IsEqual;
 import org.hamcrest.core.IsInstanceOf;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -25,6 +23,9 @@ import static com.mistraltech.smog.examples.simple.matcher.PhoneMatcher.aPhoneTh
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.everyItem;
+import static org.hamcrest.core.IsIterableContaining.hasItem;
+import static org.hamcrest.core.IsIterableContaining.hasItems;
 
 public class CollectionsTest {
 
@@ -54,20 +55,19 @@ public class CollectionsTest {
 
     @Test
     public void canAssignEveryMatcher() {
-        Matcher<Iterable<Phone>> m = Every.everyItem(aPhoneThat());
+        Matcher<Iterable<? extends Phone>> m = everyItem(aPhoneThat());
         assertThat(bob, is(aPersonThat().hasPhoneList(m)));
     }
 
     @Test
     public void canAssignIsCollectionContainingItemMatcher() {
-        Matcher<Iterable<? super Phone>> m = IsCollectionContaining.hasItem(aPhoneThat().hasCode("1234"));
+        Matcher<Iterable<? super Phone>> m = hasItem(aPhoneThat().hasCode("1234"));
         assertThat(bob, is(aPersonThat().hasPhoneList(m)));
     }
 
     @Test
     public void canAssignIsCollectionContainingItemsMatcher() {
-        Matcher<Iterable<Phone>> m = IsCollectionContaining.hasItems(
-                aPhoneThat().hasCode("1234"), aPhoneThat().hasCode("4321"));
+        Matcher<Iterable<Phone>> m = hasItems(aPhoneThat().hasCode("1234"), aPhoneThat().hasCode("4321"));
         assertThat(bob, is(aPersonThat().hasPhoneList(m)));
     }
 

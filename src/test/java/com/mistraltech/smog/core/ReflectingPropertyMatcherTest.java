@@ -1,29 +1,26 @@
 package com.mistraltech.smog.core;
 
 import org.hamcrest.StringDescription;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ExpectedException;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import javax.naming.OperationNotSupportedException;
 import java.lang.reflect.InvocationTargetException;
 
 import static org.hamcrest.CoreMatchers.anything;
 import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.CoreMatchers.isA;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
 public class ReflectingPropertyMatcherTest {
     private static final Person bob = new Person();
-    @Rule
-    public ExpectedException thrown = ExpectedException.none();
+
     private PropertyMatcherRegistry mockRegistry;
 
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         mockRegistry = mock(PropertyMatcherRegistry.class);
     }
@@ -50,10 +47,9 @@ public class ReflectingPropertyMatcherTest {
         PropertyMatcher<String> matcher = new ReflectingPropertyMatcher<String>("surname", null);
         matcher.setMatcher(anything());
 
-        thrown.expect(PropertyNotFoundException.class);
-        thrown.expectMessage("Could not find accessor method on class Person for property surname");
+        Exception e = assertThrows(PropertyNotFoundException.class, () -> matcher.matches(bob));
+        assertEquals("Could not find accessor method on class Person for property surname", e.getMessage());
 
-        matcher.matches(bob);
     }
 
     @Test
@@ -72,11 +68,9 @@ public class ReflectingPropertyMatcherTest {
         PropertyMatcher<String> matcher = new ReflectingPropertyMatcher<String>("brokenName", null);
         matcher.setMatcher(anything());
 
-        thrown.expect(PropertyUnreadableException.class);
-        thrown.expectMessage("Could not read property brokenName of class Person using method getBrokenName()");
-        thrown.expectCause(isA(InvocationTargetException.class));
-
-        matcher.matches(bob);
+        Exception e = assertThrows(PropertyUnreadableException.class, () -> matcher.matches(bob));
+        assertEquals("Could not read property brokenName of class Person using method getBrokenName()", e.getMessage());
+        assertTrue(e.getCause() instanceof InvocationTargetException);
     }
 
     @Test

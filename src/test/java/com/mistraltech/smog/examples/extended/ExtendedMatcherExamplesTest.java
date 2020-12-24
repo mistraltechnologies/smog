@@ -3,7 +3,7 @@ package com.mistraltech.smog.examples.extended;
 import com.mistraltech.smog.examples.model.Addressee;
 import com.mistraltech.smog.examples.model.Person;
 import org.hamcrest.Matcher;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import static com.mistraltech.smog.examples.extended.matcher.AddresseeMatcher.anAddresseeLike;
 import static com.mistraltech.smog.examples.extended.matcher.AddresseeMatcher.anAddresseeThat;
@@ -13,7 +13,7 @@ import static com.mistraltech.smog.examples.model.PersonBuilder.aPerson;
 import static com.mistraltech.smog.examples.utils.MatcherTestUtils.assertDescription;
 import static com.mistraltech.smog.examples.utils.MatcherTestUtils.assertMismatch;
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 public class ExtendedMatcherExamplesTest {
     private Person bob = aPerson()

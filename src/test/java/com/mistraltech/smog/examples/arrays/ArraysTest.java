@@ -3,10 +3,8 @@ package com.mistraltech.smog.examples.arrays;
 import com.mistraltech.smog.examples.model.Person;
 import com.mistraltech.smog.examples.model.Phone;
 import org.hamcrest.Matcher;
-import org.hamcrest.collection.IsArrayContaining;
-import org.hamcrest.collection.IsArrayContainingInAnyOrder;
 import org.hamcrest.collection.IsArrayWithSize;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import static com.mistraltech.smog.examples.arrays.matcher.PersonMatcher.aPersonThat;
 import static com.mistraltech.smog.examples.model.PersonBuilder.aPerson;
@@ -15,6 +13,8 @@ import static com.mistraltech.smog.examples.model.PhoneType.Work;
 import static com.mistraltech.smog.examples.simple.matcher.PhoneMatcher.aPhoneThat;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.hasItemInArray;
+import static org.hamcrest.collection.ArrayMatching.arrayContainingInAnyOrder;
 
 public class ArraysTest {
     private final Person bob = aPerson()
@@ -38,13 +38,13 @@ public class ArraysTest {
 
     @Test
     public void canAssignIsArrayContainingMatcher() {
-        Matcher<Phone[]> m = IsArrayContaining.hasItemInArray(aPhoneThat().hasCode("4321"));
+        Matcher<Phone[]> m = hasItemInArray(aPhoneThat().hasCode("4321"));
         assertThat(bob, is(aPersonThat().hasPhones(m)));
     }
 
     @Test
     public void canAssignIsArrayContainingInAnyOrderMatcher() {
-        Matcher<Phone[]> m = IsArrayContainingInAnyOrder.arrayContainingInAnyOrder(
+        Matcher<Phone[]> m = arrayContainingInAnyOrder(
                 aPhoneThat().hasCode("4321"), aPhoneThat().hasCode("1234"));
         assertThat(bob, is(aPersonThat().hasPhones(m)));
     }

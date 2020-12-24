@@ -4,23 +4,24 @@ import org.hamcrest.CoreMatchers;
 import org.hamcrest.Description;
 import org.hamcrest.DiagnosingMatcher;
 import org.hamcrest.StringDescription;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.startsWith;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class CompositePropertyMatcherTest {
     private Description description;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         description = new StringDescription();
     }
@@ -72,7 +73,7 @@ public class CompositePropertyMatcherTest {
 
         cpm.matches(new TargetItem());
 
-        assertEquals("log message count", 1, cpm.getLogMessages().size());
+        assertEquals(1, cpm.getLogMessages().size(), "log message count");
 
         String expectedLogMessage = String.format("%s didn't match - %s",
                 cpm.getClass().getName(),
@@ -88,7 +89,7 @@ public class CompositePropertyMatcherTest {
         cpm.setOverrideLoggingDescription("message: ");
         cpm.matches(new TargetItem());
 
-        assertEquals("log message count", 1, cpm.getLogMessages().size());
+        assertEquals(1, cpm.getLogMessages().size(), "log message count");
 
         assertThat("log message content", cpm.getLogMessages().get(0), startsWith("message: "));
     }
@@ -101,7 +102,7 @@ public class CompositePropertyMatcherTest {
 
         cpm.matches(new TargetItem());
 
-        assertEquals("log message count", 0, cpm.getLogMessages().size());
+        assertEquals(0, cpm.getLogMessages().size(), "log message count");
     }
 
     @Test
@@ -111,7 +112,7 @@ public class CompositePropertyMatcherTest {
 
         cpm.matches(new TargetItem());
 
-        assertEquals("log message count", 0, cpm.getLogMessages().size());
+        assertEquals(0, cpm.getLogMessages().size(), "log message count");
     }
 
     @Test
@@ -131,9 +132,9 @@ public class CompositePropertyMatcherTest {
         assertEquals("", cpm.getPath());
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void cannotConstructWithNullDescription() {
-        new TargetItemCompositePropertyMatcher(null);
+        assertThrows(IllegalArgumentException.class, () -> new TargetItemCompositePropertyMatcher(null));
     }
 
     @Test
@@ -236,7 +237,7 @@ public class CompositePropertyMatcherTest {
 
         boolean result = cpm.matches("x");
 
-        assertFalse("match should fail", result);
+        assertFalse(result, "match should fail");
 
         // Matchers are invoked twice because match failed
         assertEquals(2, propertyMatcher1.getInvocationCount());

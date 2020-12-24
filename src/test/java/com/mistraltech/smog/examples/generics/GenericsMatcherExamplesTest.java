@@ -5,14 +5,14 @@ import com.mistraltech.smog.examples.generics.matcher.LabelledBoxMatcher;
 import com.mistraltech.smog.examples.model.generics.Box;
 import com.mistraltech.smog.examples.model.generics.LabelledBox;
 import org.hamcrest.Matcher;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.regex.Pattern;
 
 import static com.mistraltech.smog.examples.utils.MatcherTestUtils.assertDescription;
 import static com.mistraltech.smog.examples.utils.MatcherTestUtils.assertMismatch;
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 public class GenericsMatcherExamplesTest {
     @Test

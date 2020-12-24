@@ -5,16 +5,16 @@ import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.Logger;
 import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.core.Appender;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.slf4j.LoggerFactory;
 
 import static org.hamcrest.CoreMatchers.endsWith;
 import static org.hamcrest.CoreMatchers.equalTo;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -24,13 +24,13 @@ public class LoggingCompositePropertyMatcherTest {
     private Logger root;
     private Appender<ILoggingEvent> mockAppender;
 
-    @Before
+    @BeforeEach
     @SuppressWarnings("unchecked")
     public void before() {
         createMockAppender();
     }
 
-    @After
+    @AfterEach
     public void after() {
         removeMockAppender();
     }
@@ -50,7 +50,7 @@ public class LoggingCompositePropertyMatcherTest {
 
         assertThat("message", loggingEventCaptor.getValue().getFormattedMessage(),
                 endsWith("didn't match - val1 was \"bar\" (expected \"foo\") and val2 was \"bar\" (expected \"foo\")"));
-        assertEquals("level", Level.DEBUG, loggingEventCaptor.getValue().getLevel());
+        assertEquals(Level.DEBUG, loggingEventCaptor.getValue().getLevel(), "level");
     }
 
     private void addPropertyMatcher(CompositePropertyMatcher<Item> cpm, String propertyName, String value) {

@@ -4,28 +4,25 @@ package com.mistraltech.smog.core;
 import org.hamcrest.BaseMatcher;
 import org.hamcrest.Description;
 import org.hamcrest.StringDescription;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ExpectedException;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import static org.hamcrest.CoreMatchers.anything;
 import static org.hamcrest.CoreMatchers.equalTo;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
 
 public class PropertyMatcherTest {
-    @Rule
-    public ExpectedException thrown = ExpectedException.none();
     private PathProvider mockPathProvider;
     private PropertyMatcherRegistry mockRegistry;
 
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         mockPathProvider = new PathProviderStub("myPath");
         mockRegistry = mock(PropertyMatcherRegistry.class);
@@ -40,18 +37,14 @@ public class PropertyMatcherTest {
 
     @Test
     public void cannotConstructWithEmptyPropertyNameAndAnyRegistry() {
-        thrown.expect(IllegalArgumentException.class);
-        thrown.expectMessage("No property name");
-
-        new PropertyMatcher<String>(null, mockRegistry);
+        Exception e = assertThrows(IllegalArgumentException.class, () -> new PropertyMatcher<String>(null, mockRegistry));
+        assertEquals("No property name", e.getMessage());
     }
 
     @Test
     public void cannotConstructWithEmptyPropertyNameAndAnyRegistryAndPathProvider() {
-        thrown.expect(IllegalArgumentException.class);
-        thrown.expectMessage("No property name");
-
-        new PropertyMatcher<String>(null, mockRegistry, mockPathProvider);
+        Exception e = assertThrows(IllegalArgumentException.class, () -> new PropertyMatcher<String>(null, mockRegistry, mockPathProvider));
+        assertEquals("No property name", e.getMessage());
     }
 
     @Test
@@ -94,10 +87,8 @@ public class PropertyMatcherTest {
     public void cannotGetPathWhenPathProviderIsNotSet() {
         PropertyMatcher<String> propertyMatcher = new PropertyMatcher<String>("myProperty", null);
 
-        thrown.expect(IllegalStateException.class);
-        thrown.expectMessage("No PathProvider assigned");
-
-        propertyMatcher.getPath();
+        Exception e = assertThrows(IllegalStateException.class, propertyMatcher::getPath);
+        assertEquals("No PathProvider assigned", e.getMessage());
     }
 
     @Test
