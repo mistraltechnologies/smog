@@ -181,7 +181,7 @@ public final class AccountMatcher extends CompositePropertyMatcher<Account> {
 * There is a PropertyMatcher instance variable for each property to be matched. The PropertyMatcher is told the name of
 the property it is matching and takes a reference to 'this', allowing it to request to be invoked automatically during
 the matching process.
-* The constructor take a parameter that describes the object being matched. In this example, "an Account" is used.
+* The constructor takes a parameter that describes the object being matched. In this example, "an Account" is used.
 * The constructor also takes a "template" parameter that, if not null, is used to populate the matcher with values from
 an existing instance of the target class. These preset values can later be overridden using the has... methods.
 * The constructor is private. Instead of using it directly, two static factory methods are provided to construct
@@ -217,7 +217,7 @@ You could write a separate assertion for each property you care about. But then,
 
 ### Is this style of testing a good idea?
 
-Not necessarily. Certainly it is possible to write complex test expectations that are hard to read and maintain. And it may lead to tests that do too much - what Gerard Meszaros calls an Eager Test ([xUnit Test Patterns](http://xunitpatterns.com/). Basically, it is up to you to use it wisely.
+Not necessarily. Certainly it is possible to write complex test expectations that are hard to read and maintain. And it may lead to tests that do too much - what Gerard Meszaros calls an Eager Test ([xUnit Test Patterns](http://xunitpatterns.com/)). Basically, it is up to you to use it wisely.
 
 ### I'm using matchers in mocks - how does SMOG help?
 
