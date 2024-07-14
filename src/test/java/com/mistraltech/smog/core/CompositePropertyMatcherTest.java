@@ -79,7 +79,7 @@ public class CompositePropertyMatcherTest {
                 cpm.getClass().getName(),
                 FailingTargetItemMatcher.MISMATCH_DESCRIPTION);
 
-        assertEquals("log message content", expectedLogMessage, cpm.getLogMessages().get(0));
+        assertEquals(expectedLogMessage, cpm.getLogMessages().get(0), "log message content");
     }
 
     @Test
